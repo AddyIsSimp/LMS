@@ -16,12 +16,12 @@
 
 <AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="970.0" styleClass="mainframe" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontEnd.Login.LoginController">
    <children>
-      <TextField fx:id="passwordTextVisible" layoutX="556.0" layoutY="305.0" prefHeight="39.0" prefWidth="232.0" promptText="Password" styleClass="textFrame" stylesheets="@../../styleFile/staffLogin.css">
+      <TextField fx:id="passwordTextVisible" layoutX="556.0" layoutY="305.0" prefHeight="39.0" prefWidth="232.0" promptText="Password" styleClass="textFrame" stylesheets="@staffLogin.css">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </TextField>
-      <AnchorPane layoutX="921.0" layoutY="13.0" minHeight="17.0" minWidth="26.0" onMouseClicked="#switchLogin" prefHeight="24.0" prefWidth="36.0" styleClass="tag" stylesheets="@../../styleFile/LoginSyle.css">
+      <AnchorPane layoutX="921.0" layoutY="13.0" minHeight="17.0" minWidth="26.0" onMouseClicked="#switchLogin" prefHeight="24.0" prefWidth="36.0" styleClass="tag" stylesheets="@LoginSyle.css">
          <children>
             <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -33,8 +33,8 @@
             </ImageView>
             <Button fx:id="exit" layoutX="1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#switchLogin" prefHeight="25.0" prefWidth="34.0" styleClass="closeB">
                <stylesheets>
-                  <URL value="@../../styleFile/LoginSyle.css" />
-                  <URL value="@../../styleFile/LoginSyle.css" />
+                  <URL value="@LoginSyle.css" />
+                  <URL value="@LoginSyle.css" />
                </stylesheets></Button>
          </children>
          <cursor>
@@ -52,8 +52,8 @@
             <Font name="System Bold" size="29.0" />
          </font>
          <stylesheets>
-            <URL value="@../../styleFile/LoginSyle.css" />
-            <URL value="@../../styleFile/LoginSyle.css" />
+            <URL value="@LoginSyle.css" />
+            <URL value="@LoginSyle.css" />
          </stylesheets>
       </Button>
       <Line endX="190.9998779296875" endY="1.52587890625E-5" layoutX="638.0" layoutY="255.0" startX="-145.2003173828125" startY="1.52587890625E-5" stroke="#818080" strokeWidth="2.0" />
@@ -74,7 +74,7 @@
       </ImageView>
       <Line endX="131.8291015625" endY="-8.78497314453125" layoutX="413.0" layoutY="245.0" startX="131.8291015625" startY="-38.78497314453125" stroke="#818080" strokeLineCap="ROUND" strokeWidth="4.0" />
       <Line endX="131.8291015625" endY="-8.78497314453125" layoutX="413.0" layoutY="348.0" startX="131.8291015625" startY="-38.78497314453125" stroke="#818080" strokeLineCap="ROUND" strokeWidth="4.0" />
-      <PasswordField fx:id="passwordtextfield" layoutX="556.0" layoutY="304.0" prefHeight="40.0" prefWidth="232.0" promptText="Password" styleClass="textFrame" stylesheets="@../../styleFile/staffLogin.css">
+      <PasswordField fx:id="passwordtextfield" layoutX="556.0" layoutY="304.0" prefHeight="40.0" prefWidth="232.0" promptText="Password" styleClass="textFrame" stylesheets="@staffLogin.css">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -84,8 +84,8 @@
             <Font name="System Bold" size="18.0" />
          </font>
          <stylesheets>
-            <URL value="@../../styleFile/LoginSyle.css" />
-            <URL value="@../../styleFile/staffLogin.css" />
+            <URL value="@LoginSyle.css" />
+            <URL value="@staffLogin.css" />
          </stylesheets>
       </TextField>
       <Line endX="190.4998779296875" layoutX="637.0" layoutY="356.0" startX="-145.2003173828125" startY="1.52587890625E-5" stroke="#818080" strokeWidth="2.0" />
@@ -95,7 +95,7 @@
          </font>
       </Label>
       <Line endX="49.0" endY="1.52587890625E-5" layoutX="718.0" layoutY="390.0" startX="-23.1668701171875" startY="3.0517578125E-5" stroke="#6517ed" strokeWidth="2.0" />
-      <Button fx:id="passButton" layoutX="789.0" layoutY="304.0" mnemonicParsing="false" onAction="#togglePasswordVisibility" prefHeight="41.0" prefWidth="42.0" styleClass="closeB" stylesheets="@../../styleFile/LoginSyle.css">
+      <Button fx:id="passButton" layoutX="789.0" layoutY="304.0" mnemonicParsing="false" onAction="#togglePasswordVisibility" prefHeight="41.0" prefWidth="42.0" styleClass="closeB" stylesheets="@LoginSyle.css">
          <graphic>
             <ImageView fx:id="passwordIcon" fitHeight="34.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -104,7 +104,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="682.0" layoutY="361.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" styleClass="closeB" stylesheets="@../../styleFile/LoginSyle.css" text="Sign In " textFill="#6517ed">
+      <Button layoutX="682.0" layoutY="361.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" styleClass="closeB" stylesheets="@LoginSyle.css" text="Sign In " textFill="#6517ed">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -131,12 +131,12 @@
             <BoxBlur height="0.0" width="1.0" />
          </effect>
          <stylesheets>
-            <URL value="@../../styleFile/LoginSyle.css" />
+            <URL value="@LoginSyle.css" />
          </stylesheets>
       </AnchorPane>
    </children>
    <stylesheets>
-      <URL value="@../../styleFile/LoginSyle.css" />
-      <URL value="@../../styleFile/LoginSyle.css" />
+      <URL value="@LoginSyle.css" />
+      <URL value="@LoginSyle.css" />
    </stylesheets>
 </AnchorPane>

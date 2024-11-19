@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="970.0" styleClass="mainframe" stylesheets="@../../styleFile/LoginSyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontEnd.Login.LoginController">
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="970.0" styleClass="mainframe" stylesheets="@LoginSyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontEnd.Login.LoginController">
     <children>
         <Label alignment="CENTER" layoutX="271.0" layoutY="39.0" prefHeight="75.0" prefWidth="558.0" text="Library Management System" textAlignment="CENTER">
             <font>
@@ -25,12 +25,12 @@
         </ImageView>
         <AnchorPane layoutX="312.0" layoutY="164.0" prefHeight="181.0" prefWidth="402.0">
             <children>
-                <Button fx:id="staffLog" layoutX="84.0" layoutY="29.0" mnemonicParsing="false" onAction="#switchStaff" prefHeight="109.0" prefWidth="296.0" styleClass="userButton" stylesheets="@../../styleFile/LoginSyle.css" text="       Staff">
+                <Button fx:id="staffLog" layoutX="84.0" layoutY="29.0" mnemonicParsing="false" onAction="#switchStaff" prefHeight="109.0" prefWidth="296.0" styleClass="userButton" stylesheets="@LoginSyle.css" text="       Staff">
                     <font>
                         <Font name="Agency FB Bold" size="51.0" />
                     </font>
                 </Button>
-                <AnchorPane onMouseClicked="#switchStaff" prefHeight="160.0" prefWidth="167.0" stylesheets="@../../styleFile/LoginSyle.css">
+                <AnchorPane onMouseClicked="#switchStaff" prefHeight="160.0" prefWidth="167.0" stylesheets="@LoginSyle.css">
                     <styleClass>
                         <String fx:value="staffCB" />
                         <String fx:value="iconCB" />
@@ -47,12 +47,12 @@
         </AnchorPane>
         <AnchorPane layoutX="312.0" layoutY="383.0" prefHeight="159.0" prefWidth="391.0">
             <children>
-                <Button fx:id="userLog" layoutX="84.0" layoutY="22.0" mnemonicParsing="false" prefHeight="116.0" prefWidth="296.0" styleClass="userButton" stylesheets="@../../styleFile/LoginSyle.css" text="       Students">
+                <Button fx:id="userLog" layoutX="84.0" layoutY="22.0" mnemonicParsing="false" prefHeight="116.0" prefWidth="296.0" styleClass="userButton" stylesheets="@LoginSyle.css" text="       Students">
                     <font>
                         <Font name="Agency FB Bold" size="51.0" />
                     </font>
                 </Button>
-                <AnchorPane prefHeight="160.0" prefWidth="167.0" stylesheets="@../../styleFile/LoginSyle.css">
+                <AnchorPane prefHeight="160.0" prefWidth="167.0" stylesheets="@LoginSyle.css">
                     <styleClass>
                         <String fx:value="staffCB" />
                         <String fx:value="iconCB" />
@@ -67,7 +67,7 @@
                 </AnchorPane>
             </children>
         </AnchorPane>
-      <Label layoutX="470.0" layoutY="555.0" prefHeight="31.0" prefWidth="76.0" styleClass="loader" stylesheets="@../../styleFile/staffLogin.css" />
+      <Label layoutX="470.0" layoutY="555.0" prefHeight="31.0" prefWidth="76.0" styleClass="loader" stylesheets="@staffLogin.css" />
       <AnchorPane fx:id="sidedoor" layoutX="847.0" layoutY="-43.0" prefHeight="706.0" prefWidth="494.0" styleClass="iconCB">
          <children>
             <ImageView fitHeight="678.0" fitWidth="444.0" layoutX="27.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
@@ -83,10 +83,10 @@
             <BoxBlur height="0.0" width="1.0" />
          </effect>
          <stylesheets>
-            <URL value="@../../styleFile/LoginSyle.css" />
+            <URL value="@LoginSyle.css" />
          </stylesheets>
       </AnchorPane>
-        <Button fx:id="close" layoutX="922.0" layoutY="20.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="22.0" styleClass="close" stylesheets="@../../styleFile/LoginSyle.css">
+        <Button fx:id="close" layoutX="922.0" layoutY="20.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="22.0" styleClass="close" stylesheets="@LoginSyle.css">
             <graphic>
                 <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="close">
                     <image>
@@ -110,7 +110,7 @@
             <BoxBlur height="0.0" width="1.0" />
          </effect>
          <stylesheets>
-            <URL value="@../../styleFile/LoginSyle.css" />
+            <URL value="@LoginSyle.css" />
          </stylesheets>
       </AnchorPane>
     </children>
