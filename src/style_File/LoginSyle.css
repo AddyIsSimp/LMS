@@ -61,3 +61,39 @@
     -fx-background-color:#b23636;
     -fx-cursor: hand;
 }
+
+.admintag {
+    -fx-background-color: #2c2c2c;
+    -fx-shape: "M0,20 L30,0 L90,0 Q100,0 100,10 L100,30 Q100,40 90,40 L30,40 L0,20 Z";
+    -fx-background-radius: 10px;
+    -fx-border-color: white; /* White stroke */
+    -fx-border-width: 3; /* Stroke thickness */
+    -fx-border-radius: 15px; /* Match background radius */
+}
+
+.admintag:hover {
+    -fx-background-color: #ff3535;
+    -fx-cursor: hand;
+}
+
+
+.textFrame {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #818080; /* Sets the text color */
+
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 15px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+    0%  {box-shadow: 20px 0 #000, -20px 0 #0002;background: #000 }
+    33% {box-shadow: 20px 0 #000, -20px 0 #0002;background: #0002}
+    66% {box-shadow: 20px 0 #0002,-20px 0 #000; background: #0002}
+    100%{box-shadow: 20px 0 #0002,-20px 0 #000; background: #000 }
+}

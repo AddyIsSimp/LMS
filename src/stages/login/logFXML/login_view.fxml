@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="loginRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="970.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.login.LoginController">
+        <children>
+          <AnchorPane layoutX="-4.0" layoutY="2.0" prefHeight="600.0" prefWidth="970.0" styleClass="mainframe" stylesheets="@../../../style_File/LoginSyle.css">
+             <children>
+                  <Label alignment="CENTER" layoutX="255.0" layoutY="16.0" prefHeight="75.0" prefWidth="558.0" text="Library Management System" textAlignment="CENTER">
+                      <font>
+                          <Font name="System Bold" size="40.0" />
+                      </font>
+                  </Label>
+                  <AnchorPane layoutX="290.0" layoutY="329.0" prefHeight="159.0" prefWidth="391.0">
+                      <children>
+                          <Button fx:id="userLog" layoutX="84.0" layoutY="22.0" mnemonicParsing="false" onAction="#switchUser" prefHeight="116.0" prefWidth="296.0" styleClass="userButton" stylesheets="@../../../style_File/LoginSyle.css" text="       Students">
+                              <font>
+                                  <Font name="Agency FB Bold" size="51.0" />
+                              </font>
+                          </Button>
+                          <AnchorPane layoutX="-3.0" prefHeight="160.0" prefWidth="167.0" stylesheets="@../../../style_File/LoginSyle.css">
+                              <styleClass>
+                                  <String fx:value="staffCB" />
+                                  <String fx:value="iconCB" />
+                              </styleClass>
+                              <children>
+                                  <ImageView fitHeight="142.0" fitWidth="142.0" layoutX="13.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                                      <image>
+                                          <Image url="@../../../icons/usericon.png" />
+                                      </image>
+                                  </ImageView>
+                              </children>
+                          </AnchorPane>
+                      </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="283.0" layoutY="126.0" prefHeight="181.0" prefWidth="402.0" stylesheets="@../../../style_File/LoginSyle.css">
+                      <children>
+                          <Button fx:id="staffLog" layoutX="83.0" layoutY="29.0" mnemonicParsing="false" onAction="#switchStaff" prefHeight="109.0" prefWidth="303.0" styleClass="userButton" stylesheets="@../../../style_File/LoginSyle.css" text="       Staff">
+                              <font>
+                                  <Font name="Agency FB Bold" size="51.0" />
+                              </font>
+                          </Button>
+                          <AnchorPane prefHeight="160.0" prefWidth="167.0" stylesheets="@../../../style_File/LoginSyle.css">
+                              <styleClass>
+                                  <String fx:value="staffCB" />
+                                  <String fx:value="iconCB" />
+                              </styleClass>
+                              <children>
+                                  <ImageView fitHeight="154.0" fitWidth="148.0" layoutX="9.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                                      <image>
+                                          <Image url="@../../../icons/stafficon.png" />
+                                      </image>
+                                  </ImageView>
+                              </children>
+                          </AnchorPane>
+                      </children>
+                  </AnchorPane>
+                  <ImageView fitHeight="31.0" fitWidth="32.0" layoutX="223.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+                      <image>
+                          <Image url="@../../../icons/icon_LMS.png" />
+                      </image>
+                  </ImageView>
+            <AnchorPane fx:id="adminside" layoutX="-433.0" layoutY="-87.0" prefHeight="825.0" prefWidth="589.0" rotate="10.0" styleClass="iconCB" stylesheets="@../../../style_File/LoginSyle.css">
+               <children>
+                  <ImageView fitHeight="769.0" fitWidth="539.0" layoutX="24.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/lmsbackground.png" />
+                     </image>
+                     <effect>
+                        <DropShadow height="41.52" radius="23.9225" width="56.17" />
+                     </effect>
+                  </ImageView>
+               </children>
+               <effect>
+                  <BoxBlur height="0.0" width="1.0" />
+               </effect>
+            </AnchorPane>
+            <AnchorPane fx:id="sidedoor" layoutX="789.0" layoutY="-109.0" prefHeight="825.0" prefWidth="589.0" rotate="10.0" styleClass="iconCB" stylesheets="@../../../style_File/LoginSyle.css">
+               <children>
+                  <ImageView fitHeight="769.0" fitWidth="539.0" layoutX="22.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/lmsbackground.png" />
+                     </image>
+                     <effect>
+                        <DropShadow height="41.52" radius="23.9225" width="56.17" />
+                     </effect>
+                  </ImageView>
+               </children>
+               <effect>
+                  <BoxBlur height="0.0" width="1.0" />
+               </effect>
+            </AnchorPane>
+             </children>
+          </AnchorPane>
+      <AnchorPane layoutX="923.0" layoutY="17.0" minHeight="17.0" minWidth="26.0" onMouseClicked="#switchLogins" prefHeight="24.0" prefWidth="36.0" styleClass="admintag" stylesheets="@../../../style_File/LoginSyle.css">
+         <children>
+            <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/interface-icon.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ImageView>
+            <Button fx:id="close" layoutX="1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="34.0" styleClass="closeB" stylesheets="@../../../style_File/LoginSyle.css" />
+         </children>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </AnchorPane>
+        </children>
+    </AnchorPane>

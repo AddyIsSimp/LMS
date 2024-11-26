@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="userRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="970.0" styleClass="mainframe" stylesheets="@../../../style_File/LoginSyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.login.LoginController">
+   <children>
+      <AnchorPane fx:id="setFrame" layoutX="445.0" layoutY="37.0" prefHeight="534.0" prefWidth="436.0">
+         <children>
+            <ImageView fitHeight="48.0" fitWidth="42.0" layoutX="45.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/susericon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="58.0" layoutX="378.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/stafficons.png" />
+               </image>
+            </ImageView>
+            <Line endX="49.0" endY="1.52587890625E-5" layoutX="222.0" layoutY="102.0" startX="-57.50421142578125" startY="1.52587890625E-5" stroke="#6517ed" strokeWidth="2.0" />
+            <Label layoutX="169.0" layoutY="42.0" prefHeight="62.0" prefWidth="98.0" text="Login">
+               <font>
+                  <Font name="System Bold" size="35.0" />
+               </font>
+            </Label>
+            <Line endX="190.9998779296875" endY="1.52587890625E-5" layoutX="195.0" layoutY="212.0" startX="-145.2003173828125" startY="1.52587890625E-5" stroke="#818080" strokeWidth="2.0" />
+            <Line endX="190.4998779296875" layoutX="195.0" layoutY="314.0" startX="-145.2003173828125" startY="1.52587890625E-5" stroke="#818080" strokeWidth="2.0" />
+            <Button fx:id="staffllogin" layoutX="137.0" layoutY="374.0" mnemonicParsing="false" onAction="#staffLoginEvt" prefHeight="72.0" prefWidth="163.0" styleClass="userBut" stylesheets="@../../../style_File/LoginSyle.css" text="LOGIN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="29.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="38.0" fitWidth="35.0" layoutX="49.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/passicon.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="passButton" layoutX="338.0" layoutY="267.0" mnemonicParsing="false" onAction="#togglePasswordVisibility" prefHeight="41.0" prefWidth="42.0" styleClass="closeB" stylesheets="@../../../style_File/LoginSyle.css">
+               <graphic>
+                  <ImageView fx:id="passwordIcon" fitHeight="34.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/passIconeyeshow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <TextField fx:id="tf_staffid" layoutX="105.0" layoutY="164.0" prefHeight="40.0" prefWidth="257.0" promptText="Staff Id" styleClass="textFrame" stylesheets="@../../../style_File/LoginSyle.css">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </TextField>
+            <Line endX="131.8291015625" endY="-8.78497314453125" layoutX="-34.0" layoutY="206.0" startX="131.8291015625" startY="-38.78497314453125" stroke="#818080" strokeLineCap="ROUND" strokeWidth="4.0" />
+            <Line endX="131.8291015625" endY="-8.78497314453125" layoutX="-34.0" layoutY="311.0" startX="131.8291015625" startY="-38.78497314453125" stroke="#818080" strokeLineCap="ROUND" strokeWidth="4.0" />
+            <TextField fx:id="passwordTextVisible" layoutX="105.0" layoutY="268.0" prefHeight="39.0" prefWidth="232.0" promptText="Password" styleClass="textFrame" stylesheets="@../../../style_File/LoginSyle.css">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </TextField>
+            <PasswordField fx:id="passwordtextfield" layoutX="105.0" layoutY="268.0" prefHeight="34.0" prefWidth="232.0" promptText="Password" styleClass="textFrame" stylesheets="@../../../style_File/LoginSyle.css">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </PasswordField>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="921.0" layoutY="13.0" minHeight="17.0" minWidth="26.0" onMouseClicked="#switchLogins" prefHeight="24.0" prefWidth="36.0" styleClass="tag" stylesheets="@../../../style_File/LoginSyle.css">
+         <children>
+            <ImageView fitHeight="11.0" fitWidth="11.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/interface-icon.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ImageView>
+            <Button fx:id="exit" layoutX="1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#switchLogin" prefHeight="25.0" prefWidth="34.0" styleClass="closeB" stylesheets="@../../../style_File/LoginSyle.css" />
+         </children>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </AnchorPane>
+      <AnchorPane fx:id="sidedoor" layoutX="-174.0" layoutY="-106.0" prefHeight="825.0" prefWidth="589.0" rotate="10.0" styleClass="iconCB" stylesheets="@../../../style_File/LoginSyle.css">
+         <children>
+            <ImageView fitHeight="769.0" fitWidth="539.0" layoutX="22.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/lmsbackground.png" />
+               </image>
+               <effect>
+                  <DropShadow height="41.52" radius="23.9225" width="56.17" />
+               </effect>
+            </ImageView>
+         </children>
+         <effect>
+            <BoxBlur height="0.0" width="1.0" />
+         </effect>
+      </AnchorPane>
+   </children>
+</AnchorPane>
