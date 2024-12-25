@@ -37,17 +37,17 @@ public class bkTransactReturnController implements Initializable {
     @FXML
     private TableView<Transact> brrwTransTblView;
     @FXML
-    private TableColumn<Transact, String> titleCol;
+    private TableColumn<?, ?> borrowDate;
     @FXML
-    private TableColumn<Transact, String> isbnCol;
+    private TableColumn<?, ?> daysCol;
     @FXML
-    private TableColumn<Transact, String> studentIDCol;
+    private TableColumn<?, ?> returnBtnCol;
     @FXML
-    private TableColumn<Transact, String> studentNameCol;
+    private TableColumn<?, ?> studentIDCol;
     @FXML
-    private TableColumn<Transact, String> acceptBtnCol;
+    private TableColumn<?, ?> studentNameCol;
     @FXML
-    private TableColumn<Transact, String> declineBtnCol;
+    private TableColumn<?, ?> titleCol;
 
     @FXML
     private ChoiceBox<String> sortBy;

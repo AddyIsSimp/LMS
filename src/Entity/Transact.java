@@ -13,64 +13,40 @@ import javax.swing.event.DocumentEvent;
 import java.awt.*;
 import java.sql.Date;
 
+import Function.globalVariable;
 public class Transact {
     private int transID;
     private int borrowerID; //Borrower
     private String borrowerName;
     private String bookTitle;   //Borrowed
     private String bkIsbn;
-    private int bookID;
-    private Date borrowDate;
     private String status; //Pending, Borrowed, Returned, Paid
     private double penalty;
-    private Date paidDate;
+    private Date borrowDate;
+    private Date returnDate;
 
     private Button acceptBtn;
     private Button declineBtn;
     private Button returnBtn;
 
-    public Transact(int transID, String title, String ISBN, int borrowerID, String borrowerName, int bookID, String status) {
+    public Transact() {
+
+    }
+
+    //for Pending transact
+    public Transact(int transID, String title, String ISBN, int borrowerID, String borrowerName, String status) {
         setBorrowButton();
         this.transID = transID;
-        this.bookTitle = title;
-        this.bkIsbn = ISBN;
         this.borrowerID = borrowerID;
         this.borrowerName = borrowerName;
-        this.bookID = bookID;
-        this.status = status;
-    }
-
-    public Transact(int transID, int studID, int bookID, Date borrowDate, int penalty, Date returnDate, String status) {
-        setBorrowButton();
-        this.transID = transID;
-        this.borrowerID = studID;
-        this.bookID = bookID;
-        this.borrowDate = borrowDate;
-        this.penalty = penalty;
-        this.paidDate = returnDate;
-        this.status = status;
-    }
-
-    public Transact(int transID, int studID, int bookID, Date borrowDate, String status) {
-        this.transID = transID;
-        this.borrowerID = studID;
-        this.bookID = bookID;
-        this.borrowDate = borrowDate;
-        this.penalty = 0;
-        this.paidDate = null;
-        this.status = status;
-    }
-
-    public void TransactReturn(int transID, String title, String ISBN, int borrowerID, String borrowerName, int bookID, String status, Date borrowDate) {
-        setReturnButton();
-        this.transID = transID;
         this.bookTitle = title;
         this.bkIsbn = ISBN;
-        this.borrowerID = borrowerID;
-        this.borrowerName = borrowerName;
-        this.bookID = bookID;
         this.status = status;
     }
+
+    //TOACCEPT TRANSACT
+
+    //ONGOING TRANSACT
 
     public int getTransID() {
         return transID;
@@ -93,7 +69,7 @@ public class Transact {
             );
 
             if(alert.showAndWait().get() == ButtonType.YES) {
-                this.status = "RETURNED";
+                this.status = "FINISH";
             }else {
                 alert.close();
             }
@@ -113,7 +89,8 @@ public class Transact {
                     );
 
             if(alert.showAndWait().get() == ButtonType.YES) {
-                this.status = "BORROWED";
+                this.status = "ONGOING";
+                this.borrowDate = globalVariable.fnc.getDateNow();
             }else {
                 alert.close();
             }
@@ -125,7 +102,7 @@ public class Transact {
             alert.setTitle("Borrow Request");
 
             if(alert.showAndWait().get() == ButtonType.YES) {
-                this.status = "DECLINE";
+                this.status = "DECLINED";
             }else {
                 alert.close();
             }
@@ -138,14 +115,6 @@ public class Transact {
 
     public void setBorrowerID(int borrowerID) {
         this.borrowerID = borrowerID;
-    }
-
-    public int getBookID() {
-        return bookID;
-    }
-
-    public void setBookID(int bookID) {
-        this.bookID = bookID;
     }
 
     public double getPenalty() {
@@ -164,12 +133,12 @@ public class Transact {
         this.borrowDate = borrowDate;
     }
 
-    public Date getPaidDate() {
-        return paidDate;
+    public Date getReturnDate() {
+        return returnDate;
     }
 
-    public void setPaidDate(Date paidDate) {
-        this.paidDate = paidDate;
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
     }
 
     public String getBorrowerName() {

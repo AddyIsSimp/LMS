@@ -17,12 +17,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.image.ImageView;
 import javafx.event.ActionEvent;
 import javafx.animation.Interpolator;
+
 import java.io.IOException;
+
 import Function.*;
 
 import java.sql.*;
 
 import static Function.globalVariable.bookList;
+import static Function.globalVariable.loginStudent;
 
 public class LoginController {
 
@@ -39,13 +42,20 @@ public class LoginController {
 
 
     //@FXML=======================================================================================================================================================================================
-    @FXML private AnchorPane adminRoot, staffRoot, userRoot, loginRoot, setFrame;
-    @FXML private Button passButton, staffLog, userLog, signInStudent, exit;
-    @FXML private PasswordField passwordtextfield, passwordtextfield2;
-    @FXML private TextField passwordTextVisible, passwordTextVisible2, tf_staffid, tfAdminName, studentIDField;
-    @FXML private ImageView passwordIcon, passwordIcon2;
-    @FXML private TextField studentIDFld, fNameFld, lNameFld, sectionFld, emailFld, passwordTextVisible1;
-    @FXML private Label errorText;
+    @FXML
+    private AnchorPane adminRoot, staffRoot, userRoot, loginRoot, setFrame;
+    @FXML
+    private Button passButton, staffLog, userLog, signInStudent, exit;
+    @FXML
+    private PasswordField passwordtextfield, passwordtextfield2;
+    @FXML
+    private TextField passwordTextVisible, passwordTextVisible2, tf_staffid, tfAdminName, studentIDField;
+    @FXML
+    private ImageView passwordIcon, passwordIcon2;
+    @FXML
+    private TextField studentIDFld, fNameFld, lNameFld, sectionFld, emailFld, passwordTextVisible1;
+    @FXML
+    private Label errorText;
 //EXIT=======================================================================================================================================================================================
 
     public void close() {
@@ -172,7 +182,7 @@ public class LoginController {
     public void staffLoginEvt(ActionEvent event) throws Exception {
         try {
             conn = dbFunc.connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -182,62 +192,37 @@ public class LoginController {
             String id = tf_staffid.getText();
             String password = passwordtextfield.getText();
 
-            if(id.isEmpty()) {
-                errorText.setText("Staff ID is empty"); return;
-            }else if(fnc.staffIDChecker(id)==false) {
-                errorText.setText("Staff ID format is wrong"); return;
-            }else if(password.isEmpty()) {
-                errorText.setText("Password is empty"); return;
+            if (id.isEmpty()) {
+                errorText.setText("Staff ID is empty");
+                return;
+            } else if (fnc.staffIDChecker(id) == false) {
+                errorText.setText("Staff ID format is wrong");
+                return;
+            } else if (password.isEmpty()) {
+                errorText.setText("Password is empty");
+                return;
             }
 
-            //TO_BE_ERASED
-            if(id.equalsIgnoreCase("Staff1") && password.equalsIgnoreCase("staff123")) {
+            String sqlFindStaff = "SELECT * FROM staff WHERE staff_UN = ? AND password = ?";
+            pstmt = conn.prepareStatement(sqlFindStaff);
+            pstmt.setString(1, id);
+            pstmt.setString(2, password);
+
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
                 Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_dashboard.fxml"));
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
-            }
-
-            boolean validStaffID = fnc.staffIDChecker(id);
-            if(validStaffID) {
-                String staffLName = "";
-                int staffId = 0;
-
-                for (char ch : id.toCharArray()) {
-                    if (Character.isLetter(ch)) {
-                        staffLName += ch;
-                    } else if (Character.isDigit(ch)) {
-                        staffId = staffId * 10 + (ch - '0');
-                    }
-                }
-
-
-                String sqlFindStaff = "SELECT * FROM staff WHERE staff_id = ? AND lName = ? AND password = ?";
-                pstmt = conn.prepareStatement(sqlFindStaff);
-                pstmt.setInt(1, staffId);
-                pstmt.setString(2, staffLName);
-                pstmt.setString(3, password);
-
-                rs = pstmt.executeQuery();
-                if (rs.next()) {
-                    Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_dashboard.fxml"));
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.NONE, "Staff login not successful", ButtonType.OK);
-                    alert.setTitle("Login");
-                    alert.show();
-                }
-            }else {
-                Alert alert = new Alert(Alert.AlertType.NONE, "Wrong ID format e.g.(lastName001)", ButtonType.OK);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.NONE, "Staff login not successful", ButtonType.OK);
                 alert.setTitle("Login");
                 alert.show();
             }
 
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -246,7 +231,7 @@ public class LoginController {
     public void adminLoginEvt(ActionEvent event) throws Exception {
         try {
             conn = dbFunc.connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -256,17 +241,8 @@ public class LoginController {
             String username = tfAdminName.getText();
             String password = passwordtextfield.getText();
 
-            //TO_BE_ERASED
-            if(username.equalsIgnoreCase("Admin1") && password.equalsIgnoreCase("admin123")) {
-                Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_dashboard.fxml"));
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            }
-            //END OF TO_BE_ERASED
-
             //Use the fName and password for admin login
-            String sqlFindStaff = "SELECT * FROM staff WHERE fName = ? AND password = ? AND staff_id=1";
+            String sqlFindStaff = "SELECT * FROM staff WHERE staff_UN = ? AND password = ? AND staff_id = 1";
             pstmt = conn.prepareStatement(sqlFindStaff);
             pstmt.setString(1, username);
             pstmt.setString(2, password);
@@ -283,11 +259,11 @@ public class LoginController {
                 alert.show();
             }
 
-        }catch(SQLException e){
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK);
             alert.setTitle("Login Error");
             alert.show();
-        }catch(Exception e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK);
             alert.setTitle("Login Error");
             alert.show();
@@ -298,7 +274,7 @@ public class LoginController {
     private void loginStudent(ActionEvent event) {
         try {
             conn = dbFunc.connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -308,23 +284,14 @@ public class LoginController {
             String studentID = studentIDField.getText();
             String password = passwordtextfield.getText();
 
-            //TO_BE_ERASED
-            if(studentID.equalsIgnoreCase("Student1") && password.equalsIgnoreCase("student123")) {
-                Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_dashboard.fxml"));
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            }
-            //END OF TO_BE_ERASED
-
             //Use the fName and password for admin login
-            if(studentID.isEmpty()) {
+            if (studentID.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.NONE, "Missing ID", ButtonType.OK);
                 alert.setTitle("Login");
                 alert.show();
                 return;
             }
-            if(password.isEmpty()) {
+            if (password.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.NONE, "Missing password", ButtonType.OK);
                 alert.setTitle("Login");
                 alert.show();
@@ -332,7 +299,7 @@ public class LoginController {
             }
 
             studentID = fnc.retrieveStudentID(studentID);   //Retrieve the ID in correct formatt
-            if(studentID==null) {//If wrong format
+            if (studentID == null) {//If wrong format
                 Alert alert = new Alert(Alert.AlertType.NONE, "Invalid ID format", ButtonType.OK);
                 alert.setTitle("Login");
                 alert.show();
@@ -353,7 +320,7 @@ public class LoginController {
                 String pass = rs.getString("password");
                 Double penalty = rs.getDouble("penalty");
 
-                globalVariable.loginStudent = new Student(school_id, fName,lName, section, email, pass, penalty);
+                loginStudent = fnc.getStudentWithName(globalVariable.sortedStudentListASC, school_id);
 
                 Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_dashboard.fxml"));
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -364,9 +331,9 @@ public class LoginController {
                 alert.setTitle("Login Failed");
                 alert.show();
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -382,52 +349,62 @@ public class LoginController {
         String confirmPass = passwordtextfield2.getText();
         int studentID = 0;
 
-        if(studentIDStr.isEmpty()) {
-            errorText.setText("Student ID is missing"); return;
+        if (studentIDStr.isEmpty()) {
+            errorText.setText("Student ID is missing");
+            return;
         }
-        if(fnc.retrieveStudentID(studentIDStr)!=null) {
+        if (fnc.retrieveStudentID(studentIDStr) != null) {
             studentID = Integer.parseInt(fnc.retrieveStudentID(studentIDStr));
-        }else {
-            errorText.setText("Incorrect ID format (NNNN-NNNNN)"); return;
+        } else {
+            errorText.setText("Incorrect ID format (NNNN-NNNNN)");
+            return;
         }
 
-        if(fName.isEmpty()) {
-            errorText.setText("First name is missing"); return;
-        }else if(lName.isEmpty()) {
-            errorText.setText("Last name is missing"); return;
-        }else if(email.isEmpty()) {
-            errorText.setText("Email is missing"); return;
-        }else if(section.isEmpty()) {
-            errorText.setText("Email is missing"); return;
-        }else if(pass.isEmpty()) {
-            errorText.setText("Password is missing"); return;
-        }else if(confirmPass.isEmpty()) {
-            errorText.setText("Confirm password is missing"); return;
+        if (fName.isEmpty()) {
+            errorText.setText("First name is missing");
+            return;
+        } else if (lName.isEmpty()) {
+            errorText.setText("Last name is missing");
+            return;
+        } else if (email.isEmpty()) {
+            errorText.setText("Email is missing");
+            return;
+        } else if (section.isEmpty()) {
+            errorText.setText("Email is missing");
+            return;
+        } else if (pass.isEmpty()) {
+            errorText.setText("Password is missing");
+            return;
+        } else if (confirmPass.isEmpty()) {
+            errorText.setText("Confirm password is missing");
+            return;
         }
 
-        if(fnc.passwordChecker(pass)==false) {
-            errorText.setText("Password is atleast 8 characters with letter and number or special character"); return;
+        if (fnc.passwordChecker(pass) == false) {
+            errorText.setText("Password is atleast 8 characters with letter and number or special character");
+            return;
         }
-        if(pass.equals(confirmPass)==false) {
-            errorText.setText("Password does not match"); return;
+        if (pass.equals(confirmPass) == false) {
+            errorText.setText("Password does not match");
+            return;
         }
 
-        int id = dbFunc.resetAutoIncrement(conn, "student", "stud_id");
-        Student newStudent = new Student();
+        Student newStudent = new Student(studentID, fName, lName, section, email, pass);
         studentID = dbFunc.insertStudentDB(newStudent);
-        if(studentID!=0) {
+        if (studentID != 0) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Student registered successfully");
             alert.setTitle("Student Registration");
             alert.showAndWait();
             try {
                 switchUsers(event);
-            }catch (IOException evt) {
+            } catch (IOException evt) {
                 Alert alertError = new Alert(Alert.AlertType.ERROR, "Fail to back in Login");
                 alert.setContentText(evt.getMessage());
                 alert.showAndWait();
             }
-        }else {
-            errorText.setText("Student Registration Fail"); return;
+        } else {
+            errorText.setText("Student Registration Fail");
+            return;
         }
     }
 
@@ -544,34 +521,34 @@ public class LoginController {
     public void adminLogin(KeyEvent event) throws IOException {
 
 
-            // Load the new scene (admin login view)
-            Parent newRoot = FXMLLoader.load(getClass().getResource("logFXML/adminLogin_view.fxml"));
+        // Load the new scene (admin login view)
+        Parent newRoot = FXMLLoader.load(getClass().getResource("logFXML/adminLogin_view.fxml"));
 
-            // Set the initial position of the new root off-screen (to the left)
-            newRoot.translateXProperty().set(-loginRoot.getWidth());
+        // Set the initial position of the new root off-screen (to the left)
+        newRoot.translateXProperty().set(-loginRoot.getWidth());
 
-            // Add the new root to the parent container
-            loginRoot.getChildren().add(newRoot);
+        // Add the new root to the parent container
+        loginRoot.getChildren().add(newRoot);
 
-            // Create timeline animations for both scenes
-            Timeline timeline = new Timeline();
+        // Create timeline animations for both scenes
+        Timeline timeline = new Timeline();
 
-            // Slide out the current scene (move it to the right)
-            Node currentScene = loginRoot.getChildren().get(0); // Assume the first child is the current scene
-            KeyValue slideOutCurrent = new KeyValue(currentScene.translateXProperty(), loginRoot.getWidth(), Interpolator.EASE_BOTH);
+        // Slide out the current scene (move it to the right)
+        Node currentScene = loginRoot.getChildren().get(0); // Assume the first child is the current scene
+        KeyValue slideOutCurrent = new KeyValue(currentScene.translateXProperty(), loginRoot.getWidth(), Interpolator.EASE_BOTH);
 
-            // Slide in the new scene (move it to the center)
-            KeyValue slideInNew = new KeyValue(newRoot.translateXProperty(), 0, Interpolator.EASE_BOTH);
+        // Slide in the new scene (move it to the center)
+        KeyValue slideInNew = new KeyValue(newRoot.translateXProperty(), 0, Interpolator.EASE_BOTH);
 
-            // Combine animations into a single keyframe
-            KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.6), slideOutCurrent, slideInNew);
-            timeline.getKeyFrames().add(keyFrame);
+        // Combine animations into a single keyframe
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.6), slideOutCurrent, slideInNew);
+        timeline.getKeyFrames().add(keyFrame);
 
-            // Remove the old scene after the animation completes
-            timeline.setOnFinished(t -> loginRoot.getChildren().remove(currentScene));
+        // Remove the old scene after the animation completes
+        timeline.setOnFinished(t -> loginRoot.getChildren().remove(currentScene));
 
-            // Play the animation
-            timeline.play();
+        // Play the animation
+        timeline.play();
 
     }
 

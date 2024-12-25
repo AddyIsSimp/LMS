@@ -3,19 +3,24 @@ package stages.admin;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import javax.naming.spi.InitialContextFactory;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class staffAccountController {
+public class staffAccountController implements Initializable {
 
 
     @FXML
@@ -42,6 +47,22 @@ public class staffAccountController {
     @FXML
     private HBox reportsBtn;
 
+    @FXML
+    private Label staffQty;
+    @FXML
+    private Label studentQty;
+    @FXML
+    private ChoiceBox<String> sortCB;
+
+    private String[] sortType = {"A-Z", "Z-A"};
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        sortCB.getItems().addAll(sortType);
+        sortCB.setValue(sortType[0]);
+
+
+    }
 
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {
@@ -172,5 +193,6 @@ public class staffAccountController {
     private void doSearch(ActionEvent event) {
 
     }
+
 
 }
