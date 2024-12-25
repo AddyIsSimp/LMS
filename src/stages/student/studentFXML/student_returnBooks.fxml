@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -138,15 +144,70 @@
    <center>
       <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="190.0" prefWidth="773.0" />
-            <HBox prefHeight="609.0" prefWidth="505.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="773.0">
                <children>
-                  <HBox prefHeight="486.0" prefWidth="60.0" stylesheets="@../../../style_File/Dashboard.css" />
-                  <HBox prefHeight="535.0" prefWidth="714.0" styleClass="bgcolor-brown" stylesheets="@../../../style_File/Dashboard.css" />
-                  <HBox prefHeight="535.0" prefWidth="60.0" stylesheets="@../../../style_File/Dashboard.css" />
+                  <Label prefHeight="28.0" prefWidth="154.0" styleClass="text-menuHeader" stylesheets="@../../../style_File/Dashboard.css" text="BORROWED BOOK" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets left="3.0" />
+                     </padding>
+                  </Label>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="208.0" />
+                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="396.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="238.0">
+                           <children>
+                              <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="searchField" stylesheets="@../../../style_File/Dashboard.css">
+                                 <styleClass>
+                                    <String fx:value="bgcolor-white" />
+                                    <String fx:value="outlineAllBlack" />
+                                 </styleClass>
+                              </TextField>
+                              <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="30.0" styleClass="bgcolor-brown" stylesheets="@../../../style_File/Dashboard.css">
+                                 <children>
+                                    <ImageView fitHeight="20.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/searchIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                                 <padding>
+                                    <Insets left="4.0" top="2.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="122.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="50.0" text="Sort by:" textFill="WHITE" />
+                              <ChoiceBox fx:id="sortCB" prefHeight="26.0" prefWidth="58.0" styleClass="bgcolor-white" stylesheets="@../../../style_File/Dashboard.css" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets top="6.0" />
+                     </padding>
+                  </HBox>
                </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
             </HBox>
-            <VBox prefHeight="180.0" prefWidth="773.0" />
+            <HBox alignment="CENTER_LEFT" prefHeight="22.0" prefWidth="773.0" spacing="20.0">
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </HBox>
+            <TableView fx:id="brrwTransTblView" prefHeight="502.0" prefWidth="740.0" styleClass="outlineAllBlack" stylesheets="@../../../style_File/Dashboard.css">
+               <columns>
+                  <TableColumn prefWidth="199.4666075706482" text="Borrow Date" />
+                  <TableColumn fx:id="isbnCol" minWidth="0.0" prefWidth="192.53335571289062" text="Days" />
+                  <TableColumn fx:id="titleCol" prefWidth="238.39999389648438" text="Title" />
+                  <TableColumn fx:id="acceptBtnCol" minWidth="5.0" prefWidth="134.9332275390625" text="Return" />
+               </columns>
+            </TableView>
          </children></VBox>
    </center>
 </BorderPane>

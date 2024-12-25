@@ -58,7 +58,7 @@ public class reportsController {
 
     @FXML
     private void goInventory(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_inventory.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/inventory/staff_inventory.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -85,7 +85,12 @@ public class reportsController {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_managebooks.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        stage.show();    }
+        stage.show();
+    }
+
+
+
+
 
 //    @FXML
 //    void goReports(MouseEvent event) throws IOException {

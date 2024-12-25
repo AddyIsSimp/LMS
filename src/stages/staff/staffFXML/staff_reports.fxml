@@ -99,7 +99,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox fx:id="inventoryBtn" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../style_File/Dashboard.css">
+                  <HBox fx:id="inventoryBtn" alignment="CENTER_LEFT" onMouseClicked="#goInventory" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../style_File/Dashboard.css">
                      <children>
                         <HBox prefHeight="38.0" prefWidth="19.0" />
                         <ImageView fitHeight="20.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">

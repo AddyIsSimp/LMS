@@ -57,7 +57,7 @@ public class bkTransactController {
 
     @FXML
     private void goInventory(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_inventory.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/inventory/staff_inventory.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
