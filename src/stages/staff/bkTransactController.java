@@ -80,10 +80,10 @@ public class bkTransactController implements Initializable {
             //DBFUNCTION get the transact from db to here
 
             //Sample data
-            transacts.add(new Transact(1, "Nano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-            transacts.add(new Transact(1, "Oano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-            transacts.add(new Transact(1, "Pano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-            transacts.add(new Transact(1, "Qano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
+//            transacts.add(new Transact(1, "Nano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
+//            transacts.add(new Transact(1, "Oano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
+//            transacts.add(new Transact(1, "Pano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
+//            transacts.add(new Transact(1, "Qano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
 
             brrwTransTblView.setItems(transacts);
 //        }catch(SQLException e) {

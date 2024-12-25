@@ -205,7 +205,7 @@
          <children>
             <AnchorPane prefHeight="592.0" prefWidth="773.0">
                <children>
-                  <AnchorPane layoutX="25.0" layoutY="61.0" prefHeight="519.0" prefWidth="740.0" styleClass="mainframe" stylesheets="@../../../../style_File/LoginSyle.css">
+                  <AnchorPane layoutX="11.0" layoutY="61.0" prefHeight="519.0" prefWidth="750.0" styleClass="mainframe" stylesheets="@../../../../style_File/LoginSyle.css">
                      <children>
                         <TableView layoutX="7.0" layoutY="50.0" prefHeight="398.0" prefWidth="722.0" stylesheets="@../../../../style_File/Dashboard.css">
                            <columns>

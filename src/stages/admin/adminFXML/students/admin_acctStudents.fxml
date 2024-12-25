@@ -305,17 +305,17 @@
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#doInsert" prefHeight="37.0" prefWidth="171.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css" text="Add" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#addStudent" prefHeight="37.0" prefWidth="171.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css" text="Add" textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#doModify" prefHeight="37.0" prefWidth="171.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css" text="Modify" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#editStudent" prefHeight="37.0" prefWidth="171.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css" text="Modify" textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#doRemove" prefHeight="37.0" prefWidth="171.0" styleClass="bgcolor-red" stylesheets="@../../../../style_File/Dashboard.css" text="Remove" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#deleteStudent" prefHeight="37.0" prefWidth="171.0" styleClass="bgcolor-red" stylesheets="@../../../../style_File/Dashboard.css" text="Remove" textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font>
