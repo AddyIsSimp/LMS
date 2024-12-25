@@ -1,5 +1,7 @@
 package stages.admin;
 
+import Entity.Category;
+import Function.globalVariable;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,10 +18,10 @@ import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class reportsController implements Initializable {
-
 
     @FXML
     private HBox acctBtn;
@@ -44,22 +46,84 @@ public class reportsController implements Initializable {
 
     @FXML
     private ChoiceBox<String> reportbox;
-    private String[] reports_stage = {"Accounts","Book","Transaction","Penalty",};
-
 
     @FXML
     private Label reportname;
 
-//SWITCHING MENU
-
+    // SWITCHING MENU
+    @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            // Create a list of report options
+            ArrayList<String> reportOptions = new ArrayList<>();
+            reportOptions.add("Accounts");
+            reportOptions.add("Books");
+            reportOptions.add("Penalty");
+            reportOptions.add("Transaction");
 
-        reportbox.getItems().addAll(reports_stage);
-        reportbox.setOnAction(event -> {
-            String selectedReport = reportbox.getValue();
-            reportname.setText(selectedReport);
-        });
+            // Add options to the ChoiceBox and set the default value
+            if (!reportOptions.isEmpty()) {
+                reportbox.getItems().addAll(reportOptions);
+                reportbox.getValue(); // Set the default value
+
+            }
+
+            // Add a listener for selection changes
+            reportbox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    // Load the corresponding FXML file based on the selected option
+                    switch (newValue) {
+                        case "Accounts":
+                            loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_acc_reports.fxml");
+                            break;
+                        case "Books":
+                            loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_book_reports.fxml");
+                            break;
+                        case "Penalty":
+                            loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_penalty_reports.fxml");
+                            break;
+                        case "Transaction":
+                            loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_trans_reports.fxml");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+        } catch (Exception e) {
+            // Handle errors and show an alert
+            Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    private void updateChoiceBoxName(String name) {
+        // Dynamically update the name of the ChoiceBox
+        reportbox.setAccessibleText(name); // Optional, for accessibility purposes
+        reportbox.setRotate(Double.parseDouble(name));     // Updates the prompt text to show the selected value
+    }
+    private void loadFXMLForChoice(String fxmlPath) {
+        try {
+            // Load the FXML file
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
+
+            // Get the current stage
+            Stage stage = (Stage) reportbox.getScene().getWindow();
+
+            // Update the scene
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            // Handle exceptions and show an alert
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load the selected report: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+
+
+
+
        /* switch (report) {
             case "Accounts":
                 return "/stages/admin/adminFXML/reports/admin_acc_reports.fxml";
@@ -72,10 +136,6 @@ public class reportsController implements Initializable {
             default:
                 return null;
     */
-
-
-    }
-
 
 
 

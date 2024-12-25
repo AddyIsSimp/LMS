@@ -205,9 +205,9 @@
          <children>
             <AnchorPane prefHeight="592.0" prefWidth="773.0">
                <children>
-                  <AnchorPane layoutX="25.0" layoutY="61.0" prefHeight="519.0" prefWidth="740.0" styleClass="mainframe" stylesheets="@../../../../style_File/LoginSyle.css">
+                  <AnchorPane layoutX="11.0" layoutY="61.0" prefHeight="519.0" prefWidth="750.0" styleClass="mainframe" stylesheets="@../../../../style_File/LoginSyle.css">
                      <children>
-                        <TableView layoutX="7.0" layoutY="50.0" prefHeight="441.0" prefWidth="722.0" stylesheets="@../../../../style_File/Dashboard.css">
+                        <TableView layoutX="11.0" layoutY="50.0" prefHeight="450.0" prefWidth="730.0" stylesheets="@../../../../style_File/Dashboard.css">
                            <columns>
                               <TableColumn prefWidth="185.0" text="Student ID" />
                               <TableColumn prefWidth="118.0" text="Book" />
@@ -216,13 +216,8 @@
                               <TableColumn minWidth="0.0" prefWidth="147.0" text="Penalty" />
                            </columns>
                         </TableView>
-                        <ChoiceBox layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="121.0" />
+                        <ChoiceBox fx:id="reportbox" layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="121.0" />
                         <Line endX="43.666656494140625" layoutX="83.0" layoutY="42.0" startX="-72.33332824707031" strokeWidth="3.0" />
-                        <Label layoutX="16.0" layoutY="12.0" prefHeight="20.0" prefWidth="85.0" text="PENALTY">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
                         <ChoiceBox layoutX="607.0" layoutY="10.0" prefHeight="25.0" prefWidth="121.0" />
                         <Label layoutX="614.0" layoutY="13.0" prefHeight="20.0" prefWidth="85.0" text="A-Z">
                            <font>
@@ -241,6 +236,11 @@
                            </font>
                         </Label>
                         <Label layoutX="379.0" layoutY="13.0" prefHeight="20.0" prefWidth="59.0" text="Filter:">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="11.0" layoutY="12.0" prefHeight="20.0" prefWidth="90.0" text="Penalty">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
