@@ -357,11 +357,13 @@ public class dbFunction {
 
             while (rs.next()) {
                 Transact trans = new Transact();
+                trans.setBorrowButton();
+                trans.setReturnButton();
                 trans.setTransID(rs.getInt("trans_id"));
                 trans.setBorrowerID(rs.getInt("stud_id"));
                 trans.setBorrowerName(rs.getString("stud_name"));
                 trans.setBkIsbn(rs.getString("book_isbn"));
-                trans.setBorrowerName(rs.getString("book_title"));
+                trans.setBookTitle(rs.getString("book_title")); // Corrected setter name
                 trans.setBorrowDate(rs.getDate("borrow_date"));
                 trans.setStatus(rs.getString("status"));
                 trans.setPenalty(rs.getDouble("penalty"));
@@ -473,5 +475,41 @@ public class dbFunction {
         }
         return studentList;
     }
+
+    public boolean updateTransactStatus(Transact transact, String newStatus) {
+        try {
+            conn = connectToDB();
+
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return false;
+            }
+
+            String sql = "UPDATE librarydb.transact SET status = ?, borrow_date = ? WHERE trans_id = ?";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newStatus);
+            pstmt.setDate(2, globalVariable.fnc.getDateNow());
+            pstmt.setInt(3, transact.getTransID());
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                pstmt.close();
+                conn.close();
+                return true;
+            }
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Update Transaction Error", e.getMessage());
+        }
+
+        return false; // Return false if update was unsuccessful
+    }
+
 
 }

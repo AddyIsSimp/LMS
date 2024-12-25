@@ -114,11 +114,8 @@ public class config {
             stmt.executeUpdate(sqlTableStaff);
             System.out.println("Table 'staff' created successfully");
 
-            String sqlInsertCategory = "INSERT INTO bkcategory(ctgry_name) values (\"Fiction\"),(\"Non-Fiction\"),(\"Academic\"),(\"Childrens\"),(\"Philosophy\"),(\"Comics\");";
-            stmt.executeUpdate(sqlInsertCategory);
-            System.out.println("Category created");
-
             insertAdmin();
+            insertCategoriesIfNotExist();
 //            insertSampleBook();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Create Table Error", JOptionPane.ERROR_MESSAGE);
@@ -155,17 +152,8 @@ public class config {
             JOptionPane.showMessageDialog(null, e.getMessage(), "ADMIN SETUP ERROR", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "ADMIN SETUP ERROR", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            // Close resources
-            try {
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
         }
     }
-
 
     public static void retrieveBooks() {
         try {
@@ -174,6 +162,50 @@ public class config {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, e.getMessage(), ButtonType.NO, ButtonType.YES);
             alert.setTitle("Retrieve Books Error");
             alert.show();
+        }
+    }
+
+    public void insertCategoriesIfNotExist() {
+        Connection conn = null;
+        PreparedStatement checkStmt = null;
+        Statement insertStmt = null;
+
+        try {
+            conn = dbFunct.connectToDB();
+
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return;
+            }
+
+            String checkQuery = "SELECT COUNT(*) FROM bkcategory WHERE ctgry_name IN ('Fiction', 'Non-Fiction', 'Academic', 'Childrens', 'Philosophy', 'Comics')";
+            checkStmt = conn.prepareStatement(checkQuery);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next() && rs.getInt(1) == 0) {
+                String sqlInsertCategory = "INSERT INTO bkcategory(ctgry_name) " +
+                        "VALUES ('Fiction'), ('Non-Fiction'), ('Academic'), ('Childrens'), ('Philosophy'), ('Comics')";
+                insertStmt = conn.createStatement();
+                insertStmt.executeUpdate(sqlInsertCategory);
+                System.out.println("Categories successfully inserted.");
+            } else {
+                System.out.println("Categories already exist");
+            }
+
+            rs.close();
+            checkStmt.close();
+            if (insertStmt != null) insertStmt.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

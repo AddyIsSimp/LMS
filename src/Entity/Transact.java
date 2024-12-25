@@ -12,6 +12,7 @@ import javafx.scene.layout.BackgroundFill;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
 import java.sql.Date;
+import Function.*;
 
 import Function.globalVariable;
 public class Transact {
@@ -24,18 +25,20 @@ public class Transact {
     private double penalty;
     private Date borrowDate;
     private Date returnDate;
+    private int dayLeft;
 
     private Button acceptBtn;
     private Button declineBtn;
     private Button returnBtn;
 
     public Transact() {
-
     }
 
     //for Pending transact
     public Transact(int transID, String title, String ISBN, int borrowerID, String borrowerName, String status) {
+        setDayLeft();
         setBorrowButton();
+        setReturnButton();
         this.transID = transID;
         this.borrowerID = borrowerID;
         this.borrowerName = borrowerName;
@@ -57,8 +60,8 @@ public class Transact {
     }
 
     public void setReturnButton() {
-        acceptBtn = new Button("Return");
-        acceptBtn.setOnAction(event -> {
+        returnBtn = new Button("Return");
+        returnBtn.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Book Request", ButtonType.NO, ButtonType.YES);
             alert.setTitle("Return Book");
             alert.setHeaderText("Accept Return Request");
@@ -87,10 +90,10 @@ public class Transact {
                     "\n\nBook Info \nTitle:  " + bookTitle +
                     "\nISBN:  " + bkIsbn
                     );
-
             if(alert.showAndWait().get() == ButtonType.YES) {
                 this.status = "ONGOING";
                 this.borrowDate = globalVariable.fnc.getDateNow();
+                globalVariable.dbFnc.updateTransactStatus(this, "ONGOING");
             }else {
                 alert.close();
             }
@@ -102,7 +105,7 @@ public class Transact {
             alert.setTitle("Borrow Request");
 
             if(alert.showAndWait().get() == ButtonType.YES) {
-                this.status = "DECLINED";
+                this.status = "DECLINE";
             }else {
                 alert.close();
             }
@@ -187,5 +190,23 @@ public class Transact {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getDayLeft() {
+        setDayLeft();
+        return dayLeft;
+    }
+
+    public void setDayLeft() {
+        globalVariable.fnc.computeDayLeft(borrowDate);
+
+    }
+
+    public Button getReturnBtn() {
+        return returnBtn;
+    }
+
+    public void setReturnBtn(Button returnBtn) {
+        this.returnBtn = returnBtn;
     }
 }

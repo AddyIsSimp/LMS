@@ -186,7 +186,7 @@ public class Function {
         return img;
     }
 
-    private void showAlert(String title, String message) {
+    public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
         alert.setTitle(title);
         alert.show();
@@ -252,6 +252,7 @@ public class Function {
         ObservableList<Transact> ongoingTransact = FXCollections.observableArrayList();
         for (Transact transact : transactsList) {
             transact.setReturnButton();
+            transact.setDayLeft();
             if ("ONGOING".equalsIgnoreCase(transact.getStatus())) {
                 ongoingTransact.add(transact);
             }
@@ -276,5 +277,22 @@ public class Function {
         char fInitial = fName.charAt(0);
         return lName + " " + fInitial;
     }
+
+    public int computeDayLeft(java.sql.Date dateBorrow) {
+        int dayLeft;
+
+        Date dateNow = fnc.getDateNow();
+
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(dateBorrow);
+        calendar.add(java.util.Calendar.DAY_OF_MONTH, 5); // Adding 5 days
+        Date dueDate = new Date(calendar.getTimeInMillis());
+
+        long differenceInMillis = dueDate.getTime() - dateNow.getTime();
+        dayLeft = (int) (differenceInMillis / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+
+        return dayLeft;
+    }
+
 
 }
