@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -167,10 +172,150 @@
          </children>
       </VBox>
    </left>
-   <right>
-      <VBox prefHeight="607.0" prefWidth="268.0" styleClass="bgcolor-white" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER" />
-   </right>
    <center>
-      <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css">
+               <padding>
+                  <Insets left="30.0" top="35.0" />
+               </padding>
+               <children>
+                  <HBox prefHeight="119.0" prefWidth="748.0" spacing="50.0">
+                     <children>
+                        <VBox prefHeight="119.0" prefWidth="24.0" stylesheets="@../../../style_File/Dashboard.css" />
+                        <VBox prefHeight="119.0" prefWidth="200.0" stylesheets="@../../../style_File/Dashboard.css">
+                           <styleClass>
+                              <String fx:value="bgcolor-white" />
+                              <String fx:value="roundEdge" />
+                           </styleClass>
+                           <children>
+                              <Label alignment="CENTER" prefHeight="34.0" prefWidth="200.0" stylesheets="@../../../style_File/Dashboard.css" text="Book Total" textFill="WHITE">
+                                 <styleClass>
+                                    <String fx:value="roundEdgeTop" />
+                                    <String fx:value="bgcolor-brown" />
+                                 </styleClass>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="18.0">
+                                 <children>
+                                    <ImageView fitHeight="45.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/dashboard/book.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="bookQty" text="0">
+                                       <font>
+                                          <Font size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="119.0" prefWidth="92.0" stylesheets="@../../../style_File/Dashboard.css" />
+                        <VBox prefHeight="119.0" prefWidth="200.0" stylesheets="@../../../style_File/Dashboard.css">
+                           <styleClass>
+                              <String fx:value="bgcolor-white" />
+                              <String fx:value="roundEdge" />
+                           </styleClass>
+                           <children>
+                              <Label alignment="CENTER" prefHeight="34.0" prefWidth="200.0" stylesheets="@../../../style_File/Dashboard.css" text="Student Total" textFill="WHITE">
+                                 <styleClass>
+                                    <String fx:value="roundEdgeTop" />
+                                    <String fx:value="bgcolor-brown" />
+                                 </styleClass>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="18.0">
+                                 <children>
+                                    <ImageView fitHeight="46.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/dashboard/student.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label text="0">
+                                       <font>
+                                          <Font size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="426.0" prefWidth="733.0" spacing="15.0">
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <children>
+                        <VBox prefHeight="384.0" prefWidth="354.0" styleClass="bgcolor-white" stylesheets="@../../../style_File/Dashboard.css">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="30.0" prefWidth="354.0" styleClass="bgcolor-brown" stylesheets="@../../../style_File/Dashboard.css">
+                                 <children>
+                                    <Label prefHeight="20.0" prefWidth="230.0" text="Student Account" textFill="WHITE">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="19.0" prefWidth="53.0" text="Sort by:" textFill="WHITE">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ChoiceBox minHeight="-Infinity" prefHeight="23.0" prefWidth="57.0" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="8.0" />
+                                 </padding>
+                              </HBox>
+                              <TableView prefHeight="378.0" prefWidth="354.0" stylesheets="@../../../style_File/Dashboard.css">
+                                 <columns>
+                                    <TableColumn editable="false" prefWidth="86.3999816775322" text="Student ID" />
+                                    <TableColumn prefWidth="171.9999771118164" text="Name" />
+                                    <TableColumn minWidth="8.79998779296875" prefWidth="95.20001220703125" text="Course" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="384.0" prefWidth="354.0" styleClass="bgcolor-white" stylesheets="@../../../style_File/Dashboard.css">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="30.0" prefWidth="354.0" styleClass="bgcolor-brown" stylesheets="@../../../style_File/Dashboard.css">
+                                 <children>
+                                    <Label prefHeight="20.0" prefWidth="230.0" text="Book Details" textFill="WHITE">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="19.0" prefWidth="53.0" text="Sort by:" textFill="WHITE">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ChoiceBox minHeight="-Infinity" prefHeight="23.0" prefWidth="57.0" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="8.0" />
+                                 </padding>
+                              </HBox>
+                              <TableView prefHeight="378.0" prefWidth="354.0" stylesheets="@../../../style_File/Dashboard.css">
+                                 <columns>
+                                    <TableColumn editable="false" prefWidth="73.59991610050201" text="ISBN" />
+                                    <TableColumn prefWidth="95.73320770263672" text="Name" />
+                                    <TableColumn minWidth="8.79998779296875" prefWidth="98.9334716796875" text="Author" />
+                                    <TableColumn minWidth="8.79998779296875" prefWidth="85.06646728515625" text="Quantity" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children></VBox>
    </center>
 </BorderPane>

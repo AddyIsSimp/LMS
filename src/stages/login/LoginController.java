@@ -171,6 +171,15 @@ public class LoginController {
     //STAFF LOGIN
     public void staffLoginEvt(ActionEvent event) throws Exception {
         try {
+            String id = tf_staffid.getText();
+            String password = passwordtextfield.getText();
+
+            if(id.equalsIgnoreCase("Staff1") && password.equalsIgnoreCase("staff123")) {
+                Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_dashboard.fxml"));
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            }
             conn = dbFunc.connectToDB();
             if(conn==null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
@@ -179,8 +188,6 @@ public class LoginController {
                 return;
             }
 
-            String id = tf_staffid.getText();
-            String password = passwordtextfield.getText();
 
             if(id.isEmpty()) {
                 errorText.setText("Staff ID is empty"); return;
@@ -191,12 +198,7 @@ public class LoginController {
             }
 
             //TO_BE_ERASED
-            if(id.equalsIgnoreCase("Staff1") && password.equalsIgnoreCase("staff123")) {
-                Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_dashboard.fxml"));
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            }
+
 
             boolean validStaffID = fnc.staffIDChecker(id);
             if(validStaffID) {
