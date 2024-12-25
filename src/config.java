@@ -106,7 +106,7 @@ public class config {
             System.out.println("Table 'transact' created succesfully");
 
             String sqlTableStaff = "CREATE TABLE IF NOT EXISTS librarydb.staff (" +
-                    "staff_id INT NOT NULL AUTO_INCREMENT, " +
+                    "staff_id VARCHAR(64) NOT NULL, " +
                     "fName VARCHAR(64) NOT NULL, " +
                     "lName VARCHAR(64) NOT NULL, " +
                     "email VARCHAR(64) NOT NULL, " +

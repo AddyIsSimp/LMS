@@ -166,7 +166,7 @@
                         <HBox prefHeight="31.0" prefWidth="51.0" />
                         <HBox prefHeight="31.0" prefWidth="148.0">
                            <children>
-                              <Label fx:id="acctStaffBtn" alignment="CENTER" onMouseClicked="#goAccountStaff" prefHeight="31.0" prefWidth="148.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css" text="Staff" textFill="WHITE">
+                              <Label fx:id="acctStaffBtn" alignment="CENTER" onMouseClicked="#goAcctStaff" prefHeight="31.0" prefWidth="148.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css" text="Staff" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -315,7 +315,7 @@
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="171.0" styleClass="bgcolor-red" stylesheets="@../../../../style_File/Dashboard.css" text="Remove" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#doRemove" prefHeight="37.0" prefWidth="171.0" styleClass="bgcolor-red" stylesheets="@../../../../style_File/Dashboard.css" text="Remove" textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -382,7 +382,7 @@
             </HBox>
             <TableView fx:id="brrwTransTblView" prefHeight="554.0" prefWidth="505.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
                <columns>
-                  <TableColumn fx:id="titleCol" prefWidth="95.4667067527771" text="School_ID" />
+                  <TableColumn fx:id="titleCol" prefWidth="95.4667067527771" text="School ID" />
                   <TableColumn fx:id="isbnCol" minWidth="0.0" prefWidth="88.5333480834961" text="First Name" />
                   <TableColumn fx:id="studentIDCol" prefWidth="82.66659545898438" text="Last Name" />
                   <TableColumn fx:id="studentIDCol1" prefWidth="73.59988403320312" text="Section" />
