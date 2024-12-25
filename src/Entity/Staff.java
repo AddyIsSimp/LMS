@@ -5,9 +5,8 @@ public class Staff {
     private String fName;
     private String lName;
     private String email;
+    private String username;
     private String pass;
-    private String position;
-
 
     public Staff() {
         this.StaffID = StaffID;
@@ -15,16 +14,15 @@ public class Staff {
         this.lName = lName;
         this.email = email;
         this.pass = pass;
-        this.position = position;
     }
 
-    public Staff(String fName, String lName, String email, String pass, int StaffID, String position) {
+    public Staff(int staffID, String fName, String lName, String email, String username, String pass) {
         this.fName = fName;
         this.lName = lName;
         this.email = email;
         this.pass = pass;
-        this.StaffID = StaffID;
-        this.position = position;
+        this.username = username;
+        this.StaffID = staffID;
     }
 
     public String getfName() {
@@ -51,27 +49,27 @@ public class Staff {
         this.email = email;
     }
 
-    public String getPass() {
+    public String getPassword() {
         return pass;
     }
 
-    public void setPass(String pass) {
+    public void setPassword(String pass) {
         this.pass = pass;
     }
 
-    public int getStaffID() {
+    public int getStaffId() {
         return StaffID;
     }
 
-    public void setStaffID(int StaffID) {
+    public void setStaffId(int StaffID) {
         this.StaffID = StaffID;
     }
 
-    public String getPosition() {
-        return position;
+    public String getUsername() {
+        return username;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

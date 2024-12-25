@@ -69,7 +69,7 @@ public class inventoryModifyController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         bookList = globalVariable.bookList;
-        categories = globalVariable.dbFnc.retrieveCategories();
+        categories = categoryList;
 
         if (categories != null && !categories.isEmpty()) {
             tfCategory.getItems().addAll(categories);

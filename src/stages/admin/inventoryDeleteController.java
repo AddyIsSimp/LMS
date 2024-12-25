@@ -69,7 +69,7 @@ public class inventoryDeleteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         bookList = globalVariable.bookList;
-        categories = globalVariable.dbFnc.retrieveCategories();
+        categories = globalVariable.categoryList;
 
         if (categories != null && !categories.isEmpty()) {
             tfCategory.getItems().addAll(categories);

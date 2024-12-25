@@ -19,6 +19,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import Function.*;
 
+import static Function.globalVariable.sortedStaffListASC;
+
 public class dashboardController implements Initializable {
 
     @FXML
@@ -52,6 +54,8 @@ public class dashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DoublyLinkList books = globalVariable.bookList;
         bookQty.setText(Integer.toString(fnc.countBkQuantity(books)));
+        //sortedStaffListASC =
+        //sortedStudentListASC =
     }
 
     //SWAP MENU

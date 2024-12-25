@@ -288,7 +288,7 @@
                   <Insets left="15.0" />
                </padding>
             </HBox>
-            <TableView fx:id="brrwTransTblView" prefHeight="502.0" prefWidth="740.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
+            <TableView fx:id="brrwTransTblView" layoutX="11.0" layoutY="61.0" prefHeight="502.0" prefWidth="740.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
               <columns>
                 <TableColumn fx:id="titleCol" prefWidth="199.99997854232788" text="Title" />
                 <TableColumn fx:id="isbnCol" minWidth="0.0" prefWidth="132.0" text="ISBN" />

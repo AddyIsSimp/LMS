@@ -24,8 +24,6 @@ import javafx.scene.image.WritablePixelFormat;
 import static Function.globalVariable.fnc;
 
 public class Function {
-    Date dateNow = new Date();
-    int year = dateNow.getYear();
 
     public boolean digitChecker(String s) {
         for(int i = 0; i<s.length(); i++) {
@@ -115,12 +113,12 @@ public class Function {
         return dtf.format(now);
     }
 
-    public Date getDateNow() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime now = LocalDateTime.now();
-        Date date = new Date(dtf.format(now));
+    public java.sql.Date getDateNow() {
+        LocalDate now = LocalDate.now();
+        java.sql.Date date = java.sql.Date.valueOf(now);
         return date;
     }
+
 
     public int countBkBorrow(DoublyLinkList list) {
         int bookBorrow = 0;
@@ -131,56 +129,6 @@ public class Function {
             current = current.getNext();
         }
         return bookBorrow;
-    }
-
-    public int studentIDChecker(String s) { //Returns the int value of id otherwise 0;
-        int studentId = 0;
-        int idYrInt, idInt;
-        String idYrStr, idStr;
-        boolean validYr = false, validId = false;
-
-        //Checks the year
-        idYrStr = s.substring(0, 4);
-        System.out.println(idYrStr);
-        if(digitChecker(idYrStr)) {    //Valid year
-            idYrInt = Integer.parseInt(idYrStr);
-            if(idYrInt>1900 && idYrInt<year) {  //Year is greater than 1900 and less than this year/ VALID
-                validYr = true;
-            }else  {        //INVALID year
-                JOptionPane.showMessageDialog(null,
-                        "ID year should be between 1900-"+year,
-                        "Invalid ID format", 0);
-                validYr= false;
-            }
-        }else {     //Year is not all digits
-            validYr=false;
-            JOptionPane.showMessageDialog(null,
-                    "ID format should be (YYYY-NNNNN)",
-                    "Invalid ID format", 0);
-        }
-
-        if(validYr) {   //Checks the (-id)
-            if(s.charAt(4)=='-') {  //Valid apostrophe
-                idStr = s.substring(5);
-                System.out.println(idStr);
-                if(digitChecker(idStr)) {
-                    idInt = Integer.parseInt(idStr);
-
-                    //Returns the ID cause valid
-                    String idString = idYrStr + idStr;
-                    studentId = Integer.parseInt(idString);
-
-                    validId = true;
-                }
-            }else { //Wrong apostrophe
-                validId = false;
-                JOptionPane.showMessageDialog(null,
-                        "ID format should be (YYYY-NNNNN)",
-                        "Invalid ID format", 0);
-            }
-        }
-
-        return studentId;
     }
 
     public boolean staffIDChecker(String s) {   //Correct format lName+staffID
@@ -226,7 +174,11 @@ public class Function {
     public Image getImage(String imgName) {
         Image img = null;
         try {
-            String imagePath = getClass().getResource("/bookImages/" + imgName).toExternalForm();
+            var resource = getClass().getResource("/bookImages/" + imgName);
+            if (resource == null) {
+                throw new IllegalArgumentException("Image not found: " + imgName);
+            }
+            String imagePath = resource.toExternalForm();
             img = new Image(imagePath);
         } catch (Exception e) {
             showAlert("Get Image Error", e.getMessage());
@@ -234,7 +186,7 @@ public class Function {
         return img;
     }
 
-    private void showAlert(String title, String message) {
+    public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
         alert.setTitle(title);
         alert.show();
@@ -275,5 +227,72 @@ public class Function {
 
         return null; // Return null if an exception occurs.
     }
+
+    public Student getStudentWithName(ArrayList<Student> studentList, int id) {
+        for (Student student : studentList) {
+            if (student.getSchoolID() == id) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public ObservableList<Transact> retrievePendingTransact(ArrayList<Transact> transactsList) {
+        ObservableList<Transact> pendingTransact = FXCollections.observableArrayList();
+        for (Transact transact : transactsList) {
+            transact.setBorrowButton();
+            if ("PENDING".equalsIgnoreCase(transact.getStatus())) {
+                pendingTransact.add(transact);
+            }
+        }
+        return pendingTransact;
+    }
+
+    public ObservableList<Transact> retrieveOngoingTransact(ArrayList<Transact> transactsList) {
+        ObservableList<Transact> ongoingTransact = FXCollections.observableArrayList();
+        for (Transact transact : transactsList) {
+            transact.setReturnButton();
+            transact.setDayLeft();
+            if ("ONGOING".equalsIgnoreCase(transact.getStatus())) {
+                ongoingTransact.add(transact);
+            }
+        }
+        return ongoingTransact;
+    }
+
+    public ObservableList<Transact> retrieveFinishTransact(ArrayList<Transact> transactsList) {
+        ObservableList<Transact> finishTransact = FXCollections.observableArrayList();
+        for (Transact transact : transactsList) {
+            if ("FINISH".equalsIgnoreCase(transact.getStatus())) {
+                finishTransact.add(transact);
+            }
+        }
+        return finishTransact;
+    }
+
+    public String getName(String lName, String fName) {
+        if (fName == null || fName.isEmpty() || lName == null || lName.isEmpty()) {
+            return "";
+        }
+        char fInitial = fName.charAt(0);
+        return lName + " " + fInitial;
+    }
+
+    public int computeDayLeft(java.sql.Date dateBorrow) {
+        int dayLeft;
+
+        Date dateNow = fnc.getDateNow();
+
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(dateBorrow);
+        calendar.add(java.util.Calendar.DAY_OF_MONTH, 5); // Adding 5 days
+        Date dueDate = new Date(calendar.getTimeInMillis());
+
+        long differenceInMillis = dueDate.getTime() - dateNow.getTime();
+        dayLeft = (int) (differenceInMillis / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+
+        return dayLeft;
+    }
+
 
 }

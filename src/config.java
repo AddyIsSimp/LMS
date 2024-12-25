@@ -1,8 +1,5 @@
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import Function.*;
 import javafx.scene.control.Alert;
@@ -95,31 +92,30 @@ public class config {
             String sqlTableTransact = "CREATE TABLE IF NOT EXISTS librarydb.transact (" +
                     "trans_id INT NOT NULL AUTO_INCREMENT, " +
                     "stud_id INT NOT NULL, " +
-                    "book_id INT , " +
-                    "borrow_date DATE NOT NULL, " +
+                    "stud_name VARCHAR(64) NOT NULL, " +
+                    "book_isbn VARCHAR(24) NOT NULL, " +
+                    "book_title VARCHAR(64) NOT NULL, " +
+                    "borrow_date DATE, " +
+                    "status VARCHAR(64) NOT NULL, " +
                     "penalty DOUBLE," +
                     "return_date DATE, " +
-                    "status VARCHAR(64) NOT NULL, " +
-                    "FOREIGN KEY(book_id) REFERENCES book(book_id)," +
                     "PRIMARY KEY(trans_id))";
             stmt.executeUpdate(sqlTableTransact);
             System.out.println("Table 'transact' created succesfully");
 
             String sqlTableStaff = "CREATE TABLE IF NOT EXISTS librarydb.staff (" +
-                    "staff_id VARCHAR(64) NOT NULL, " +
+                    "staff_id INT NOT NULL AUTO_INCREMENT, " +
                     "fName VARCHAR(64) NOT NULL, " +
                     "lName VARCHAR(64) NOT NULL, " +
                     "email VARCHAR(64) NOT NULL, " +
+                    "staff_UN VARCHAR(64) NOT NULL," +
                     "password VARCHAR(64) NOT NULL, " +
                     "PRIMARY KEY(staff_id))";
             stmt.executeUpdate(sqlTableStaff);
             System.out.println("Table 'staff' created successfully");
 
-            String sqlInsertCategory = "INSERT INTO bkcategory(ctgry_name) values (\"Fiction\"),(\"Non-Fiction\"),(\"Academic\"),(\"Childrens\"),(\"Philosophy\"),(\"Comics\");";
-            stmt.executeUpdate(sqlInsertCategory);
-            System.out.println("Category created");
-
             insertAdmin();
+            insertCategoriesIfNotExist();
 //            insertSampleBook();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Create Table Error", JOptionPane.ERROR_MESSAGE);
@@ -128,18 +124,34 @@ public class config {
         }
     }
 
-    public void insertAdmin() { //Add admin account in staff
+    public void insertAdmin() {
+        // Add admin account in staff
         try {
             conn = dbFunct.connectToDB();
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return;
+            }
             stmt = conn.createStatement();
 
-            String sqlAddAdmin = "INSERT INTO staff(staff_id, fName, lName, email, password) VALUES (0, 'Admin123', 'N/A', 'N/A', 'admin@123')";
+            // Check if admin account already exists
+            String sqlCheckAdmin = "SELECT COUNT(*) AS count FROM staff WHERE staff_UN = 'Admin123'";
+            ResultSet rs = stmt.executeQuery(sqlCheckAdmin);
+            if (rs.next() && rs.getInt("count") > 0) {
+                System.out.println("Admin is setup already");
+                return;
+            }
+
+            // Insert admin account
+            String sqlAddAdmin = "INSERT INTO staff(staff_id, fName, lName, email, staff_UN, password) VALUES (0, 'Admin', 'N/A', 'N/A', 'Admin123', 'admin@123')";
             stmt.executeUpdate(sqlAddAdmin);
             System.out.println("Admin successfully setup");
-        }catch(SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "INSERT BOOK ERROR", JOptionPane.ERROR_MESSAGE);
-        }catch(Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "INSERT BOOK ERROR", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ADMIN SETUP ERROR", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ADMIN SETUP ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -150,6 +162,50 @@ public class config {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, e.getMessage(), ButtonType.NO, ButtonType.YES);
             alert.setTitle("Retrieve Books Error");
             alert.show();
+        }
+    }
+
+    public void insertCategoriesIfNotExist() {
+        Connection conn = null;
+        PreparedStatement checkStmt = null;
+        Statement insertStmt = null;
+
+        try {
+            conn = dbFunct.connectToDB();
+
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return;
+            }
+
+            String checkQuery = "SELECT COUNT(*) FROM bkcategory WHERE ctgry_name IN ('Fiction', 'Non-Fiction', 'Academic', 'Childrens', 'Philosophy', 'Comics')";
+            checkStmt = conn.prepareStatement(checkQuery);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next() && rs.getInt(1) == 0) {
+                String sqlInsertCategory = "INSERT INTO bkcategory(ctgry_name) " +
+                        "VALUES ('Fiction'), ('Non-Fiction'), ('Academic'), ('Childrens'), ('Philosophy'), ('Comics')";
+                insertStmt = conn.createStatement();
+                insertStmt.executeUpdate(sqlInsertCategory);
+                System.out.println("Categories successfully inserted.");
+            } else {
+                System.out.println("Categories already exist");
+            }
+
+            rs.close();
+            checkStmt.close();
+            if (insertStmt != null) insertStmt.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

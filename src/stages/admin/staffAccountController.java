@@ -1,21 +1,46 @@
 package stages.admin;
 
-import javafx.event.ActionEvent;
+
+
+import Entity.Transact;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ResourceBundle;
+import Entity.Staff;
+import Entity.Transact;
+import Function.Function;
+import Function.dbFunction;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 
-public class staffAccountController {
+import Function.globalVariable;
+
+public class staffAccountController implements Initializable {
+
+    Connection conn;
+    Statement stmt;
+    ResultSet rs;
+
+    dbFunction dbFnc = new dbFunction();
+    Function fnc = new Function();
 
 
     @FXML
@@ -42,6 +67,70 @@ public class staffAccountController {
     @FXML
     private HBox reportsBtn;
 
+    @FXML
+    private Label staffQty;
+    @FXML
+    private Label studentQty;
+
+
+    @FXML
+    private TableView<Staff> staffTableView;
+
+    @FXML
+    private TableColumn<Staff, String> firstNameCol, lastNameCol, emailCol;
+
+    @FXML
+    private ChoiceBox<String> sortCB;
+
+    private String[] sortType = {"A-Z", "Z-A"};
+    ObservableList<Staff> staffList = FXCollections.observableArrayList();
+
+    @Override
+
+
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Initialize sort options
+        sortCB.getItems().addAll(sortType);
+        sortCB.setValue(sortType[0]);
+
+        // Set up TableView columns
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+        // Load data into TableView
+        ObservableList<Staff> staffList = FXCollections.observableArrayList(globalVariable.stafflist);
+
+        if (staffList.isEmpty()) {
+            showErrorAlert("Error", "Staff list is empty or not initialized.");
+        }
+
+        staffTableView.setItems(staffList);
+
+        // Add sorting functionality
+        sortCB.setOnAction(event -> applySorting(staffList));
+    }
+
+    private void applySorting(ObservableList<Staff> staffList) {
+        if (sortCB.getValue().equals("A-Z")) {
+            globalVariable.sortedStaffListASC.clear();
+            staffList.sorted((s1, s2) -> s1.getfName().compareToIgnoreCase(s2.getfName()))
+                    .forEach(globalVariable.sortedStaffListASC::add);
+            staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListASC));
+        } else {
+            globalVariable.sortedStaffListDESC.clear();
+            staffList.sorted((s1, s2) -> s2.getfName().compareToIgnoreCase(s1.getfName()))
+                    .forEach(globalVariable.sortedStaffListDESC::add);
+            staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListDESC));
+        }
+    }
+
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {
@@ -119,58 +208,42 @@ public class staffAccountController {
         stage.setScene(new Scene(root));
         stage.show();
     }
-
-    //doInsert para sa staff
     @FXML
-    private void doAdd(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsAdd.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-    //doModify para sa staff
-    @FXML
-    private void doModify(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsModify.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-     }
-
-    @FXML
-    private void doRemove(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsDelete.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    @FXML
-    private void returnAcctStaff(MouseEvent event) throws IOException {
+    private void returnAcctStaff(MouseEvent actionevent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffs.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
     @FXML
-    public void addStaff(ActionEvent actionEvent) {
-
+    public void addStaff(ActionEvent actionevent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsAdd.fxml"));
+        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
-    public void editStaff(ActionEvent actionEvent) {
-
+    public void editStaff(ActionEvent actionevent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsModify.fxml"));
+        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
-    public void deleteStaff(ActionEvent actionEvent) {
-
+    public void deleteStaff(ActionEvent actionevent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsDelete.fxml"));
+        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
     private void doSearch(ActionEvent event) {
 
     }
+
 
 }

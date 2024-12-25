@@ -77,11 +77,12 @@ public class libraryController implements Initializable {
             });
 
             //CATEGORY CHOICEBOX
-            ArrayList<Category> categories = globalVariable.dbFnc.retrieveCategories();
-            categories.addFirst(new Category(0, "All"));
+            ArrayList<Category> categories = globalVariable.categoryList;
+            Category allCtgry = new Category(0, "All");
             if (categories.size() != 0) {
                 categoryCB.getItems().addAll(categories);
-                categoryCB.setValue(categories.get(0));
+                categoryCB.getItems().addFirst(allCtgry);
+                categoryCB.setValue(allCtgry);
             }
 
             categoryCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

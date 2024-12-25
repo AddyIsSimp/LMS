@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -15,9 +14,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.admin.reportsController">
+<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.staff.reportsController">
    <top>
-      <HBox prefHeight="68.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
+      <HBox prefHeight="68.0" prefWidth="970.0" styleClass="bgcolor-lightPink" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="68.0" prefWidth="60.0">
                <children>
@@ -31,6 +30,7 @@
             <Separator orientation="VERTICAL" prefHeight="68.0" prefWidth="0.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css" visible="false" />
             <HBox alignment="CENTER" prefHeight="68.0" prefWidth="281.0">
                <children>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
                   <Label prefHeight="27.0" prefWidth="256.0" text="LIBRARY SYSTEM">
                      <font>
                         <Font name="System Bold" size="18.0" />
@@ -38,11 +38,12 @@
                   </Label>
                </children>
             </HBox>
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
             <HBox prefHeight="68.0" prefWidth="317.0" />
-            <HBox alignment="CENTER" prefHeight="68.0" prefWidth="306.0">
+            <HBox alignment="CENTER" prefHeight="68.0" prefWidth="300.0">
                <children>
                   <Label />
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="181.0" text="Welcome Admin">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="181.0" text="Welcome Staff">
                      <font>
                         <Font name="System Italic" size="20.0" />
                      </font>
@@ -55,14 +56,10 @@
                </children>
             </HBox>
          </children>
-         <styleClass>
-            <String fx:value="bgcolor-lightPink" />
-            <String fx:value="outlineDown" />
-         </styleClass>
       </HBox>
    </top>
    <left>
-      <VBox alignment="CENTER" prefHeight="607.0" prefWidth="197.0" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="607.0" prefWidth="197.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="22.0" prefWidth="198.0" />
             <VBox prefHeight="300.0" prefWidth="198.0">
@@ -139,27 +136,6 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox fx:id="acctBtn" alignment="CENTER_LEFT" onMouseClicked="#goAccountStaff" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../../style_File/Dashboard.css">
-                     <children>
-                        <HBox prefHeight="38.0" prefWidth="19.0" />
-                        <ImageView fitHeight="22.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../icons/acctIcon.png" />
-                           </image>
-                        </ImageView>
-                        <HBox prefHeight="38.0" prefWidth="10.0" />
-                        <Label prefHeight="20.0" prefWidth="121.0" text="Accounts" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                        <ImageView fitHeight="13.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../icons/triangleIcon.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
                   <HBox fx:id="reportsBtn" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="198.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
                      <children>
                         <HBox prefHeight="38.0" prefWidth="19.0" />
@@ -194,66 +170,67 @@
                </children>
             </HBox>
          </children>
-         <styleClass>
-            <String fx:value="bgcolor-brown" />
-            <String fx:value="outlineRight" />
-         </styleClass>
       </VBox>
    </left>
    <center>
       <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane prefHeight="592.0" prefWidth="773.0">
+            <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
                <children>
-                  <AnchorPane layoutX="11.0" layoutY="61.0" prefHeight="519.0" prefWidth="750.0" styleClass="mainframe" stylesheets="@../../../../style_File/LoginSyle.css">
+                  <AnchorPane prefHeight="592.0" prefWidth="773.0">
                      <children>
-                        <TableView layoutX="7.0" layoutY="50.0" prefHeight="398.0" prefWidth="722.0" stylesheets="@../../../../style_File/Dashboard.css">
-                           <columns>
-                              <TableColumn prefWidth="185.0" text="Title" />
-                              <TableColumn prefWidth="118.0" text="Author" />
-                              <TableColumn prefWidth="145.0" text="Category" />
-                              <TableColumn prefWidth="126.0" text="ISBN" />
-                              <TableColumn minWidth="0.0" prefWidth="147.0" text="Qty" />
-                           </columns>
-                        </TableView>
-                        <ChoiceBox fx:id="reportbox" layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="121.0" />
-                        <Line endX="43.666656494140625" layoutX="83.0" layoutY="42.0" startX="-72.33332824707031" strokeWidth="3.0" />
-                        <Label layoutX="572.0" layoutY="473.0" prefHeight="21.0" prefWidth="124.0" text="Total Books:">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="660.0" layoutY="471.0" prefHeight="27.0" prefWidth="71.0" text="0">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <ChoiceBox layoutX="607.0" layoutY="10.0" prefHeight="25.0" prefWidth="121.0" />
-                        <Label layoutX="614.0" layoutY="13.0" prefHeight="20.0" prefWidth="85.0" text="A-Z">
+                        <AnchorPane layoutX="11.0" layoutY="61.0" prefHeight="519.0" prefWidth="750.0" styleClass="mainframe" stylesheets="@../../../../style_File/LoginSyle.css">
+                           <children>
+                              <TableView layoutX="11.0" layoutY="50.0" prefHeight="450.0" prefWidth="730.0" stylesheets="@../../../../style_File/Dashboard.css">
+                                 <columns>
+                                    <TableColumn prefWidth="185.0" text="Student ID" />
+                                    <TableColumn prefWidth="118.0" text="Book" />
+                                    <TableColumn prefWidth="145.0" text="Due Date" />
+                                    <TableColumn prefWidth="126.0" text="Status" />
+                                    <TableColumn minWidth="0.0" prefWidth="147.0" text="Penalty" />
+                                 </columns>
+                              </TableView>
+                              <ChoiceBox fx:id="reportbox" layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="121.0" />
+                              <Line endX="43.666656494140625" layoutX="83.0" layoutY="42.0" startX="-72.33332824707031" strokeWidth="3.0" />
+                              <ChoiceBox layoutX="607.0" layoutY="10.0" prefHeight="25.0" prefWidth="121.0" />
+                              <Label layoutX="614.0" layoutY="13.0" prefHeight="20.0" prefWidth="85.0" text="A-Z">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="551.0" layoutY="12.0" prefHeight="20.0" prefWidth="59.0" text="Sort by:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox layoutX="420.0" layoutY="11.0" prefHeight="25.0" prefWidth="121.0" />
+                              <Label layoutX="427.0" layoutY="14.0" prefHeight="20.0" prefWidth="85.0" text="Daily">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="379.0" layoutY="13.0" prefHeight="20.0" prefWidth="59.0" text="Filter:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER" layoutX="11.0" layoutY="12.0" prefHeight="20.0" prefWidth="90.0" text="Penalty">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <Label layoutX="34.0" layoutY="18.0" prefHeight="20.0" prefWidth="67.0" text="REPORTS" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="551.0" layoutY="12.0" prefHeight="20.0" prefWidth="59.0" text="Sort by:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="CENTER" layoutX="11.0" layoutY="12.0" prefHeight="20.0" prefWidth="90.0" text="Books">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
+                        <Line endX="43.0" layoutX="75.0" layoutY="42.0" startX="-42.0" stroke="WHITE" strokeWidth="3.0" />
                      </children>
                   </AnchorPane>
-                  <Label layoutX="34.0" layoutY="18.0" prefHeight="20.0" prefWidth="67.0" text="REPORTS" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Line endX="43.0" layoutX="75.0" layoutY="42.0" startX="-42.0" stroke="WHITE" strokeWidth="3.0" />
                </children>
-            </AnchorPane>
+            </VBox>
          </children></VBox>
    </center>
 </BorderPane>
