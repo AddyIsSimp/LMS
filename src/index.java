@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import Function.*;
 
 import java.io.IOException;
+import Function.globalVariable;
 public class index extends Application {
     @Override
     public void start(Stage stage) throws Exception {
@@ -50,6 +51,15 @@ public class index extends Application {
 
             //Copy the book in database
             globalVariable.bookList = globalVariable.dbFnc.retrieveBooksnOrder();
+            System.out.println("Book collected: " + globalVariable.bookList.getSize());
+            globalVariable.transactList = globalVariable.dbFnc.retrieveAllTransacts();
+            System.out.println("Transact made: " + globalVariable.transactList.size());
+            globalVariable.sortedStaffListASC = globalVariable.dbFnc.retrieveStaffAccount();
+            System.out.println("Staff number: " + globalVariable.sortedStaffListASC.size());
+            globalVariable.sortedStudentListASC = globalVariable.dbFnc.retrieveStudentAccount();
+            System.out.println("Student number: " +globalVariable.sortedStudentListASC.size());
+            globalVariable.categoryList = globalVariable.dbFnc.retrieveCategories();
+            System.out.println("Category number: " +globalVariable.categoryList.size());
         }catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("Indexing Error");

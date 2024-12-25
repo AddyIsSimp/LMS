@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
 import Function.*;
+import Function.globalVariable;
 
 public class brrowBooksController implements Initializable {
 
@@ -67,6 +68,7 @@ public class brrowBooksController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
+            studentLogin = globalVariable.loginStudent;
             // Load the library view
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(bkManageController.class.getResource("/stages/admin/library/libraryView.fxml"));
@@ -100,6 +102,13 @@ public class brrowBooksController implements Initializable {
     @FXML
     private void goBorrowBook(ActionEvent event) {
         try {
+            if (bkTitleField.getText() == null) {
+                Alert error = new Alert(Alert.AlertType.NONE, "No selected book", ButtonType.OK);
+                error.setTitle("Borrow Book");
+                error.show();
+                return;
+            }
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Borrow Book Request", ButtonType.NO, ButtonType.YES);
             alert.setTitle("Borrow Book");
             alert.setHeaderText("Confirm Borrow Book Request");
@@ -108,28 +117,17 @@ public class brrowBooksController implements Initializable {
                     "\n\nBook Info \nTitle:  " + bkTitleField.getText() +
                     "\nISBN:  " + bkISBNField.getText()
             );
-            alert.showAndWait();
-
-            conn = dbFunc.connectToDB();
-            int transactID = dbFunc.resetAutoIncrement(conn, "transact", "trans_id");
-            if (bkTitleField.getText() == null) {
-                Alert error = new Alert(Alert.AlertType.NONE, "No selected book", ButtonType.OK);
-                error.setTitle("Borrow Book");
-                error.showAndWait();
-                return;
-            }
-
-            String title = bkTitleField.getText();
-            String bookISBN = bkISBNField.getText();
-            int bkISBN = Integer.parseInt(bookISBN);
-            LocalDate return_date = LocalDate.now().plusDays(7);
-            java.sql.Date dateNow = fnc.convertToSqlDate(return_date);
 
             if (alert.showAndWait().get() == ButtonType.YES) {
-                Transact newTransact = new Transact(transactID, studentLogin.getSchoolID(), bkISBN, dateNow, "PENDING");
+                conn = dbFunc.connectToDB();
+                int transactID = dbFunc.resetAutoIncrement(conn, "transact", "trans_id");
 
-            } else {
-                alert.close();
+                String bktitle = bkTitleField.getText();
+                String bookISBN = bkISBNField.getText();
+
+                Transact newTransact = new Transact(transactID, bktitle, bookISBN, studentLogin.getSchoolID(), studentLogin.getlName(), "PENDING");
+                globalVariable.dbFnc.insertPendingTransact(newTransact);
+                globalVariable.transactList.add(newTransact);
             }
         }catch(Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);

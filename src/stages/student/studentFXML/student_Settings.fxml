@@ -28,7 +28,6 @@
             <Separator orientation="VERTICAL" prefHeight="68.0" prefWidth="0.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css" visible="false" />
             <HBox alignment="CENTER" prefHeight="68.0" prefWidth="281.0">
                <children>
-                  <Separator orientation="VERTICAL" prefHeight="200.0" />
                   <Label prefHeight="27.0" prefWidth="256.0" text="LIBRARY SYSTEM">
                      <font>
                         <Font name="System Bold" size="18.0" />
@@ -36,7 +35,6 @@
                   </Label>
                </children>
             </HBox>
-            <Separator orientation="VERTICAL" prefHeight="200.0" />
             <HBox prefHeight="68.0" prefWidth="317.0" />
             <HBox alignment="CENTER" prefHeight="68.0" prefWidth="300.0">
                <children>

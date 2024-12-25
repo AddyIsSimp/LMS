@@ -10,7 +10,11 @@ public class Student {
     private double penalty;
     private int schoolID;
 
-    public Student () {
+    public Student() {
+
+    }
+
+    public Student (int schoolID, String fName, String lName, String section, String email, String pass) {
         this.schoolID = schoolID;
         this.fName = fName;
         this.lName = lName;
@@ -20,7 +24,7 @@ public class Student {
         this.penalty = penalty;
     }
 
-    public Student (int studentID, String fName, String lName, String section, String email, String pass, double penalty) {
+    public Student (int schoolID, String fName, String lName, String section, String email, String pass, double penalty) {
         this.schoolID = schoolID;
         this.fName = fName;
         this.lName = lName;
@@ -28,7 +32,6 @@ public class Student {
         this.email = email;
         this.pass = pass;
         this.penalty = penalty;
-        this.studentID = studentID;
     }
 
 

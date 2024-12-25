@@ -70,7 +70,7 @@ public class inventoryInsertController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<Category> categories = globalVariable.dbFnc.retrieveCategories();
+        ArrayList<Category> categories = globalVariable.categoryList;
         if (categories != null && !categories.isEmpty()) {
             tfCategory.getItems().addAll(categories);
             tfCategory.setValue(categories.get(0)); // Optional: Set a default value

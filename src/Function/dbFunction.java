@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.UUID;
 
-import Entity.Book;
-import Entity.Category;
-import Entity.Student;
+import Entity.*;
 import LinkedList.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -72,7 +70,6 @@ public class dbFunction {
                 int id = rs.getInt("ctgry_id");
                 String ctgryName = rs.getString("ctgry_name");
                 categories.add(new Category(id, ctgryName));
-                System.out.println("Inserted category" + id + ", " + ctgryName);
             }
         }catch(SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
@@ -211,6 +208,7 @@ public class dbFunction {
                 alert.show();
                 return false;
             }
+
             String sqlDeleteBook = "DELETE FROM librarydb.book WHERE title = ? AND isbn = ?";
             pstmt = conn.prepareStatement(sqlDeleteBook);
             pstmt.setString(1, title);
@@ -248,7 +246,6 @@ public class dbFunction {
                 fos.write(imgBytes);
             }
 
-            System.out.println("Image saved as: " + imgName);
             return imgName; // Return the name of the image file
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
@@ -274,7 +271,6 @@ public class dbFunction {
                 alert.show();
                 return 0;
             }
-            staffId = resetAutoIncrement(conn, "student", "stud_id");
             String sqlInsertStudent = "INSERT INTO librarydb.student" +
                     "(school_id, fName, lName, section, email, password, penalty)" +
                     " VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -337,5 +333,183 @@ public class dbFunction {
         }
         return null;
     }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.setTitle(title);
+        alert.show();
+    }
+
+    public ArrayList<Transact> retrieveAllTransacts() {
+        ArrayList<Transact> finishTrans = new ArrayList<>();
+        int transId=0;
+        try {
+            conn = connectToDB();
+            if(conn==null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return null;
+            }
+            String sqlSortStaffDesc = "SELECT * FROM librarydb.transact";
+            PreparedStatement pstmt = conn.prepareStatement(sqlSortStaffDesc);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Transact trans = new Transact();
+                trans.setBorrowButton();
+                trans.setReturnButton();
+                trans.setTransID(rs.getInt("trans_id"));
+                trans.setBorrowerID(rs.getInt("stud_id"));
+                trans.setBorrowerName(rs.getString("stud_name"));
+                trans.setBkIsbn(rs.getString("book_isbn"));
+                trans.setBookTitle(rs.getString("book_title")); // Corrected setter name
+                trans.setBorrowDate(rs.getDate("borrow_date"));
+                trans.setStatus(rs.getString("status"));
+                trans.setPenalty(rs.getDouble("penalty"));
+                trans.setReturnDate(rs.getDate("return_date"));
+                finishTrans.add(trans);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Transact Finish Error", e.getMessage());
+        }
+        return finishTrans;
+    }
+
+    public ArrayList<Staff> retrieveStaffAccount() {
+        ArrayList<Staff> staffList = new ArrayList<>();
+        try {
+            conn = connectToDB();
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return null;
+            }
+            String sqlRetrieveStaff = "SELECT * FROM librarydb.staff WHERE staff_id != 1";
+            PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveStaff);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Staff staff = new Staff();
+                staff.setStaffId(rs.getInt("staff_id"));
+                staff.setfName(rs.getString("fName"));
+                staff.setlName(rs.getString("lName"));
+                staff.setEmail(rs.getString("email"));
+                staff.setUsername(rs.getString("staff_UN"));
+                staff.setPassword(rs.getString("password"));
+                staffList.add(staff);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Retrieve Staff Error", e.getMessage());
+        }
+        return staffList;
+    }
+
+    public boolean insertPendingTransact(Transact transact) {
+        try {
+            conn = connectToDB();
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return false;
+            }
+
+            String sqlInsertTransact = "INSERT INTO librarydb.transact (trans_id, stud_id, stud_name, book_title, book_isbn, status) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sqlInsertTransact);
+            pstmt.setInt(1, transact.getTransID());
+            pstmt.setInt(2, transact.getBorrowerID());
+            pstmt.setString(3, transact.getBorrowerName());
+            pstmt.setString(4, transact.getBookTitle());
+            pstmt.setString(5, transact.getBkIsbn());
+            pstmt.setString(6, "PENDING"); // Set the status to "PENDING"
+
+            pstmt.executeUpdate();
+            pstmt.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Insert Transact Error", e.getMessage());
+        }
+        return false;
+    }
+
+    public ArrayList<Student> retrieveStudentAccount() {
+        ArrayList<Student> studentList = new ArrayList<>();
+        try {
+            conn = connectToDB();
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return null;
+            }
+            String sqlRetrieveStudent = "SELECT * FROM librarydb.student";
+            PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveStudent);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Student student = new Student();
+                student.setSchoolID(rs.getInt("school_id"));
+                student.setfName(rs.getString("fName"));
+                student.setlName(rs.getString("lName"));
+                student.setSection(rs.getString("section"));
+                student.setEmail(rs.getString("email"));
+                student.setPass(rs.getString("password"));
+                student.setPenalty(rs.getDouble("penalty"));
+                studentList.add(student);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Retrieve Student Error", e.getMessage());
+        }
+        return studentList;
+    }
+
+    public boolean updateTransactStatus(Transact transact, String newStatus) {
+        try {
+            conn = connectToDB();
+
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return false;
+            }
+
+            String sql = "UPDATE librarydb.transact SET status = ?, borrow_date = ? WHERE trans_id = ?";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newStatus);
+            pstmt.setDate(2, globalVariable.fnc.getDateNow());
+            pstmt.setInt(3, transact.getTransID());
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                pstmt.close();
+                conn.close();
+                return true;
+            }
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Update Transaction Error", e.getMessage());
+        }
+
+        return false; // Return false if update was unsuccessful
+    }
+
 
 }

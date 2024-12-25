@@ -36,7 +36,7 @@ public class bkTransactController implements Initializable {
     @FXML
     private HBox acctBtn, bkManageBtn, borrowTransBtn, dashboardBtn, inventoryBtn, logoutBtn, reportsBtn;
 
-    //TABLE AND COLUMNS
+    // TABLE AND COLUMNS
     @FXML
     private TableView<Transact> brrwTransTblView;
     @FXML
@@ -44,56 +44,73 @@ public class bkTransactController implements Initializable {
     @FXML
     private TableColumn<Transact, String> isbnCol;
     @FXML
-    private TableColumn<Transact, String> studentIDCol;
+    private TableColumn<Transact, Integer> studentIDCol;
     @FXML
     private TableColumn<Transact, String> studentNameCol;
     @FXML
-    private TableColumn<Transact, String> acceptBtnCol;
+    private TableColumn<Transact, Button> acceptBtnCol;
     @FXML
-    private TableColumn<Transact, String> declineBtnCol;
+    private TableColumn<Transact, Button> declineBtnCol;
 
     @FXML
     private ChoiceBox<String> sortBy;
 
-    private String[] sortType = {"A-Z", "Z-A"};
+    private final String[] sortType = {"A-Z", "Z-A"};
+    private ObservableList<Transact> transacts = FXCollections.observableArrayList();
 
-    //INITIALIZE
+    // INITIALIZE
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
+            // Initialize ChoiceBox for sorting
             sortBy.getItems().addAll(sortType);
             sortBy.setValue(sortType[0]);
 
-            //SET BORROW TRANSACTION TABLE
-            titleCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("bookTitle"));
-            isbnCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("bkIsbn"));
-            studentIDCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("borrowerID"));
-            studentNameCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("borrowerName"));
-            acceptBtnCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("acceptBtn"));
-            declineBtnCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("declineBtn"));
+            // Set up TableView columns
+            titleCol.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
+            isbnCol.setCellValueFactory(new PropertyValueFactory<>("bkIsbn"));
+            studentIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
+            studentNameCol.setCellValueFactory(new PropertyValueFactory<>("borrowerName"));
+            acceptBtnCol.setCellValueFactory(new PropertyValueFactory<>("acceptBtn"));
+            declineBtnCol.setCellValueFactory(new PropertyValueFactory<>("declineBtn"));
 
-            //Get the data in the database
-            ObservableList<Transact> transacts = FXCollections.observableArrayList();
-//            conn = dbFnc.connectToDB();
-//            stmt = conn.createStatement();
+            // Load data into TableView
+            refreshTable();
 
-            //DBFUNCTION get the transact from db to here
-
-            //Sample data
-            transacts.add(new Transact(1, "Nano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-            transacts.add(new Transact(1, "Oano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-            transacts.add(new Transact(1, "Pano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-            transacts.add(new Transact(1, "Qano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-
-            brrwTransTblView.setItems(transacts);
-//        }catch(SQLException e) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-//            alert.show();
-        }catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            alert.setResizable(true);
-            alert.show();
+            // Add sorting functionality
+            sortBy.setOnAction(event -> sortTransactData());
+        } catch (Exception e) {
+            showErrorAlert("Initialization Error", e.getMessage());
         }
+    }
+
+    public void refreshTable() {
+        try {
+            if (globalVariable.transactList != null) {
+                transacts = fnc.retrievePendingTransact(globalVariable.transactList);
+                brrwTransTblView.setItems(transacts);
+            } else {
+                showErrorAlert("Data Error", "Transaction list is empty or not initialized.");
+            }
+        } catch (Exception e) {
+            showErrorAlert("Refresh Error", e.getMessage());
+        }
+    }
+
+    private void sortTransactData() {
+        if (sortBy.getValue().equals("A-Z")) {
+            transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
+        } else if (sortBy.getValue().equals("Z-A")) {
+            transacts.sort((t1, t2) -> t2.getBookTitle().compareToIgnoreCase(t1.getBookTitle()));
+        }
+        brrwTransTblView.refresh();
+    }
+
+    private void showErrorAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
 
