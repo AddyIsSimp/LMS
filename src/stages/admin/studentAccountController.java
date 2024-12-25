@@ -52,8 +52,8 @@ public class studentAccountController {
     }
 
     @FXML
-    private void goAccountStaff(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsAdd.fxml"));
+    private void goAcctStaff(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffs.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -113,19 +113,53 @@ public class studentAccountController {
     }
 
     //doInsert for Students
-    public void doInsert(ActionEvent actionEvent) {
+    public void doInsert(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsAdd.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
     //doModify for Students
-    public void doModify(ActionEvent actionEvent) {
+    public void doModify(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsModify.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+    //doModify for Students
+    public void doRemove(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsDelete.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
+    @FXML
+    private void returnAcctStudent(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudents.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 
-//    @FXML
-//    private void goAcctStudent(MouseEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_acctStudents.fxml"));
-//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
+    @FXML
+    private void doSearch(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void addStudent(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void editStudent(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void deleteStudent(ActionEvent event) {
+
+    }
 
 }
