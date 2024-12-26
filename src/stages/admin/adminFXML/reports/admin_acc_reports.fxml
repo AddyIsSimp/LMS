@@ -209,10 +209,10 @@
                      <children>
                         <TableView fx:id="accountsReportTab" layoutX="7.0" layoutY="50.0" prefHeight="400.0" prefWidth="722.0" stylesheets="@../../../../style_File/Dashboard.css">
                            <columns>
-                              <TableColumn fx:id="replastName" prefWidth="185.0" text="Last Name" />
-                              <TableColumn fx:id="repfirstName" prefWidth="176.0" text="First Name" />
-                              <TableColumn fx:id="repuserName" prefWidth="196.0" text="User" />
-                              <TableColumn fx:id="repemailName" prefWidth="164.0" text="Email" />
+                              <TableColumn fx:id="lastNameCol" prefWidth="185.0" text="Last Name" />
+                              <TableColumn fx:id="firstNameCol" prefWidth="176.0" text="First Name" />
+                              <TableColumn fx:id="userNameCol" prefWidth="196.0" text="User" />
+                              <TableColumn fx:id="emailCol" prefWidth="164.0" text="Email" />
                            </columns>
                         </TableView>
                         <ChoiceBox fx:id="reportbox" layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="121.0" />
@@ -228,11 +228,6 @@
                            </font>
                         </Label>
                         <ChoiceBox fx:id="sortBy" layoutX="607.0" layoutY="10.0" prefHeight="25.0" prefWidth="121.0" />
-                        <Label layoutX="614.0" layoutY="13.0" prefHeight="20.0" prefWidth="85.0">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
                         <Label layoutX="551.0" layoutY="12.0" prefHeight="20.0" prefWidth="59.0" text="Sort by:">
                            <font>
                               <Font name="System Bold" size="14.0" />
@@ -245,11 +240,6 @@
                         </Label>
                         <ChoiceBox fx:id="accUsers" layoutX="450.0" layoutY="10.0" prefHeight="25.0" prefWidth="92.0" />
                         <Label layoutX="400.0" layoutY="13.0" prefHeight="20.0" prefWidth="59.0" text="Users :">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="454.0" layoutY="13.0" prefHeight="20.0" prefWidth="85.0" text="Studets">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
