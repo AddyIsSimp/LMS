@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.admin.bkTransactReturnController">
+<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.admin.bkTransactHistoryController">
    <top>
       <HBox prefHeight="68.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
@@ -268,12 +268,12 @@
             </HBox>
             <TableView fx:id="brrwTransTblView" prefHeight="502.0" prefWidth="740.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
               <columns>
-                  <TableColumn fx:id="borrowDateCol" prefWidth="121.59997701644897" text="Borrow Date" />
-                <TableColumn fx:id="daysCol" minWidth="0.0" prefWidth="89.60002899169922" text="Days Left" />
-                <TableColumn fx:id="titleCol" prefWidth="185.5999755859375" text="Title" />
-                  <TableColumn fx:id="studentIDCol" prefWidth="122.40005493164062" text="Student ID" />
-                  <TableColumn fx:id="studentNameCol" prefWidth="171.20001220703125" text="Student Name" />
-                  <TableColumn fx:id="returnBtnCol" minWidth="5.0" prefWidth="78.4000244140625" text="Return" />
+                <TableColumn fx:id="titleCol" prefWidth="153.86660146713257" text="Book Title" />
+                  <TableColumn fx:id="isbnCol" minWidth="5.0" prefWidth="132.53335571289062" text="Book ISBN" />
+                  <TableColumn fx:id="studentIDCol" prefWidth="131.19992065429688" text="Student ID" />
+                  <TableColumn fx:id="studentNameCol" prefWidth="133.60006713867188" text="Student Name" />
+                  <TableColumn fx:id="borrowDateCol" prefWidth="106.933349609375" text="Borrow Date" />
+                  <TableColumn fx:id="returnDateCol" minWidth="5.0" prefWidth="111.46661376953125" text="Return Date" />
               </columns>
             </TableView>
          </children></VBox>

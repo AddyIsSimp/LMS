@@ -198,8 +198,7 @@ public class Transact {
     }
 
     public void setDayLeft() {
-        globalVariable.fnc.computeDayLeft(borrowDate);
-
+        this.dayLeft = globalVariable.fnc.computeDayLeft(borrowDate);
     }
 
     public Button getReturnBtn() {

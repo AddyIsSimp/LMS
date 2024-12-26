@@ -285,7 +285,7 @@ public class Function {
 
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(dateBorrow);
-        calendar.add(java.util.Calendar.DAY_OF_MONTH, 5); // Adding 5 days
+        calendar.add(java.util.Calendar.DAY_OF_MONTH, 7); // Adding 5 days
         Date dueDate = new Date(calendar.getTimeInMillis());
 
         long differenceInMillis = dueDate.getTime() - dateNow.getTime();
