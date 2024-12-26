@@ -75,7 +75,6 @@ public class brrowBooksController implements Initializable {
             VBox libraryView = fxmlLoader.load();
             libraryBox.getChildren().add(libraryView);
 
-            // Listen for changes in the selected book
             BookSelectionService.getInstance().selectedBookProperty().addListener((observable, oldBook, newBook) -> {
                 if (newBook != null) {
                     setBookData(newBook);

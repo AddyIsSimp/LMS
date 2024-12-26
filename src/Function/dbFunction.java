@@ -318,13 +318,10 @@ public class dbFunction {
                 String category = rs.getString("ctgry");
                 String ISBN = rs.getString("isbn");
                 int quantity = rs.getInt("quantity");
-                String imgID = rs.getString("imgID");
                 int borrowed = rs.getInt("borrowed");
 
-                Image bkImage = fnc.getImage(imgID);
-
                 // Create a new book object and add it to the list
-                Book book = new Book(title, author, category, bkImage, ISBN, quantity, borrowed);
+                Book book = new Book(title, author, category, ISBN, quantity, borrowed);
                 inventoryBook.add(book);
             }
             return inventoryBook;

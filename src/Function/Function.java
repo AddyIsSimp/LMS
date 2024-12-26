@@ -311,7 +311,7 @@ public class Function {
 
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(dateBorrow);
-        calendar.add(java.util.Calendar.DAY_OF_MONTH, 5); // Adding 5 days
+        calendar.add(java.util.Calendar.DAY_OF_MONTH, 7); // Adding 5 days
         Date dueDate = new Date(calendar.getTimeInMillis());
 
         long differenceInMillis = dueDate.getTime() - dateNow.getTime();
@@ -320,4 +320,41 @@ public class Function {
         return dayLeft;
     }
 
+<<<<<<< HEAD
+=======
+    public boolean checkISBN(DoublyLinkList bookList, String isbn) {    //Returns true if there no duplicate otherwise false
+        if(bookList.isEmpty()) return true;
+
+        Link current = bookList.getFirst();
+        while(current!=null) {
+            Book book = current.getElement();
+            if(book.getISBN().equals(isbn)) {
+                return false;
+            }
+            if(current.getNext()==null) return true;
+            current = current.getNext();
+        }
+
+        return true;
+    }
+
+    public boolean checkISBNExempt(DoublyLinkList bookList, String isbn, String exempt) {
+        //Revise this method that it will not checkISB
+        if(bookList.isEmpty()) return true;
+
+        Link current = bookList.getFirst();
+        while(current!=null) {
+            Book book = current.getElement();
+            if(book.getISBN().equals(exempt)==false && book.getISBN().equals(isbn)) {
+                return false;
+            }
+            if(current.getNext()==null) return true;
+            current = current.getNext();
+        }
+
+        return true;
+    }
+
+
+>>>>>>> a42b39a24607caf98d1fa792a0e7d29c068cb5ba
 }

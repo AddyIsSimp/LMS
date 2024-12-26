@@ -33,6 +33,15 @@ public class Book {
         this.imageSrc = imageSrc;
     }
 
+    public Book(String title, String author, String category, String isbn, int qty, int borrowed) {
+        this.title = title;
+        this.author = author;
+        this.category = category;
+        this.ISBN = isbn;
+        this.quantity = qty;
+        this.borrowed = borrowed;
+    }
+
     public Book(String title, String author, String category, Image imageSrc, String isbn, int qty) {
         this.title = title;
         this.author = author;
