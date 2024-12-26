@@ -11,6 +11,13 @@ public class Student {
     private int schoolID;
 
     public Student() {
+        this.schoolID = schoolID;
+        this.fName = fName;
+        this.lName = lName;
+        this.section = section;
+        this.email = email;
+        this.pass = pass;
+        this.penalty = penalty;
 
     }
 

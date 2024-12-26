@@ -78,6 +78,7 @@ public class dashboardController implements Initializable {
         // Initialize sort options
         studentCB.getItems().addAll(sortType);
         studentCB.setValue(sortType[0]);
+
         bookCB.getItems().addAll(sortType);
         bookCB.setValue(sortType[0]);
 
@@ -97,21 +98,12 @@ public class dashboardController implements Initializable {
         if (studentList != null) {
             retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
         } else {
-            showErrorAlert("Error", "Book list is empty or not initialized.");
+            showErrorAlert("Error", "Student list is empty or not initialized.");
         }
 
         if (bookList != null) {
             retrieveBooklist = fnc.retrieveBook(bookList);
         } else {
-            showErrorAlert("Error", "Book list is empty or not initialized.");
-        }
-
-        // Ensure data validity
-        if (studentList.isEmpty()) {
-            showErrorAlert("Error", "Student list is empty or not initialized.");
-        }
-
-        if (bookList.isEmpty()) {
             showErrorAlert("Error", "Book list is empty or not initialized.");
         }
 

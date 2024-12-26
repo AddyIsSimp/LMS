@@ -2,6 +2,7 @@ package stages.admin;
 
 
 
+import Entity.Student;
 import Entity.Transact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,6 +34,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import Function.globalVariable;
+
+import static Function.globalVariable.*;
 
 public class staffAccountController implements Initializable {
 
@@ -71,12 +74,12 @@ public class staffAccountController implements Initializable {
     @FXML private HBox borrowTransBtn;
 
     @FXML
-    private TableColumn<Staff, String> firstNameCol, lastNameCol, emailCol, staffIDCol;
+    private TableColumn<Staff, String> firstNameCol, lastNameCol, staffIDCol;
     @FXML
     private ChoiceBox<String> sortCB;
 
     private String[] sortType = {"A-Z", "Z-A"};
-    ObservableList<Staff> staffList = FXCollections.observableArrayList();
+    private ObservableList<Staff> retrieveStaff = FXCollections.observableArrayList();
 
     @Override
 
@@ -86,21 +89,18 @@ public class staffAccountController implements Initializable {
         sortCB.setValue(sortType[0]);
 
         // Set up TableView columns
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
         staffIDCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 
-        // Load data into TableView
-        ObservableList<Staff> staffList = FXCollections.observableArrayList(globalVariable.stafflist);
 
-        if (staffList.isEmpty()) {
+        if (staffList != null) {
+            retrieveStaff = fnc.retrieveStaff(globalVariable.sortedStaffListASC);
+        } else {
             showErrorAlert("Error", "Staff list is empty or not initialized.");
         }
 
-        staffTableView.setItems(staffList);
-
-        // Add sorting functionality
-        sortCB.setOnAction(event -> applySorting(staffList));
+        staffTableView.setItems(retrieveStaff);
     }
 
     private void applySorting(ObservableList<Staff> staffList) {
@@ -189,9 +189,9 @@ public class staffAccountController implements Initializable {
     }
 
     @FXML
-    private void goAcctStudent(MouseEvent event) throws IOException {
+    private void goAcctStudent(MouseEvent actionevent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudents.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }

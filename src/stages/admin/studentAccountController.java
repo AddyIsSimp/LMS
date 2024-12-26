@@ -79,11 +79,7 @@ public class studentAccountController implements Initializable {
         if (studentList != null) {
             retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
         } else {
-            showErrorAlert("Error", "Book list is empty or not initialized.");
-        }
-
-        if (studentList.isEmpty()) {
-            showErrorAlert("Error", "Student list is empty or not initialized.");
+            showErrorAlert("Error", "Staff list is empty or not initialized.");
         }
 
         studentTableView.setItems(retrieveStudentlist);
