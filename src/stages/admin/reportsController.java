@@ -1,25 +1,29 @@
 package stages.admin;
 
-import Entity.Category;
-import Function.globalVariable;
+
+import Entity.Staff;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javafx.scene.control.*;
+
+
+import Function.*;
 
 public class reportsController implements Initializable {
 
@@ -44,17 +48,40 @@ public class reportsController implements Initializable {
     @FXML
     private HBox reportsBtn;
 
-    @FXML
-    private ChoiceBox<String> reportbox;
 
     @FXML
     private Label reportname;
+
+    @FXML
+    private ChoiceBox<String> reportbox;
+
+    // TABLE AND COLUMNS
+    @FXML
+    private TableView<Staff> accountsReportTab;
+    @FXML
+    private TableColumn<Staff, String> replastName;
+    @FXML
+    private TableColumn<Staff, String> repfirstName;
+    @FXML
+    private TableColumn<Staff, String> repuserName;
+    @FXML
+    private TableColumn<Staff, String> repemailName;
+
+
+    @FXML
+    private ChoiceBox<String> sortBy;
+
+    private final String[] sortType = {"A-Z", "Z-A"};
+    private ObservableList<Staff> staffs = FXCollections.observableArrayList();
+
 
     // SWITCHING MENU
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+
+
             // Create a list of report options
             ArrayList<String> reportOptions = new ArrayList<>();
             reportOptions.add("Accounts");
