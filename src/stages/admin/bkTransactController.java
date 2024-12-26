@@ -21,6 +21,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Function.*;
@@ -67,6 +68,10 @@ public class bkTransactController implements Initializable {
             sortBy.getItems().addAll(sortType);
             sortBy.setValue(sortType[0]);
 
+            sortBy.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                sortTransactData(); // Call sorting method when the value changes
+            });
+
             // Set up TableView columns
             titleCol.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
             isbnCol.setCellValueFactory(new PropertyValueFactory<>("bkIsbn"));
@@ -75,11 +80,14 @@ public class bkTransactController implements Initializable {
             acceptBtnCol.setCellValueFactory(new PropertyValueFactory<>("acceptBtn"));
             declineBtnCol.setCellValueFactory(new PropertyValueFactory<>("declineBtn"));
 
-            // Load data into TableView
-            refreshTable();
+            if (globalVariable.transactList != null) {
+                transacts = fnc.retrievePendingTransact(globalVariable.transactList);
+            } else {
+                globalVariable.fnc.showAlert("Error", "Transaction list is empty or not initialized.");
+            }
 
-            // Add sorting functionality
-            sortBy.setOnAction(event -> sortTransactData());
+            transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
+            brrwTransTblView.setItems(transacts);
         } catch (Exception e) {
             showErrorAlert("Initialization Error", e.getMessage());
         }
@@ -98,20 +106,22 @@ public class bkTransactController implements Initializable {
         }
     }
 
-    private void sortTransactData() {
-        if (sortBy.getValue().equals("A-Z")) {
-            transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
-        } else if (sortBy.getValue().equals("Z-A")) {
-            transacts.sort((t1, t2) -> t2.getBookTitle().compareToIgnoreCase(t1.getBookTitle()));
-        }
-        brrwTransTblView.refresh();
-    }
-
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void sortTransactData() {
+        if (transacts != null && !transacts.isEmpty()) {
+            if (sortBy.getValue().equals("A-Z")) {
+                transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
+            } else if (sortBy.getValue().equals("Z-A")) {
+                transacts.sort((t1, t2) -> t2.getBookTitle().compareToIgnoreCase(t1.getBookTitle()));
+            }
+            brrwTransTblView.refresh();
+        }
     }
 
 
@@ -202,7 +212,5 @@ public class bkTransactController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
     }
-
-
 
 }

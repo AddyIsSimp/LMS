@@ -56,20 +56,25 @@ public class bkTransactHistoryController implements Initializable {
     @FXML
     private ChoiceBox<String> sortBy;
     private final String[] sortType = {"A-Z", "Z-A"};
+    private ObservableList<Transact> transacts = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sortBy.getItems().addAll(sortType);
         sortBy.setValue(sortType[0]);
 
+        sortBy.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            sortTransactData(); // Call sorting method when the value changes
+        });
+
         titleCol.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
         borrowDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
         studentIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
         studentNameCol.setCellValueFactory(new PropertyValueFactory<>("borrowerName"));
-        borrowDateCol.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+        returnDateCol.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         isbnCol.setCellValueFactory(new PropertyValueFactory<>("bkIsbn"));
 
-        ObservableList<Transact> transacts = FXCollections.observableArrayList();
+        transacts = FXCollections.observableArrayList();
 
         if (globalVariable.transactList != null) {
             transacts = fnc.retrieveFinishTransact(globalVariable.transactList);
@@ -77,8 +82,21 @@ public class bkTransactHistoryController implements Initializable {
             globalVariable.fnc.showAlert("Error", "Transaction list is empty or not initialized.");
         }
 
+        transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
         brrwTransTblView.setItems(transacts);
     }
+
+    private void sortTransactData() {
+        if (transacts != null && !transacts.isEmpty()) {
+            if (sortBy.getValue().equals("A-Z")) {
+                transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
+            } else if (sortBy.getValue().equals("Z-A")) {
+                transacts.sort((t1, t2) -> t2.getBookTitle().compareToIgnoreCase(t1.getBookTitle()));
+            }
+            brrwTransTblView.refresh();
+        }
+    }
+
 
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {
@@ -142,7 +160,7 @@ public class bkTransactHistoryController implements Initializable {
 
     @FXML
     private void goReports(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_reports.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/reports/admin_acc_reports.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

@@ -489,7 +489,7 @@
                <columns>
                   <TableColumn fx:id="firstNameCol" prefWidth="166.3999571800232" text="First Name" />
                   <TableColumn fx:id="lastNameCol" minWidth="0.0" prefWidth="176.79995727539062" text="Last Name" />
-                  <TableColumn fx:id="emailCol" prefWidth="158.40008544921875" text="Email" />
+                  <TableColumn fx:id="staffIDCol" prefWidth="158.40008544921875" text="Staff ID " />
                </columns>
             </TableView>
          </children></VBox>

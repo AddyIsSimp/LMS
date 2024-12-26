@@ -270,12 +270,11 @@ public class Function {
         return finishTransact;
     }
 
-    public String getName(String lName, String fName) {
-        if (fName == null || fName.isEmpty() || lName == null || lName.isEmpty()) {
-            return "";
-        }
-        char fInitial = fName.charAt(0);
-        return lName + " " + fInitial;
+    public String getUserId(String lName, int ID) {
+        String userID = null;
+        String formattedID = String.format("%03d", ID);
+        userID = lName + formattedID;
+        return userID;
     }
 
     public int computeDayLeft(java.sql.Date dateBorrow) {

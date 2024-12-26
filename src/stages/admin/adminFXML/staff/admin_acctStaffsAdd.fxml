@@ -291,38 +291,12 @@
                      <children>
                         <VBox prefHeight="54.0" prefWidth="267.0">
                            <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <VBox prefHeight="54.0" prefWidth="152.0">
-                                       <children>
-                                          <Label text="Staff ID">
-                                             <font>
-                                                <Font size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="titleField" prefHeight="30.0" prefWidth="124.0" stylesheets="@../../../../style_File/Dashboard.css">
-                                             <styleClass>
-                                                <String fx:value="bgcolor-white" />
-                                                <String fx:value="outlineAllGray" />
-                                             </styleClass>
-                                          </TextField>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                           </children>
-                           <padding>
-                              <Insets left="15.0" right="10.0" />
-                           </padding>
-                        </VBox>
-                        <VBox prefHeight="54.0" prefWidth="267.0">
-                           <children>
                               <Label text="First Name">
                                  <font>
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="titleField1" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                              <TextField fx:id="fNameField" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="bgcolor-white" />
                                     <String fx:value="outlineAllGray" />
@@ -340,7 +314,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="titleField11" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                              <TextField fx:id="lNameField" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="bgcolor-white" />
                                     <String fx:value="outlineAllGray" />
@@ -358,7 +332,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="titleField1111" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                              <TextField fx:id="passwordField" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="bgcolor-white" />
                                     <String fx:value="outlineAllGray" />
@@ -376,7 +350,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="titleField11111" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                              <TextField fx:id="confirmPassField" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="bgcolor-white" />
                                     <String fx:value="outlineAllGray" />
@@ -387,11 +361,51 @@
                               <Insets left="15.0" right="10.0" />
                            </padding>
                         </VBox>
+                        <VBox prefHeight="54.0" prefWidth="267.0">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox prefHeight="54.0" prefWidth="152.0">
+                                       <children>
+                                          <Label text="Staff ID">
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="IDField" editable="false" prefHeight="30.0" prefWidth="124.0" stylesheets="@../../../../style_File/Dashboard.css">
+                                             <styleClass>
+                                                <String fx:value="bgcolor-white" />
+                                                <String fx:value="outlineAllGray" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#generateID" prefHeight="30.0" prefWidth="79.0" stylesheets="@../../../../style_File/Dashboard.css" text="Generate" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets left="5.0" top="10.0" />
+                                             </VBox.margin>
+                                             <styleClass>
+                                                <String fx:value="bgcolor-brown" />
+                                                <String fx:value="roundEdge" />
+                                             </styleClass>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets left="15.0" right="10.0" />
+                           </padding>
+                        </VBox>
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" prefHeight="99.0" prefWidth="266.0">
+                  <Label fx:id="lblError" alignment="CENTER" prefHeight="18.0" prefWidth="268.0" textFill="RED" />
+                  <HBox alignment="TOP_CENTER" prefHeight="59.0" prefWidth="266.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#addStaff" prefHeight="44.0" prefWidth="127.0" stylesheets="@../../../../style_File/Dashboard.css" text="REGISTER" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#doAddStaff" prefHeight="44.0" prefWidth="127.0" stylesheets="@../../../../style_File/Dashboard.css" text="REGISTER" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
@@ -399,6 +413,9 @@
                               <String fx:value="bgcolor-darkbrown" />
                               <String fx:value="roundEdge" />
                            </styleClass>
+                           <HBox.margin>
+                              <Insets top="6.0" />
+                           </HBox.margin>
                         </Button>
                      </children>
                   </HBox>
@@ -449,7 +466,7 @@
                <columns>
                   <TableColumn fx:id="firstNameCol" prefWidth="166.3999571800232" text="First Name" />
                   <TableColumn fx:id="lastNameCol" minWidth="0.0" prefWidth="176.79995727539062" text="Last Name" />
-                  <TableColumn fx:id="emailCol" prefWidth="158.40008544921875" text="Email" />
+                  <TableColumn fx:id="staffIDCol" prefWidth="158.40008544921875" text="Staff ID" />
                </columns>
             </TableView>
          </children></VBox>
