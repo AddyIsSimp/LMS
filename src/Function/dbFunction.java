@@ -297,6 +297,39 @@ public class dbFunction {
         return staffId;
     }
 
+    public int insertStaffDB(Staff staff) {
+        int staffId = 0;
+        try{
+            conn = connectToDB();
+            if(conn==null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return 0;
+            }
+            String sqlInsertStudent = "INSERT INTO librarydb.staff" +
+                    "(fName, lName, staff_UN, password)" +
+                    " VALUES (?, ?, ?, ?)";
+            pstmt = conn.prepareStatement(sqlInsertStudent);
+            pstmt.setString(1, staff.getfName());
+            pstmt.setString(2, staff.getlName());
+            pstmt.setString(3, staff.getUsername());
+            pstmt.setString(4, staff.getPassword());
+
+            pstmt.execute();
+            return staffId+1;
+        }catch(SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Insert Student Error");
+            alert.show();
+        }catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Insert Student Error");
+            alert.show();
+        }
+        return staffId;
+    }
+
     public ObservableList<Book> inventoryBookView() {
         try {
             conn = connectToDB();
@@ -395,7 +428,6 @@ public class dbFunction {
                 staff.setStaffId(rs.getInt("staff_id"));
                 staff.setfName(rs.getString("fName"));
                 staff.setlName(rs.getString("lName"));
-                staff.setEmail(rs.getString("email"));
                 staff.setUsername(rs.getString("staff_UN"));
                 staff.setPassword(rs.getString("password"));
                 staffList.add(staff);

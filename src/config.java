@@ -107,7 +107,6 @@ public class config {
                     "staff_id INT NOT NULL AUTO_INCREMENT, " +
                     "fName VARCHAR(64) NOT NULL, " +
                     "lName VARCHAR(64) NOT NULL, " +
-                    "email VARCHAR(64) NOT NULL, " +
                     "staff_UN VARCHAR(64) NOT NULL," +
                     "password VARCHAR(64) NOT NULL, " +
                     "PRIMARY KEY(staff_id))";
@@ -145,7 +144,7 @@ public class config {
             }
 
             // Insert admin account
-            String sqlAddAdmin = "INSERT INTO staff(staff_id, fName, lName, email, staff_UN, password) VALUES (0, 'Admin', 'N/A', 'N/A', 'Admin123', 'admin@123')";
+            String sqlAddAdmin = "INSERT INTO staff(staff_id, fName, lName, staff_UN, password) VALUES (0, 'Admin', 'N/A', 'Admin123', 'admin@123')";
             stmt.executeUpdate(sqlAddAdmin);
             System.out.println("Admin successfully setup");
         } catch (SQLException e) {
