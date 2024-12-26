@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import Entity.Staff;
@@ -48,37 +49,29 @@ public class staffAccountController implements Initializable {
 
     @FXML
     private Label acctStudentBtn;
+    @FXML
+    private HBox inventoryBtn, logoutBtn, reportsBtn;
 
     @FXML
-    private HBox bkManageBtn;
+    private Label staffQty, studentQty;
+
 
     @FXML
-    private HBox borrowTransBtn;
-
+    private TextField IDField, confirmPassField, fNameField, lNameField,  passwordField;
     @FXML
-    private HBox dashboardBtn;
-
-    @FXML
-    private HBox inventoryBtn;
-
-    @FXML
-    private HBox logoutBtn;
-
-    @FXML
-    private HBox reportsBtn;
-
-    @FXML
-    private Label staffQty;
-    @FXML
-    private Label studentQty;
-
+    private Label lblError;
 
     @FXML
     private TableView<Staff> staffTableView;
 
     @FXML
-    private TableColumn<Staff, String> firstNameCol, lastNameCol, emailCol;
+    private HBox dashboardBtn;
+    @FXML
+    private HBox  bkManageBtn;
+    @FXML private HBox borrowTransBtn;
 
+    @FXML
+    private TableColumn<Staff, String> firstNameCol, lastNameCol, emailCol, staffIDCol;
     @FXML
     private ChoiceBox<String> sortCB;
 
@@ -95,7 +88,7 @@ public class staffAccountController implements Initializable {
         // Set up TableView columns
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        staffIDCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 
         // Load data into TableView
         ObservableList<Staff> staffList = FXCollections.observableArrayList(globalVariable.stafflist);
@@ -188,11 +181,6 @@ public class staffAccountController implements Initializable {
     }
 
     @FXML
-    private void goProfileAdmin(MouseEvent event) {
-
-    }
-
-    @FXML
     private void goReports(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/reports/admin_acc_reports.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -242,6 +230,67 @@ public class staffAccountController implements Initializable {
     @FXML
     private void doSearch(ActionEvent event) {
 
+    }
+
+    @FXML
+    private void generateID(ActionEvent event) {
+        try {
+            if (lNameField.getText() == null || lNameField.getText().trim().isEmpty()) {
+                lblError.setText("Last name is empty"); return;
+            }
+
+            conn = dbFnc.connectToDB();
+            int staffID = globalVariable.dbFnc.resetAutoIncrement(conn, "staff", "staff_id");
+            String staffIDTemp = fnc.getUserId(lNameField.getText(), staffID);
+            IDField.setText(staffIDTemp);
+        }catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Generate ID Error");
+            alert.show();
+        }
+    }
+
+    @FXML
+    private void doAddStaff(ActionEvent event) {
+        try{
+            if(fNameField.getText() == null || fNameField.getText().trim().isEmpty()) {
+                lblError.setText("First name is empty"); return;
+            }else if(lNameField.getText() == null || lNameField.getText().trim().isEmpty()) {
+                lblError.setText("Last name is empty"); return;
+            }else if(passwordField.getText() == null || passwordField.getText().trim().isEmpty()) {
+                lblError.setText("Password is empty"); return;
+            }else if(confirmPassField.getText() == null || confirmPassField.getText().trim().isEmpty()) {
+                lblError.setText("Confirm Password is empty");
+                return;
+            }else if(passwordField.getText().equals(confirmPassField.getText())==false) {
+                lblError.setText("Password does not match"); return;
+            } else if(IDField.getText() == null || IDField.getText().trim().isEmpty()) {
+                lblError.setText("Staff ID is empty"); return;
+            }
+
+            String fName = fNameField.getText();
+            String lName = lNameField.getText();
+            String password = passwordField.getText();
+            String staffID = IDField.getText();
+
+            Staff newStaff = new Staff(fName, lName, staffID, password);
+            dbFnc.insertStaffDB(newStaff);
+            globalVariable.sortedStaffListASC.add(newStaff);
+            Alert alert = new Alert(Alert.AlertType.NONE, "Staff Registered Successfully", ButtonType.OK);
+            alert.setTitle("Staff Register");
+            alert.show();
+
+            fNameField.setText(null);
+            lNameField.setText(null);
+            passwordField.setText(null);
+            confirmPassField.setText(null);
+            IDField.setText(null);
+            lblError.setText(null);
+        }catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Register Staff Error");
+            alert.show();
+        }
     }
 
 

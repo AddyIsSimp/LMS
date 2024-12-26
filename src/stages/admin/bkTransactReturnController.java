@@ -55,12 +55,18 @@ public class bkTransactReturnController implements Initializable {
     @FXML
     private ChoiceBox<String> sortBy;
     private final String[] sortType = {"A-Z", "Z-A"};
+    private ObservableList<Transact> transacts = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize sort options
+        // Initialize ChoiceBox for sorting
         sortBy.getItems().addAll(sortType);
         sortBy.setValue(sortType[0]);
+
+        sortBy.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            sortTransactData(); // Call sorting method when the value changes
+        });
 
         // Set up TableView columns
         titleCol.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
@@ -71,7 +77,7 @@ public class bkTransactReturnController implements Initializable {
         daysCol.setCellValueFactory(new PropertyValueFactory<>("dayLeft"));
 
         // Load data into TableView
-        ObservableList<Transact> transacts = FXCollections.observableArrayList();
+        transacts = FXCollections.observableArrayList();
 
         if (globalVariable.transactList != null) {
             transacts = fnc.retrieveOngoingTransact(globalVariable.transactList);
@@ -79,7 +85,19 @@ public class bkTransactReturnController implements Initializable {
             globalVariable.fnc.showAlert("Error", "Transaction list is empty or not initialized.");
         }
 
+        transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
         brrwTransTblView.setItems(transacts);
+    }
+
+    private void sortTransactData() {
+        if (transacts != null && !transacts.isEmpty()) {
+            if (sortBy.getValue().equals("A-Z")) {
+                transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
+            } else if (sortBy.getValue().equals("Z-A")) {
+                transacts.sort((t1, t2) -> t2.getBookTitle().compareToIgnoreCase(t1.getBookTitle()));
+            }
+            brrwTransTblView.refresh();
+        }
     }
 
 //SWITCHING MENU
@@ -146,7 +164,7 @@ public class bkTransactReturnController implements Initializable {
 
     @FXML
     private void goReports(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_reports.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/reports/admin_acc_reports.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
