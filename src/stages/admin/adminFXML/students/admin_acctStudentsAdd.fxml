@@ -460,7 +460,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <ChoiceBox prefHeight="26.0" prefWidth="69.0" stylesheets="@../../../../style_File/Dashboard.css" />
+                              <ChoiceBox fx:id="sortCB" prefHeight="26.0" prefWidth="69.0" stylesheets="@../../../../style_File/Dashboard.css" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
@@ -476,14 +476,14 @@
                   </HBox>
                </children>
             </HBox>
-            <TableView fx:id="brrwTransTblView1" prefHeight="554.0" prefWidth="505.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
+            <TableView fx:id="studentTableView" prefHeight="554.0" prefWidth="505.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
                <columns>
-                  <TableColumn fx:id="titleCol1" prefWidth="95.4667067527771" text="School ID" />
-                  <TableColumn fx:id="isbnCol1" minWidth="0.0" prefWidth="88.5333480834961" text="First Name" />
-                  <TableColumn fx:id="studentIDCol2" prefWidth="82.66659545898438" text="Last Name" />
-                  <TableColumn fx:id="studentIDCol1" prefWidth="73.59988403320312" text="Section" />
-                  <TableColumn fx:id="studentIDCol11" prefWidth="72.26678466796875" text="Email" />
-                  <TableColumn fx:id="studentIDCol13" prefWidth="93.86663818359375" text="Penalty" />
+                  <TableColumn fx:id="schoolIDCol" prefWidth="95.4667067527771" text="School ID" />
+                  <TableColumn fx:id="firstNameCol" minWidth="0.0" prefWidth="88.5333480834961" text="First Name" />
+                  <TableColumn fx:id="lastNameCol" prefWidth="82.66659545898438" text="Last Name" />
+                  <TableColumn fx:id="sectionCol" prefWidth="73.59988403320312" text="Section" />
+                  <TableColumn fx:id="emailCol" prefWidth="72.26678466796875" text="Email" />
+                  <TableColumn fx:id="penaltyCol" prefWidth="93.86663818359375" text="Penalty" />
                </columns>
             </TableView>
          </children></VBox>

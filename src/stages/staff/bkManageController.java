@@ -1,7 +1,6 @@
 package stages.staff;
 
 import Entity.Book;
-import Entity.Category;
 import LinkedList.DoublyLinkList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,10 +19,8 @@ import stages.admin.library.BookSelectionService;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import Function.*;
-import stages.admin.library.libraryController;
 
 public class bkManageController implements Initializable {
 
@@ -132,7 +129,7 @@ public class bkManageController implements Initializable {
 
     @FXML
     private void goBorrowTransact(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_brrowtrans.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/transact/staff_brrowtrans.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -172,7 +169,7 @@ public class bkManageController implements Initializable {
 
     @FXML
     private void goReports(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_reports.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/reports/staff_reports.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

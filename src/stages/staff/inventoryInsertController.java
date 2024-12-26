@@ -3,7 +3,6 @@ package stages.staff;
 import Entity.Book;
 import Entity.Category;
 import Function.globalVariable;
-import com.sun.glass.ui.Menu;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -129,7 +128,7 @@ public class inventoryInsertController implements Initializable {
 
     @FXML
     private void goBorrowTransact(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_brrowtrans.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/transact/staff_brrowtrans.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

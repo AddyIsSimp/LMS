@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.staff.bkTransactController">
+<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.staff.reportsController">
    <top>
-      <HBox prefHeight="68.0" prefWidth="970.0" styleClass="bgcolor-lightPink" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
+      <HBox prefHeight="68.0" prefWidth="970.0" styleClass="bgcolor-lightPink" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="68.0" prefWidth="60.0">
                <children>
                   <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/book.png" />
+                        <Image url="@../../../../icons/book.png" />
                      </image>
                   </ImageView>
                </children>
             </HBox>
-            <Separator orientation="VERTICAL" prefHeight="68.0" prefWidth="0.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css" visible="false" />
+            <Separator orientation="VERTICAL" prefHeight="68.0" prefWidth="0.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css" visible="false" />
             <HBox alignment="CENTER" prefHeight="68.0" prefWidth="281.0">
                <children>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -45,7 +50,7 @@
                   </Label>
                   <ImageView fx:id="adminProfileBtn" fitHeight="46.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/usericon.png" />
+                        <Image url="@../../../../icons/usericon.png" />
                      </image>
                   </ImageView>
                </children>
@@ -54,16 +59,16 @@
       </HBox>
    </top>
    <left>
-      <VBox alignment="CENTER" prefHeight="607.0" prefWidth="197.0" styleClass="bgcolor-brown" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="607.0" prefWidth="197.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="22.0" prefWidth="198.0" />
             <VBox prefHeight="300.0" prefWidth="198.0">
                <children>
-                  <HBox fx:id="dashboardBtn" alignment="CENTER" onMouseClicked="#goDashboard" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../style_File/Dashboard.css">
+                  <HBox fx:id="dashboardBtn" alignment="CENTER" onMouseClicked="#goDashboard" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../../style_File/Dashboard.css">
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/dashboard.png" />
+                              <Image url="@../../../../icons/dashboard.png" />
                            </image>
                         </ImageView>
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="118.0" text="LMS Dashboard" textFill="WHITE">
@@ -83,12 +88,12 @@
                         </Label>
                      </children>
                   </VBox>
-                  <HBox fx:id="bkManageBtn" alignment="CENTER_LEFT" onMouseClicked="#goManageBooks" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../style_File/Dashboard.css">
+                  <HBox fx:id="bkManageBtn" alignment="CENTER_LEFT" onMouseClicked="#goManageBooks" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../../style_File/Dashboard.css">
                      <children>
                         <HBox prefHeight="38.0" prefWidth="21.0" />
                         <ImageView fitHeight="20.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/bkIcon.png" />
+                              <Image url="@../../../../icons/bkIcon.png" />
                            </image>
                         </ImageView>
                         <HBox prefHeight="38.0" prefWidth="10.0" />
@@ -99,12 +104,12 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox fx:id="inventoryBtn" alignment="CENTER_LEFT" onMouseClicked="#goInventory" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../style_File/Dashboard.css">
+                  <HBox fx:id="inventoryBtn" alignment="CENTER_LEFT" onMouseClicked="#goInventory" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../../style_File/Dashboard.css">
                      <children>
                         <HBox prefHeight="38.0" prefWidth="19.0" />
                         <ImageView fitHeight="20.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/invIcon.png" />
+                              <Image url="@../../../../icons/invIcon.png" />
                            </image>
                         </ImageView>
                         <HBox prefHeight="38.0" prefWidth="10.0" />
@@ -115,12 +120,12 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox fx:id="borrowTransBtn" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="198.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css">
+                  <HBox fx:id="borrowTransBtn" alignment="CENTER_LEFT" onMouseClicked="#goBorrowTransact" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../../style_File/Dashboard.css">
                      <children>
                         <HBox prefHeight="38.0" prefWidth="19.0" />
                         <ImageView fitHeight="22.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/borrowTrIcon.png" />
+                              <Image url="@../../../../icons/borrowTrIcon.png" />
                            </image>
                         </ImageView>
                         <HBox prefHeight="38.0" prefWidth="10.0" />
@@ -131,12 +136,12 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox fx:id="reportsBtn" alignment="CENTER_LEFT" onMouseClicked="#goReports" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../style_File/Dashboard.css">
+                  <HBox fx:id="reportsBtn" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="198.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
                      <children>
                         <HBox prefHeight="38.0" prefWidth="19.0" />
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/reports.png" />
+                              <Image url="@../../../../icons/reports.png" />
                            </image>
                         </ImageView>
                         <HBox prefHeight="38.0" prefWidth="10.0" />
@@ -150,11 +155,11 @@
                </children>
             </VBox>
             <HBox prefHeight="226.0" prefWidth="198.0" />
-            <HBox fx:id="logoutBtn" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#goLogout" prefHeight="36.0" prefWidth="150.0" styleClass="logoutm-m" stylesheets="@../../../style_File/Dashboard.css">
+            <HBox fx:id="logoutBtn" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#goLogout" prefHeight="36.0" prefWidth="150.0" styleClass="logoutm-m" stylesheets="@../../../../style_File/Dashboard.css">
                <children>
                   <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/logoutIcon.png" />
+                        <Image url="@../../../../icons/logoutIcon.png" />
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" prefHeight="20.0" prefWidth="70.0" text="Logout" textFill="WHITE">
@@ -167,10 +172,53 @@
          </children>
       </VBox>
    </left>
-   <right>
-      <VBox prefHeight="607.0" prefWidth="268.0" styleClass="bgcolor-white" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER" />
-   </right>
    <center>
-      <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
+               <children>
+                  <AnchorPane prefHeight="592.0" prefWidth="773.0">
+                     <children>
+                        <AnchorPane layoutX="11.0" layoutY="61.0" prefHeight="519.0" prefWidth="750.0" styleClass="mainframe" stylesheets="@../../../../style_File/LoginSyle.css">
+                           <children>
+                              <TableView layoutX="11.0" layoutY="50.0" prefHeight="450.0" prefWidth="730.0" stylesheets="@../../../../style_File/Dashboard.css">
+                                 <columns>
+                                    <TableColumn prefWidth="208.0" text="Borrower ID" />
+                                    <TableColumn prefWidth="160.0" text="Book" />
+                                    <TableColumn prefWidth="154.0" text="Transact Date" />
+                                    <TableColumn prefWidth="199.0" text="Penalty" />
+                                 </columns>
+                              </TableView>
+                              <ChoiceBox fx:id="reportbox" layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="121.0" />
+                              <Line endX="43.666656494140625" layoutX="83.0" layoutY="42.0" startX="-72.33332824707031" strokeWidth="3.0" />
+                              <ChoiceBox layoutX="607.0" layoutY="10.0" prefHeight="25.0" prefWidth="121.0" />
+                              <Label layoutX="614.0" layoutY="13.0" prefHeight="20.0" prefWidth="85.0" text="Daily">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="566.0" layoutY="12.0" prefHeight="20.0" prefWidth="59.0" text="Filter:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER" layoutX="11.0" layoutY="12.0" prefHeight="20.0" prefWidth="90.0" text="Transaction">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <Label layoutX="34.0" layoutY="18.0" prefHeight="20.0" prefWidth="67.0" text="REPORTS" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Line endX="43.0" layoutX="75.0" layoutY="42.0" startX="-42.0" stroke="WHITE" strokeWidth="3.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </children></VBox>
    </center>
 </BorderPane>

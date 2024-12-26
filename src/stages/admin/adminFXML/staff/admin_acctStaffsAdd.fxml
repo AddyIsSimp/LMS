@@ -429,7 +429,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <ChoiceBox prefHeight="26.0" prefWidth="69.0" stylesheets="@../../../../style_File/Dashboard.css" />
+                              <ChoiceBox fx:id="sortCB" prefHeight="26.0" prefWidth="69.0" stylesheets="@../../../../style_File/Dashboard.css" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
@@ -445,11 +445,11 @@
                   </HBox>
                </children>
             </HBox>
-            <TableView fx:id="brrwTransTblView" prefHeight="554.0" prefWidth="505.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
+            <TableView fx:id="staffTableView" prefHeight="554.0" prefWidth="505.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
                <columns>
-                  <TableColumn fx:id="titleCol" prefWidth="166.3999571800232" text="First Name" />
-                  <TableColumn fx:id="isbnCol" minWidth="0.0" prefWidth="176.79995727539062" text="Last Name" />
-                  <TableColumn fx:id="studentIDCol" prefWidth="158.40008544921875" text="Email" />
+                  <TableColumn fx:id="firstNameCol" prefWidth="166.3999571800232" text="First Name" />
+                  <TableColumn fx:id="lastNameCol" minWidth="0.0" prefWidth="176.79995727539062" text="Last Name" />
+                  <TableColumn fx:id="emailCol" prefWidth="158.40008544921875" text="Email" />
                </columns>
             </TableView>
          </children></VBox>
