@@ -59,33 +59,17 @@
    <left>
       <VBox alignment="CENTER" prefHeight="607.0" prefWidth="197.0" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="22.0" prefWidth="198.0" />
+            <VBox prefHeight="27.0" prefWidth="195.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="90.0" text="Features" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
             <VBox prefHeight="300.0" prefWidth="198.0">
                <children>
-                  <HBox fx:id="dashboardBtn" alignment="CENTER" onMouseClicked="#goDashboard" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../style_File/Dashboard.css">
-                     <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../icons/dashboard.png" />
-                           </image>
-                        </ImageView>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="118.0" text=" Dashboard" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <VBox prefHeight="51.0" prefWidth="198.0">
-                     <children>
-                        <VBox prefHeight="23.0" prefWidth="198.0" />
-                        <Label alignment="CENTER" prefHeight="20.0" prefWidth="90.0" text="Features" textFill="WHITE">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
                   <HBox fx:id="bkManageBtn" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="198.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css">
                      <children>
                         <HBox prefHeight="38.0" prefWidth="21.0" />

@@ -205,7 +205,7 @@
             <Insets left="30.0" top="35.0" />
          </padding>
          <children>
-            <HBox prefHeight="119.0" prefWidth="748.0" spacing="50.0">
+            <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="120.0" prefWidth="700.0" spacing="50.0">
                <children>
                   <VBox prefHeight="119.0" prefWidth="150.0" stylesheets="@../../../style_File/Dashboard.css">
                      <styleClass>
@@ -302,7 +302,7 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox prefHeight="426.0" prefWidth="733.0" spacing="15.0">
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="730.0" spacing="15.0">
                <padding>
                   <Insets top="20.0" />
                </padding>
@@ -321,17 +321,18 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <ChoiceBox minHeight="-Infinity" prefHeight="23.0" prefWidth="57.0" />
+                              <ChoiceBox fx:id="studentCB" minHeight="-Infinity" prefHeight="23.0" prefWidth="57.0" />
                            </children>
                            <padding>
                               <Insets left="8.0" />
                            </padding>
                         </HBox>
-                        <TableView prefHeight="378.0" prefWidth="354.0" stylesheets="@../../../style_File/Dashboard.css">
+                        <TableView fx:id="studentAccTableView" prefHeight="378.0" prefWidth="354.0" stylesheets="@../../../style_File/Dashboard.css">
                           <columns>
-                            <TableColumn editable="false" prefWidth="86.3999816775322" text="Student ID" />
-                            <TableColumn prefWidth="171.9999771118164" text="Name" />
-                              <TableColumn minWidth="8.79998779296875" prefWidth="95.20001220703125" text="Course" />
+                            <TableColumn fx:id="studentIDCol" editable="false" prefWidth="86.3999816775322" text="Student ID" />
+                            <TableColumn fx:id="firstNameCol" text="First Name" />
+                              <TableColumn fx:id="lastNameCol" minWidth="8.79998779296875" prefWidth="92.79998779296875" text="Last Name" />
+                              <TableColumn fx:id="sectionCol" prefWidth="94.39996337890625" text="Section" />
                           </columns>
                         </TableView>
                      </children>
@@ -340,7 +341,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="30.0" prefWidth="354.0" styleClass="bgcolor-brown" stylesheets="@../../../style_File/Dashboard.css">
                            <children>
-                              <Label prefHeight="20.0" prefWidth="230.0" text="Staff Account" textFill="WHITE">
+                              <Label prefHeight="20.0" prefWidth="230.0" text="Book Details" textFill="WHITE">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -350,17 +351,18 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <ChoiceBox minHeight="-Infinity" prefHeight="23.0" prefWidth="57.0" />
+                              <ChoiceBox fx:id="bookCB" minHeight="-Infinity" prefHeight="23.0" prefWidth="57.0" />
                            </children>
                            <padding>
                               <Insets left="8.0" />
                            </padding>
                         </HBox>
-                        <TableView prefHeight="378.0" prefWidth="354.0" stylesheets="@../../../style_File/Dashboard.css">
+                        <TableView fx:id="bookDetailsTableView" prefHeight="378.0" prefWidth="354.0" stylesheets="@../../../style_File/Dashboard.css">
                            <columns>
-                              <TableColumn editable="false" prefWidth="182.3999878168106" text="Title" />
-                              <TableColumn prefWidth="88.800048828125" text="ISBN" />
-                              <TableColumn minWidth="8.79998779296875" prefWidth="84.7999267578125" text="Quantity" />
+                              <TableColumn fx:id="isbnCol" editable="false" prefWidth="97.59997713565826" text="ISBN" />
+                              <TableColumn fx:id="titleCol" prefWidth="90.40001678466797" text="Title" />
+                              <TableColumn fx:id="authorCol" minWidth="8.79998779296875" prefWidth="88.0001220703125" text="Author" />
+                              <TableColumn fx:id="qtyCol" minWidth="8.79998779296875" prefWidth="80.7999267578125" text="Quantity" />
                            </columns>
                         </TableView>
                      </children>

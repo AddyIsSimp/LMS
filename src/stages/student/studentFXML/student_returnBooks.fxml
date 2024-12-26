@@ -62,26 +62,10 @@
    <left>
       <VBox alignment="CENTER" prefHeight="607.0" prefWidth="197.0" styleClass="bgcolor-brown" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="22.0" prefWidth="198.0" />
-            <VBox prefHeight="300.0" prefWidth="198.0">
+            <VBox alignment="CENTER" prefHeight="607.0" prefWidth="197.0" stylesheets="@../../../style_File/Dashboard.css">
                <children>
-                  <HBox fx:id="dashboardBtn" alignment="CENTER" onMouseClicked="#goDashboard" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../style_File/Dashboard.css">
+                  <VBox prefHeight="27.0" prefWidth="195.0">
                      <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../icons/dashboard.png" />
-                           </image>
-                        </ImageView>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="118.0" text=" Dashboard" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <VBox prefHeight="51.0" prefWidth="198.0">
-                     <children>
-                        <VBox prefHeight="23.0" prefWidth="198.0" />
                         <Label alignment="CENTER" prefHeight="20.0" prefWidth="90.0" text="Features" textFill="WHITE">
                            <font>
                               <Font size="14.0" />
@@ -89,32 +73,51 @@
                         </Label>
                      </children>
                   </VBox>
-                  <HBox fx:id="brrowBooks" alignment="CENTER_LEFT" onMouseClicked="#gobrrowBooks" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../style_File/Dashboard.css">
+                  <VBox prefHeight="300.0" prefWidth="198.0">
                      <children>
-                        <HBox prefHeight="38.0" prefWidth="21.0" />
-                        <ImageView fitHeight="20.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../icons/bkIcon.png" />
-                           </image>
-                        </ImageView>
-                        <HBox prefHeight="38.0" prefWidth="10.0" />
-                        <Label prefHeight="20.0" prefWidth="113.0" text="View Library" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
+                        <HBox fx:id="bkManageBtn" alignment="CENTER_LEFT" onMouseClicked="#gobrrowBooks" prefHeight="38.0" prefWidth="198.0" styleClass="mouse-moved" stylesheets="@../../../style_File/Dashboard.css">
+                           <children>
+                              <HBox prefHeight="38.0" prefWidth="21.0" />
+                              <ImageView fitHeight="20.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/bkIcon.png" />
+                                 </image>
+                              </ImageView>
+                              <HBox prefHeight="38.0" prefWidth="10.0" />
+                              <Label prefHeight="20.0" prefWidth="113.0" text="View Library" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="inventoryBtn" alignment="CENTER_LEFT" onMouseClicked="#gortnBooks" prefHeight="38.0" prefWidth="198.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css">
+                           <children>
+                              <HBox prefHeight="38.0" prefWidth="19.0" />
+                              <ImageView fitHeight="20.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/invIcon.png" />
+                                 </image>
+                              </ImageView>
+                              <HBox prefHeight="38.0" prefWidth="10.0" />
+                              <Label prefHeight="20.0" prefWidth="113.0" text="Borrowed Book" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
-                  <HBox fx:id="rtnBooks" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="198.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css">
+                  </VBox>
+                  <HBox prefHeight="226.0" prefWidth="198.0" />
+                  <HBox fx:id="logoutBtn" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#goLogout" prefHeight="36.0" prefWidth="150.0" styleClass="logoutm-m" stylesheets="@../../../style_File/Dashboard.css">
                      <children>
-                        <HBox prefHeight="38.0" prefWidth="19.0" />
-                        <ImageView fitHeight="20.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/invIcon.png" />
+                              <Image url="@../../../icons/logoutIcon.png" />
                            </image>
                         </ImageView>
-                        <HBox prefHeight="38.0" prefWidth="10.0" />
-                        <Label prefHeight="20.0" prefWidth="113.0" text="Borrowed Book" textFill="WHITE">
+                        <Label alignment="CENTER" prefHeight="20.0" prefWidth="70.0" text="Logout" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -122,22 +125,11 @@
                      </children>
                   </HBox>
                </children>
+               <styleClass>
+                  <String fx:value="bgcolor-brown" />
+                  <String fx:value="outlineRight" />
+               </styleClass>
             </VBox>
-            <HBox prefHeight="226.0" prefWidth="198.0" />
-            <HBox fx:id="logoutBtn" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#goLogout" prefHeight="36.0" prefWidth="150.0" styleClass="logoutm-m" stylesheets="@../../../style_File/Dashboard.css">
-               <children>
-                  <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../icons/logoutIcon.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="70.0" text="Logout" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
          </children>
       </VBox>
    </left>

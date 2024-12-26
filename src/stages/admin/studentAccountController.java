@@ -94,7 +94,7 @@ public class studentAccountController implements Initializable {
         } else {
             globalVariable.sortedStaffListDESC.clear();
             staffList.sorted((s1, s2) -> s2.getfName().compareToIgnoreCase(s1.getfName()))
-                    .forEach(globalVariable.sortedStudentListASC::add);
+                    .forEach(globalVariable.sortedStudentListDESC::add);
             studentTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStudentListDESC));
         }
     }

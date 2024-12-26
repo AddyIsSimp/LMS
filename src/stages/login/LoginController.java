@@ -322,7 +322,7 @@ public class LoginController {
 
                 loginStudent = fnc.getStudentWithName(globalVariable.sortedStudentListASC, school_id);
 
-                Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_dashboard.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_borrowBooks.fxml"));
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();

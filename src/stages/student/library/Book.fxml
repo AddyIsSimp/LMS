@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#bookSelected" prefHeight="125.0" prefWidth="35.0" styleClass="hoverBorderGray" stylesheets="@../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.admin.library.BookController">
+   <children>
+      <VBox fx:id="box" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="126.0" prefWidth="35.0" styleClass="transparent" stylesheets="@../../../style_File/Dashboard.css">
+         <children>
+            <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="118.0" prefWidth="35.0" stylesheets="@../../../style_File/Dashboard.css">
+               <children>
+                  <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="125.0" prefWidth="35.0">
+                     <children>
+                        <VBox fx:id="imageContainer" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="125.0" prefWidth="35.0">
+                           <children>
+                              <ImageView fx:id="bookImage" fitHeight="126.0" fitWidth="35.0" pickOnBounds="true" styleClass="bkImage">
+                                 <effect>
+                                    <ColorAdjust brightness="-0.36" contrast="0.02" />
+                                 </effect>
+                              </ImageView>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="119.0" prefWidth="35.0">
+                           <children>
+                              <Label fx:id="bookTitle" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="120.0" rotate="90.0" stylesheets="@../../../style_File/Dashboard.css" text="The Call of the Wild" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="10.0" />
+                                 </font></Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>

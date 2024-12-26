@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 public class globalVariable {
 
-    public static Staff stafflist;
-    public static Student studentList;
     Date globalDate = fnc.getDateNow();
 
     //GLOBAL
@@ -20,11 +18,12 @@ public class globalVariable {
     public static dbFunction dbFnc = new dbFunction();
     public static ArrayList<Transact> transactList = new ArrayList<Transact>();;
     public static ArrayList<Category> categoryList = new ArrayList<Category>();
-    public static ArrayList<Staff> staffArrayList = new ArrayList<Staff>();
 
     //LIBRARY
     public static Group cabinets = new Group();
     public static DoublyLinkList bookList = new DoublyLinkList();
+    public static DoublyLinkList studentList = new DoublyLinkList();
+    public static DoublyLinkList staffList = new DoublyLinkList();
 
     //ADMIN
     public static ArrayList<Staff> sortedStaffListASC = new ArrayList<>();

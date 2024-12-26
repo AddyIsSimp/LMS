@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritablePixelFormat;
 
+import static Function.globalVariable.bookList;
 import static Function.globalVariable.fnc;
 
 public class Function {
@@ -248,6 +249,31 @@ public class Function {
         return pendingTransact;
     }
 
+    public ObservableList<Student> retrieveStudent(ArrayList<Student> studentList) {
+        ObservableList<Student> studentAcc = FXCollections.observableArrayList();
+        if(studentList.isEmpty()) return null;
+        Link current = bookList.getFirst();
+        while (current != null) {
+            Book book = current.getElement();
+            bookList.add(book);
+            current = current.getNext();
+        }
+        return studentAcc;
+    }
+
+    public ObservableList<Book> retrieveBook(DoublyLinkList bookList) {
+        ObservableList<Book> bookListObv = FXCollections.observableArrayList();
+        if(bookList.isEmpty()) return null;
+
+        Link current = bookList.getFirst();
+        while (current != null) {
+            Book book = current.getElement();
+            bookListObv.add(book);
+            current = current.getNext();
+        }
+        return bookListObv;
+    }
+
     public ObservableList<Transact> retrieveOngoingTransact(ArrayList<Transact> transactsList) {
         ObservableList<Transact> ongoingTransact = FXCollections.observableArrayList();
         for (Transact transact : transactsList) {
@@ -293,6 +319,5 @@ public class Function {
 
         return dayLeft;
     }
-
 
 }

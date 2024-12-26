@@ -1,15 +1,19 @@
 package stages.admin;
 
+import Entity.Book;
+import Entity.Student;
+import Entity.Transact;
 import LinkedList.DoublyLinkList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -19,7 +23,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import Function.*;
 
-import static Function.globalVariable.sortedStaffListASC;
+import static Function.globalVariable.bookList;
+import static Function.globalVariable.studentList;
 
 public class dashboardController implements Initializable {
 
@@ -47,16 +52,81 @@ public class dashboardController implements Initializable {
     @FXML
     private Label bookQty;
 
-    Function fnc = new Function();
+    @FXML
+    private TableView<Student> studentAccTableView;
 
-    //INITIALIZE
+    @FXML
+    private TableView<Book> bookDetailsTableView;
+
+    @FXML
+    private TableColumn<Student, String> studentIDCol, firstNameCol, lastNameCol, sectionCol;
+
+    @FXML
+    private TableColumn<DoublyLinkList, String> isbnCol, titleCol, authorCol, qtyCol;
+
+    @FXML
+    private ChoiceBox<String> studentCB, bookCB;
+
+    private final String[] sortType = {"A-Z", "Z-A"};
+    private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
+    private ObservableList<Book> retrieveBooklist = FXCollections.observableArrayList();
+
+    private final Function fnc = new Function();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DoublyLinkList books = globalVariable.bookList;
-        bookQty.setText(Integer.toString(fnc.countBkQuantity(books)));
-        //sortedStaffListASC =
-        //sortedStudentListASC =
+        // Initialize sort options
+        studentCB.getItems().addAll(sortType);
+        studentCB.setValue(sortType[0]);
+        bookCB.getItems().addAll(sortType);
+        bookCB.setValue(sortType[0]);
+
+        // Set up TableView columns for Students
+        studentIDCol.setCellValueFactory(new PropertyValueFactory<>("studentID"));
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
+        sectionCol.setCellValueFactory(new PropertyValueFactory<>("section"));
+
+        // Set up TableView columns for Books
+        isbnCol.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
+        qtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        // Load data into TableViews
+        if (studentList != null) {
+            retrieveStudentlist = fnc.retrieveStudent(studentList);
+        } else {
+            showErrorAlert("Error", "Book list is empty or not initialized.");
+        }
+
+        if (bookList != null) {
+            retrieveBooklist = fnc.retrieveBook(bookList);
+        } else {
+            showErrorAlert("Error", "Book list is empty or not initialized.");
+        }
+
+        // Ensure data validity
+        if (studentList.isEmpty()) {
+            showErrorAlert("Error", "Student list is empty or not initialized.");
+        }
+
+        if (retrieveBooklist.isEmpty()) {
+            showErrorAlert("Error", "Book list is empty or not initialized.");
+        }
+
+        studentAccTableView.setItems(retrieveStudentlist);
+        bookDetailsTableView.setItems(retrieveBooklist);
     }
+
+
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 
     //SWAP MENU
     @FXML
