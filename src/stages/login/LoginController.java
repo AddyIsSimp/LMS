@@ -320,7 +320,12 @@ public class LoginController {
                 String pass = rs.getString("password");
                 Double penalty = rs.getDouble("penalty");
 
-                loginStudent = fnc.getStudentWithName(globalVariable.sortedStudentListASC, school_id);
+                globalVariable.loginStudent = fnc.getStudentWithName(globalVariable.sortedStudentListASC, school_id);
+                if(loginStudent==null) {
+                    Alert alert = new Alert(Alert.AlertType.NONE, "Student data not retrieve", ButtonType.OK);
+                    alert.setTitle("Login Failed");
+                    alert.show();
+                }
 
                 Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_dashboard.fxml"));
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -391,7 +396,9 @@ public class LoginController {
 
         Student newStudent = new Student(studentID, fName, lName, section, email, pass);
         studentID = dbFunc.insertStudentDB(newStudent);
+
         if (studentID != 0) {
+            globalVariable.sortedStudentListASC.add(newStudent);
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Student registered successfully");
             alert.setTitle("Student Registration");
             alert.showAndWait();

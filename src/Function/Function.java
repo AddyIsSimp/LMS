@@ -294,5 +294,38 @@ public class Function {
         return dayLeft;
     }
 
+    public boolean checkISBN(DoublyLinkList bookList, String isbn) {    //Returns true if there no duplicate otherwise false
+        if(bookList.isEmpty()) return true;
+
+        Link current = bookList.getFirst();
+        while(current!=null) {
+            Book book = current.getElement();
+            if(book.getISBN().equals(isbn)) {
+                return false;
+            }
+            if(current.getNext()==null) return true;
+            current = current.getNext();
+        }
+
+        return true;
+    }
+
+    public boolean checkISBNExempt(DoublyLinkList bookList, String isbn, String exempt) {
+        //Revise this method that it will not checkISB
+        if(bookList.isEmpty()) return true;
+
+        Link current = bookList.getFirst();
+        while(current!=null) {
+            Book book = current.getElement();
+            if(book.getISBN().equals(exempt)==false && book.getISBN().equals(isbn)) {
+                return false;
+            }
+            if(current.getNext()==null) return true;
+            current = current.getNext();
+        }
+
+        return true;
+    }
+
 
 }

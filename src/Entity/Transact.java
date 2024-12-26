@@ -62,16 +62,32 @@ public class Transact {
     public void setReturnButton() {
         returnBtn = new Button("Return");
         returnBtn.setOnAction(event -> {
+            String contentText = null;
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Book Request", ButtonType.NO, ButtonType.YES);
             alert.setTitle("Return Book");
             alert.setHeaderText("Accept Return Request");
-            alert.setContentText("Borrower Info\nBorrower ID:  " + borrowerID +
-                    "\nBorrower Name:  " + borrowerName +
-                    "\n\nBook Info \nTitle:  " + bookTitle +
-                    "\nISBN:  " + bkIsbn
-            );
+
+            if(dayLeft<0) {
+                contentText = "Borrower Info\nBorrower ID:  " + borrowerID +
+                        "\nBorrower Name:  " + borrowerName +
+                        "\n\nBook Info \nTitle:  " + bookTitle +
+                        "\nISBN:  " + bkIsbn +
+                        "PENALTY: " + Math.abs(dayLeft) + "(day) x "
+
+                ;
+
+            }else {
+                contentText = "Borrower Info\nBorrower ID:  " + borrowerID +
+                        "\nBorrower Name:  " + borrowerName +
+                        "\n\nBook Info \nTitle:  " + bookTitle +
+                        "\nISBN:  " + bkIsbn;
+            }
+
+            alert.setContentText(contentText);
 
             if(alert.showAndWait().get() == ButtonType.YES) {
+                this.returnDate = globalVariable.fnc.getDateNow();
                 this.status = "FINISH";
             }else {
                 alert.close();
@@ -193,7 +209,7 @@ public class Transact {
     }
 
     public int getDayLeft() {
-        setDayLeft();
+        this.dayLeft = globalVariable.fnc.computeDayLeft(borrowDate);
         return dayLeft;
     }
 
@@ -208,4 +224,5 @@ public class Transact {
     public void setReturnBtn(Button returnBtn) {
         this.returnBtn = returnBtn;
     }
+
 }

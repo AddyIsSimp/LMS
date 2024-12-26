@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -20,9 +19,6 @@
                         <VBox fx:id="imageContainer" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="125.0" prefWidth="35.0">
                            <children>
                               <ImageView fx:id="bookImage" fitHeight="126.0" fitWidth="35.0" pickOnBounds="true" styleClass="bkImage">
-                                 <image>
-                                    <Image url="@../../../../../../../Downloads/call_Book.png" />
-                                 </image>
                                  <effect>
                                     <ColorAdjust brightness="-0.36" contrast="0.02" />
                                  </effect>

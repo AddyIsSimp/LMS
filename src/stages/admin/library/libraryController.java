@@ -348,19 +348,4 @@ public class libraryController implements Initializable {
             alert.showAndWait();
         }
     }
-
-//    private void handleChoice(Category category) {
-//        if (category.getName().equals("All")) {
-//            DoublyLinkList bookList = globalVariable.bookList;
-//            if (libraryCtrl != null) {
-//                libraryCtrl.initializeLibraryView(bookList);
-//
-//        } else {
-//            DoublyLinkList categoryList = globalVariable.fnc.selectCategoryBooks(category);
-//            if (libraryCtrl != null) {
-//                libraryCtrl.initializeLibraryView(categoryList);
-//            }
-//        }
-//    }
-
 }

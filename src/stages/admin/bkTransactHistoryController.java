@@ -3,9 +3,9 @@ package stages.admin;
 import Entity.Transact;
 import Function.Function;
 import Function.dbFunction;
+import Function.globalVariable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,8 +25,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-import Function.globalVariable;
-public class bkTransactReturnController implements Initializable {
+
+public class bkTransactHistoryController implements Initializable {
 
     Connection conn;
     Statement stmt;
@@ -37,14 +37,15 @@ public class bkTransactReturnController implements Initializable {
 
     @FXML
     private HBox acctBtn, bkManageBtn, borrowTransBtn, dashboardBtn, inventoryBtn, logoutBtn, reportsBtn;
+
     @FXML
     private TableView<Transact> brrwTransTblView;
     @FXML
     private TableColumn<Transact, Date> borrowDateCol;
     @FXML
-    private TableColumn<Transact, Integer> daysCol;
+    private TableColumn<Transact, String> isbnCol;
     @FXML
-    private TableColumn<Transact, Button> returnBtnCol;
+    private TableColumn<Transact, Date> returnDateCol;
     @FXML
     private TableColumn<Transact, Integer> studentIDCol;
     @FXML
@@ -58,31 +59,26 @@ public class bkTransactReturnController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialize sort options
         sortBy.getItems().addAll(sortType);
         sortBy.setValue(sortType[0]);
 
-        // Set up TableView columns
         titleCol.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
         borrowDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
         studentIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
         studentNameCol.setCellValueFactory(new PropertyValueFactory<>("borrowerName"));
-        returnBtnCol.setCellValueFactory(new PropertyValueFactory<>("returnBtn"));
-        daysCol.setCellValueFactory(new PropertyValueFactory<>("dayLeft"));
+        borrowDateCol.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+        isbnCol.setCellValueFactory(new PropertyValueFactory<>("bkIsbn"));
 
-        // Load data into TableView
         ObservableList<Transact> transacts = FXCollections.observableArrayList();
 
         if (globalVariable.transactList != null) {
-            transacts = fnc.retrieveOngoingTransact(globalVariable.transactList);
+            transacts = fnc.retrieveFinishTransact(globalVariable.transactList);
         } else {
             globalVariable.fnc.showAlert("Error", "Transaction list is empty or not initialized.");
         }
 
         brrwTransTblView.setItems(transacts);
     }
-
-//SWITCHING MENU
 
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {
@@ -153,8 +149,15 @@ public class bkTransactReturnController implements Initializable {
     }
 
     @FXML
-    private void goTransactHistory(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/transact/admin_transactHistory.fxml"));
+    private void goReturnTransact(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/transact/admin_transactReturn.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+    @FXML
+    private void goBrrwTransact(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/transact/admin_transact.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

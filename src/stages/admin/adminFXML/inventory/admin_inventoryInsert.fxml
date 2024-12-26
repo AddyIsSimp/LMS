@@ -388,7 +388,7 @@
             <Label fx:id="lblError" alignment="CENTER" prefHeight="18.0" prefWidth="266.0" textFill="RED" />
             <HBox alignment="CENTER" prefHeight="52.0" prefWidth="267.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#createBook" prefHeight="44.0" prefWidth="127.0" stylesheets="@../../../../style_File/Dashboard.css" text="CREATE" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#createBook" prefHeight="44.0" prefWidth="127.0" stylesheets="@../../../../style_File/Dashboard.css" text="ADD" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>

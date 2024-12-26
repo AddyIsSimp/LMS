@@ -207,17 +207,17 @@ public class inventoryInsertController implements Initializable {
     private void createBook(ActionEvent event) {
         if(newImage==null) {
             lblError.setText("No image selected");  return;
-        }else if(tfTitle.getText()==null) {
+        }else if(tfTitle.getText()==null || tfTitle.getText().trim().isEmpty()) {
             lblError.setText("Title is blank");  return;
-        }else if(tfAuthor.getText()==null) {
+        }else if(tfAuthor.getText()==null || tfAuthor.getText().trim().isEmpty()) {
             lblError.setText("Author is blank"); return;
-        }else if(tfISBN.getText()==null) {
+        }else if(tfISBN.getText()==null || tfISBN.getText().trim().isEmpty()) {
             lblError.setText("ISBN is blank");return;
-        }else if(fnc.digitChecker(tfISBN.getText())==false) {
+        }else if(fnc.digitChecker(tfISBN.getText())==false || tfISBN.getText().trim().isEmpty()) {
             lblError.setText("ISBN should be all digits"); return;
         }else if(tfCategory.getSelectionModel()==null) {
             lblError.setText("No category selected"); return;
-        }else if(tfQuantity.getText()==null) {
+        }else if(tfQuantity.getText()==null || tfQuantity.getText().trim().isEmpty()) {
             lblError.setText("Quantity is blank"); return;
         }else if(fnc.digitChecker(tfQuantity.getText()) == false) {
             lblError.setText("Quantity should be digits"); return;
