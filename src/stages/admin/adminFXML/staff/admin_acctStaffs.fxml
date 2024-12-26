@@ -277,7 +277,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="staffQty" alignment="CENTER" prefHeight="64.0" prefWidth="84.0" stylesheets="@../../../../style_File/Dashboard.css" text="6" textFill="WHITE">
+                                    <Label fx:id="staffQty" alignment="CENTER" prefHeight="64.0" prefWidth="84.0" stylesheets="@../../../../style_File/Dashboard.css" text="0" textFill="WHITE">
                                        <font>
                                           <Font size="36.0" />
                                        </font>

@@ -87,7 +87,6 @@ public class staffAccountController implements Initializable {
 
     @Override
 
-
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize sort options
         sortCB.getItems().addAll(sortType);

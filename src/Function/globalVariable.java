@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class globalVariable {
 
     public static Staff stafflist;
+    public static Student studentList;
     Date globalDate = fnc.getDateNow();
 
     //GLOBAL
