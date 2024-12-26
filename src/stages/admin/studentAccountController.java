@@ -1,5 +1,6 @@
 package stages.admin;
 
+import Entity.Book;
 import Entity.Student;
 import Function.globalVariable;
 import javafx.collections.FXCollections;
@@ -20,6 +21,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static Function.globalVariable.*;
 
 public class studentAccountController implements Initializable {
 
@@ -57,7 +60,8 @@ public class studentAccountController implements Initializable {
     private ChoiceBox<String> sortCB;
 
     private String[] sortType = {"A-Z", "Z-A"};
-    ObservableList<Student> studentList = FXCollections.observableArrayList();
+    private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
+    private ObservableList<Book> retrieveBooklist = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,36 +71,22 @@ public class studentAccountController implements Initializable {
 
         // Set up TableView columns
         schoolIDCol.setCellValueFactory(new PropertyValueFactory<>("schoolID"));
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("section"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-        // Load data into TableView
-        ObservableList<Student> studentList = FXCollections.observableArrayList(globalVariable.studentList);
+        if (studentList != null) {
+            retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
+        } else {
+            showErrorAlert("Error", "Book list is empty or not initialized.");
+        }
 
         if (studentList.isEmpty()) {
-            showErrorAlert("Error", "Staff list is empty or not initialized.");
+            showErrorAlert("Error", "Student list is empty or not initialized.");
         }
 
-        studentTableView.setItems(studentList);
-
-        // Add sorting functionality
-        sortCB.setOnAction(event -> applySorting(studentList));
-    }
-
-    private void applySorting(ObservableList<Student> staffList) {
-        if (sortCB.getValue().equals("A-Z")) {
-            globalVariable.sortedStudentListASC.clear();
-            staffList.sorted((s1, s2) -> s1.getfName().compareToIgnoreCase(s2.getfName()))
-                    .forEach(globalVariable.sortedStudentListASC::add);
-            studentTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStudentListASC));
-        } else {
-            globalVariable.sortedStaffListDESC.clear();
-            staffList.sorted((s1, s2) -> s2.getfName().compareToIgnoreCase(s1.getfName()))
-                    .forEach(globalVariable.sortedStudentListDESC::add);
-            studentTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStudentListDESC));
-        }
+        studentTableView.setItems(retrieveStudentlist);
     }
 
     private void showErrorAlert(String title, String message) {
@@ -105,8 +95,6 @@ public class studentAccountController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
 
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {

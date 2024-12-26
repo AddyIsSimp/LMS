@@ -1,8 +1,6 @@
 package stages.admin;
 
 
-
-import Entity.Transact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,14 +22,14 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import Entity.Staff;
-import Entity.Transact;
 import Function.Function;
 import Function.dbFunction;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import Function.globalVariable;
+
+import static Function.globalVariable.staffList;
+
 
 public class staffAccountController implements Initializable {
 
@@ -83,8 +81,7 @@ public class staffAccountController implements Initializable {
     private ChoiceBox<String> sortCB;
 
     private String[] sortType = {"A-Z", "Z-A"};
-    ObservableList<Staff> staffList = FXCollections.observableArrayList();
-
+    private ObservableList<Staff> retrieveStafflist = FXCollections.observableArrayList();
     @Override
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -93,36 +90,26 @@ public class staffAccountController implements Initializable {
         sortCB.setValue(sortType[0]);
 
         // Set up TableView columns
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         // Load data into TableView
-        ObservableList<Staff> staffList = FXCollections.observableArrayList(globalVariable.stafflist);
 
+        if (staffList != null) {
+            retrieveStafflist = fnc.retrieveStaff(globalVariable.sortedStaffListASC);
+        } else {
+            showErrorAlert("Error", "Book list is empty or not initialized.");
+        }
         if (staffList.isEmpty()) {
             showErrorAlert("Error", "Staff list is empty or not initialized.");
         }
 
-        staffTableView.setItems(staffList);
+        staffTableView.setItems(retrieveStafflist);
 
-        // Add sorting functionality
-        sortCB.setOnAction(event -> applySorting(staffList));
+        // Add sorting functionali
     }
 
-    private void applySorting(ObservableList<Staff> staffList) {
-        if (sortCB.getValue().equals("A-Z")) {
-            globalVariable.sortedStaffListASC.clear();
-            staffList.sorted((s1, s2) -> s1.getfName().compareToIgnoreCase(s2.getfName()))
-                    .forEach(globalVariable.sortedStaffListASC::add);
-            staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListASC));
-        } else {
-            globalVariable.sortedStaffListDESC.clear();
-            staffList.sorted((s1, s2) -> s2.getfName().compareToIgnoreCase(s1.getfName()))
-                    .forEach(globalVariable.sortedStaffListDESC::add);
-            staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListDESC));
-        }
-    }
 
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

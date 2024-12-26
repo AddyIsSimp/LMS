@@ -251,15 +251,20 @@ public class Function {
 
     public ObservableList<Student> retrieveStudent(ArrayList<Student> studentList) {
         ObservableList<Student> studentAcc = FXCollections.observableArrayList();
-        if(studentList.isEmpty()) return null;
-        Link current = bookList.getFirst();
-        while (current != null) {
-            Book book = current.getElement();
-            bookList.add(book);
-            current = current.getNext();
+        for (Student student : studentList) {
+            studentAcc.add(student);
         }
         return studentAcc;
     }
+
+    public ObservableList<Staff> retrieveStaff(ArrayList<Staff> staffList) {
+        ObservableList<Staff> StaffAcc = FXCollections.observableArrayList();
+        for (Staff staff : staffList) {
+            StaffAcc.add(staff);
+        }
+        return StaffAcc;
+    }
+
 
     public ObservableList<Book> retrieveBook(DoublyLinkList bookList) {
         ObservableList<Book> bookListObv = FXCollections.observableArrayList();
@@ -320,8 +325,6 @@ public class Function {
         return dayLeft;
     }
 
-<<<<<<< HEAD
-=======
     public boolean checkISBN(DoublyLinkList bookList, String isbn) {    //Returns true if there no duplicate otherwise false
         if(bookList.isEmpty()) return true;
 
@@ -356,5 +359,4 @@ public class Function {
     }
 
 
->>>>>>> a42b39a24607caf98d1fa792a0e7d29c068cb5ba
 }

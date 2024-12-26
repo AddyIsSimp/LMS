@@ -71,7 +71,7 @@ public class dashboardController implements Initializable {
     private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
     private ObservableList<Book> retrieveBooklist = FXCollections.observableArrayList();
 
-    private final Function fnc = new Function();
+    private Function fnc = new Function();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -95,7 +95,7 @@ public class dashboardController implements Initializable {
 
         // Load data into TableViews
         if (studentList != null) {
-            retrieveStudentlist = fnc.retrieveStudent(studentList);
+            retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
         } else {
             showErrorAlert("Error", "Book list is empty or not initialized.");
         }
@@ -111,7 +111,7 @@ public class dashboardController implements Initializable {
             showErrorAlert("Error", "Student list is empty or not initialized.");
         }
 
-        if (retrieveBooklist.isEmpty()) {
+        if (bookList.isEmpty()) {
             showErrorAlert("Error", "Book list is empty or not initialized.");
         }
 
