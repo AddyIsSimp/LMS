@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static Function.globalVariable.fnc;
-import static Function.globalVariable.studentList;
+import static Function.globalVariable.sortedStudentListASC;
 
 public class dashboardController implements Initializable {
 
@@ -49,7 +49,6 @@ public class dashboardController implements Initializable {
 
     @FXML
     private TableView<Student> studentTableView;
-
     @FXML
     private TableColumn<Student, String> schoolIDCol,firstNameCol, lastNameCol, sectionCol, emailCol, penaltyCol;
 
@@ -58,27 +57,21 @@ public class dashboardController implements Initializable {
 
     private String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialize sort options
+        //Initialize sort options
         sortCB.getItems().addAll(sortType);
         sortCB.setValue(sortType[0]);
 
-        // Set up TableView columns
+        //Set up TableView columns
         schoolIDCol.setCellValueFactory(new PropertyValueFactory<>("schoolID"));
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
         lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("section"));
-        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-        if (studentList != null) {
-            retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
-        } else {
+        retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
+        if(retrieveStudentlist.isEmpty()) {
             showErrorAlert("Error", "Book list is empty or not initialized.");
-        }
-
-        if (studentList.isEmpty()) {
-            showErrorAlert("Error", "Student list is empty or not initialized.");
         }
 
         studentTableView.setItems(retrieveStudentlist);
@@ -90,9 +83,6 @@ public class dashboardController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
-
 
     @FXML
     private void goBorrowTransact(MouseEvent event) throws IOException {
@@ -140,6 +130,4 @@ public class dashboardController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
     }
-
-
 }

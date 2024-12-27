@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 import Function.*;
 
 import java.io.IOException;
+import java.sql.Connection;
+
 import Function.globalVariable;
 public class index extends Application {
     @Override
@@ -48,6 +50,14 @@ public class index extends Application {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
+
+            Connection conn = globalVariable.dbFnc.connectToDB();
+            if(conn==null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return;
+            }
 
             //Copy the book in database
             globalVariable.bookList = globalVariable.dbFnc.retrieveBooksnOrder();

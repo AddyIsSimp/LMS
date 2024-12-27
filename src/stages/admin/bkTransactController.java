@@ -184,11 +184,6 @@ public class bkTransactController implements Initializable {
     }
 
     @FXML
-    private void goProfileAdmin(MouseEvent event) {
-
-    }
-
-    @FXML
     private void goReports(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/reports/admin_acc_reports.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -13,6 +13,7 @@ import javax.swing.event.DocumentEvent;
 import java.awt.*;
 import java.sql.Date;
 import Function.*;
+import Function.globalVariable;
 
 import Function.globalVariable;
 public class Transact {
@@ -36,7 +37,6 @@ public class Transact {
 
     //for Pending transact
     public Transact(int transID, String title, String ISBN, int borrowerID, String borrowerName, String status) {
-        setDayLeft();
         setBorrowButton();
         setReturnButton();
         this.transID = transID;
@@ -69,12 +69,12 @@ public class Transact {
             alert.setHeaderText("Accept Return Request");
 
             if(dayLeft<0) {
+                int numDay = Math.abs(dayLeft);
                 contentText = "Borrower Info\nBorrower ID:  " + borrowerID +
                         "\nBorrower Name:  " + borrowerName +
                         "\n\nBook Info \nTitle:  " + bookTitle +
                         "\nISBN:  " + bkIsbn +
-                        "PENALTY: " + Math.abs(dayLeft) + "(day) x "
-
+                        "\n\nPENALTY: " + numDay + "(day)  x  Php5 = " + (numDay*5) + "Php"
                 ;
 
             }else {
@@ -107,9 +107,17 @@ public class Transact {
                     "\nISBN:  " + bkIsbn
                     );
             if(alert.showAndWait().get() == ButtonType.YES) {
-                this.status = "ONGOING";
-                this.borrowDate = globalVariable.fnc.getDateNow();
-                globalVariable.dbFnc.updateTransactStatus(this, "ONGOING");
+                Book brrwBook = globalVariable.fnc.getBook(globalVariable.bookList, bkIsbn);
+                if(brrwBook==null) {
+                    brrwBook.setQuantity(brrwBook.getQuantity()-1);
+                    brrwBook.setBorrowed(brrwBook.getBorrowed()+1);
+                    setDayLeft();
+                    this.status = "ONGOING";
+                    this.borrowDate = globalVariable.fnc.getDateNow();
+                    globalVariable.dbFnc.updateTransactStatus(this, "ONGOING");
+                }else{
+                    globalVariable.fnc.showAlert("Borrow Book Error", "Book not found in the list");
+                }
             }else {
                 alert.close();
             }

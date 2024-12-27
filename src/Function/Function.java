@@ -308,6 +308,11 @@ public class Function {
         return userID;
     }
 
+    public Book getBook(DoublyLinkList list, String isbn) {
+        Book bkFind = list.findISBN(isbn);
+        return bkFind;
+    }
+
     public int computeDayLeft(java.sql.Date dateBorrow) {
         int dayLeft;
 

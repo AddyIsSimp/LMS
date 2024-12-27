@@ -203,7 +203,7 @@ public class LoginController {
                 return;
             }
 
-            String sqlFindStaff = "SELECT * FROM staff WHERE staff_UN = ? AND password = ?";
+            String sqlFindStaff = "SELECT * FROM staff WHERE staff_UN = ? AND password = ? AND staff_id != 1";
             pstmt = conn.prepareStatement(sqlFindStaff);
             pstmt.setString(1, id);
             pstmt.setString(2, password);
@@ -221,9 +221,13 @@ public class LoginController {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Login Fail");
+            alert.show();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Login Fail");
+            alert.show();
         }
     }
 
@@ -248,7 +252,6 @@ public class LoginController {
             pstmt.setString(2, password);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                //INSERT THE STAFF MENU HERE
                 Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_dashboard.fxml"));
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
