@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -272,7 +273,6 @@ public class studentAccountController implements Initializable {
 
         if (studentID != 0) {
             sortedStudentListASC.add(newStudent);
-            studentTableView.refresh();
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Student registered successfully");
             alert.setTitle("Student Registration");
             alert.showAndWait();

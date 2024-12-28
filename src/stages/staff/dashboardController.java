@@ -70,16 +70,15 @@ public class dashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //For student sort Funciton
+        // For student sort Function
         studentSortCB.getItems().addAll(sortType);
         studentSortCB.setValue(sortType[0]);
 
-        //For book sort Function
+        // For book sort Function
         bookSortCB.getItems().addAll(sortType);
         bookSortCB.setValue(sortType[0]);
 
-
-        //Set total quantity
+        // Set total quantity
         bookQty.setText(Integer.toString(globalVariable.fnc.countBkQuantity(bookList)));
         studentQty.setText(Integer.toString(globalVariable.sortedStudentListASC.size()));
 
@@ -104,11 +103,29 @@ public class dashboardController implements Initializable {
             showErrorAlert("Error", "Book list is empty or not initialized.");
         }
 
-
-
         studentTableView.setItems(StudentList);
         bookTableView.setItems(BookList);
+
+        // Add sorting functionality to ChoiceBox
+        studentSortCB.setOnAction(e -> {
+            String sortOption = studentSortCB.getValue();
+            if ("A-Z".equals(sortOption)) {
+                StudentList.sort((s1, s2) -> s1.getFullName().compareToIgnoreCase(s2.getFullName()));
+            } else if ("Z-A".equals(sortOption)) {
+                StudentList.sort((s1, s2) -> s2.getFullName().compareToIgnoreCase(s1.getFullName()));
+            }
+        });
+
+        bookSortCB.setOnAction(e -> {
+            String sortOption = bookSortCB.getValue();
+            if ("A-Z".equals(sortOption)) {
+                BookList.sort((b1, b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle()));
+            } else if ("Z-A".equals(sortOption)) {
+                BookList.sort((b1, b2) -> b2.getTitle().compareToIgnoreCase(b1.getTitle()));
+            }
+        });
     }
+
 
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
