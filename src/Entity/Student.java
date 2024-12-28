@@ -4,7 +4,7 @@ import static Function.globalVariable.fnc;
 
 public class Student {
     private int studentID;
-    private int fullName;
+    private String fullName;
     private String fName;
     private String lName;
     private String section;
@@ -31,7 +31,7 @@ public class Student {
         this.email = email;
         this.pass = pass;
         this.penalty = penalty;
-        fnc.getFullName(fName, lName);
+        this.fullName = fnc.getFullName(fName, lName);
     }
 
     public Student (int schoolID, String fName, String lName, String section, String email, String pass, double penalty) {
@@ -42,7 +42,7 @@ public class Student {
         this.email = email;
         this.pass = pass;
         this.penalty = penalty;
-        fnc.getFullName(fName, lName);
+        this.fullName = fnc.getFullName(fName, lName);
     }
 
 
@@ -111,12 +111,12 @@ public class Student {
     }
 
 
-    public int getFullName() {
-        if(fName!=null && lName!=null ) fnc.getFullName(fName, lName);
+    public String getFullName() {
+        if(fName!=null && lName!=null ) this.fullName = fnc.getFullName(fName, lName);
         return fullName;
     }
 
-    public void setFullName(int fullName) {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 }

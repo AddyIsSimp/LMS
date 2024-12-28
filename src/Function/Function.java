@@ -249,6 +249,16 @@ public class Function {
         return pendingTransact;
     }
 
+    public ObservableList<Transact> retrieveStudentTransact(ArrayList<Transact> transactsList, int studentID) {
+        ObservableList<Transact> studentTransact = FXCollections.observableArrayList();
+        for (Transact transact : transactsList) {
+            if (transact.getBorrowerID()==studentID) {
+                studentTransact.add(transact);
+            }
+        }
+        return studentTransact;
+    }
+
     public ObservableList<Student> retrieveStudent(ArrayList<Student> studentList) {
         ObservableList<Student> studentAcc = FXCollections.observableArrayList();
         for (Student student : studentList) {
@@ -314,20 +324,23 @@ public class Function {
     }
 
     public int computeDayLeft(java.sql.Date dateBorrow) {
+        if (dateBorrow == null) {
+            throw new IllegalArgumentException("dateBorrow must not be null");
+        }
         int dayLeft;
-
         Date dateNow = fnc.getDateNow();
 
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(dateBorrow);
-        calendar.add(java.util.Calendar.DAY_OF_MONTH, 7); // Adding 5 days
+        calendar.add(java.util.Calendar.DAY_OF_MONTH, 7);
         Date dueDate = new Date(calendar.getTimeInMillis());
 
         long differenceInMillis = dueDate.getTime() - dateNow.getTime();
-        dayLeft = (int) (differenceInMillis / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+        dayLeft = (int) (differenceInMillis / (1000 * 60 * 60 * 24));
 
         return dayLeft;
     }
+
 
     public boolean checkISBN(DoublyLinkList bookList, String isbn) {    //Returns true if there no duplicate otherwise false
         if(bookList.isEmpty()) return true;

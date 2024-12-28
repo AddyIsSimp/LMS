@@ -1,19 +1,25 @@
 package stages.student;
 
+import Entity.Transact;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
-public class rtnBooksController {
+import java.net.URL;
+import java.util.ResourceBundle;
+import Function.globalVariable;
+public class rtnBooksController implements Initializable {
 
     @FXML
     private HBox acctBtn;
@@ -36,22 +42,61 @@ public class rtnBooksController {
     @FXML
     private HBox reportsBtn;
 
+    @FXML
+    private TextField searchField;
+    @FXML
+    private TableView<Transact> brrwTransTblView;
+    @FXML
+    private TableColumn<Transact, String> brrwDateCol, daysLeftCol, isbnCol, titleCol, statusCol;
 //    @FXML
-//    void goAccountStaff(MouseEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_acctStaffs.fxml"));
-//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
-
+//    private TableColumn<Transact, ?> daysLeftCol;
 //    @FXML
-//    void goBorrowTransact(MouseEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_transact.fxml"));
-//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
+//    private TableColumn<?, ?> isbnCol;
+//    @FXML
+//    private TableColumn<?, ?> titleCol;
 
+    @FXML
+    private ChoiceBox<String> sortCB;
+    private String[] sortType = {"A-Z", "Z-A"};
+    private ObservableList<Transact> transacts = FXCollections.observableArrayList();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Initialize ChoiceBox for sorting
+        sortCB.getItems().addAll(sortType);
+        sortCB.setValue(sortType[0]);
+
+        sortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            sortTransactData(); // Call sorting method when the value changes
+        });
+
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
+        isbnCol.setCellValueFactory(new PropertyValueFactory<>("bkIsbn"));
+        brrwDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
+        daysLeftCol.setCellValueFactory(new PropertyValueFactory<>("borrowerName"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        transacts = globalVariable.fnc.retrieveStudentTransact(globalVariable.transactList, globalVariable.loginStudent.getSchoolID());
+        if (globalVariable.transactList != null) {
+
+        } else {
+            globalVariable.fnc.showAlert("Error", "Transaction list is empty or not initialized.");
+            return;
+        }
+
+        brrwTransTblView.setItems(transacts);
+    }
+
+    private void sortTransactData() {
+        if (transacts != null && !transacts.isEmpty()) {
+            if (sortCB.getValue().equals("A-Z")) {
+                transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
+            } else if (sortCB.getValue().equals("Z-A")) {
+                transacts.sort((t1, t2) -> t2.getBookTitle().compareToIgnoreCase(t1.getBookTitle()));
+            }
+            brrwTransTblView.refresh();
+        }
+    }
 
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {
@@ -88,17 +133,6 @@ public class rtnBooksController {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_returnBooks.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        stage.show();    }
-
-//    @FXML
-//    void goReports(MouseEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_reports.fxml"));
-//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
-
-
-
-
+        stage.show();
+    }
 }

@@ -124,6 +124,10 @@ public class brrowBooksController implements Initializable {
                 String bktitle = bkTitleField.getText();
                 String bookISBN = bkISBNField.getText();
 
+                Book book = globalVariable.fnc.getBook(globalVariable.bookList, bookISBN);
+                book.setQuantity(book.getQuantity()-1);
+                book.setBorrowed(book.getBorrowed()+1);
+
                 Transact newTransact = new Transact(transactID, bktitle, bookISBN, studentLogin.getSchoolID(), studentLogin.getlName(), "PENDING");
                 globalVariable.dbFnc.insertPendingTransact(newTransact);
                 globalVariable.transactList.add(newTransact);

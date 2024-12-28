@@ -104,7 +104,9 @@ public class dashboardController implements Initializable {
             showErrorAlert("Error", "Book list is empty or not initialized.");
         }
 
+        studentList.sort((t1, t2) -> t1.getlName().compareToIgnoreCase(t2.getlName()));
         studentTableView.setItems(studentList);
+        bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
         bookTableView.setItems(bookList);
     }
 

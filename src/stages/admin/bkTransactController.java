@@ -84,6 +84,7 @@ public class bkTransactController implements Initializable {
                 transacts = fnc.retrievePendingTransact(globalVariable.transactList);
             } else {
                 globalVariable.fnc.showAlert("Error", "Transaction list is empty or not initialized.");
+                return;
             }
 
             transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
