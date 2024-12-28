@@ -366,12 +366,15 @@
             </HBox>
             <VBox fx:id="libraryBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="505.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css">
                <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="72.0" prefWidth="506.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
+                  <HBox fx:id="sortBox" prefHeight="72.0" prefWidth="506.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
                      <children>
                         <Label fx:id="sortLabel" text="Sort by: " textFill="WHITE">
                            <font>
                               <Font size="14.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets left="370.0" top="5.0" />
+                           </HBox.margin>
                         </Label>
                         <ChoiceBox fx:id="sortCB" prefHeight="26.0" prefWidth="69.0" stylesheets="@../../../../style_File/Dashboard.css" />
                      </children>

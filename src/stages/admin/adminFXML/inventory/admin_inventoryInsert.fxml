@@ -416,21 +416,13 @@
                   </Label>
                   <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="261.0">
                      <children>
-                        <ChoiceBox prefHeight="26.0" prefWidth="104.0" />
+                        <ChoiceBox fx:id="changeViewCB" prefHeight="26.0" prefWidth="104.0" />
                      </children>
                      <padding>
                         <Insets left="10.0" />
                      </padding>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="129.0">
-                     <children>
-                        <Label text="Sort by: " textFill="WHITE">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <ChoiceBox prefHeight="26.0" prefWidth="69.0" stylesheets="@../../../../style_File/Dashboard.css" />
-                     </children>
                      <padding>
                         <Insets top="10.0" />
                      </padding>
@@ -440,8 +432,21 @@
                   <Insets left="10.0" />
                </padding>
             </HBox>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="505.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css">
+            <VBox fx:id="libraryBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="505.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css">
                <children>
+                  <HBox fx:id="sortBox" prefHeight="72.0" prefWidth="506.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
+                     <children>
+                        <Label fx:id="sortLabel" text="Sort by: " textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="370.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ChoiceBox fx:id="sortCB" prefHeight="26.0" prefWidth="69.0" stylesheets="@../../../../style_File/Dashboard.css" />
+                     </children>
+                  </HBox>
                   <TableView fx:id="BookTableView" prefHeight="552.0" prefWidth="506.0">
                     <columns>
                       <TableColumn fx:id="titleCol" prefWidth="143.99998170137405" text="Title" />

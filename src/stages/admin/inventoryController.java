@@ -27,6 +27,7 @@ import Function.*;
 import stages.admin.library.libraryController;
 
 import static Function.globalVariable.dbFnc;
+import static Function.globalVariable.fnc;
 
 public class inventoryController implements Initializable {
 
@@ -60,11 +61,17 @@ public class inventoryController implements Initializable {
 
     @FXML
     private Label bookQty;
-
     @FXML
     private Label bookUniqueQty;
 
-    Function fnc = new Function();
+    @FXML
+    private Label sortLabel;
+    @FXML
+    private HBox sortBox;
+    @FXML
+    private ChoiceBox<String> sortCB;
+    @FXML
+    private ChoiceBox<String> changeViewCB;
     @FXML
     private TableView<Book> BookTableView;
     @FXML
@@ -78,19 +85,10 @@ public class inventoryController implements Initializable {
     @FXML
     private TableColumn<Book, String> titleCol;
 
-    @FXML
-    private ChoiceBox<String> changeViewCB;
+    Function fnc = new Function();
     private ObservableList<Book> bookList = FXCollections.observableArrayList();
-
-    private Group tableDisplay;
-
-    //To be inserted in the Group tableDisplay
-    @FXML
-    private Label sortLabel;
     private final String[] sortType = {"A-Z", "Z-A"};
     private final String[] changeViewType = {"Table View", "Library View"};
-    @FXML ChoiceBox<String> sortCB;
-    //end of to be inserted
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -106,24 +104,17 @@ public class inventoryController implements Initializable {
         });
 
         changeViewCB.getItems().addAll(changeViewType);
-        changeViewCB.setValue(changeViewType[0]);
+        if(globalVariable.isLibraryView==true) {
+            changeViewCB.setValue(changeViewType[1]);
+            refreshLibraryView();
+        }else {
+            changeViewCB.setValue(changeViewType[0]);
+            refreshTableView();
+        }
         changeViewCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            selectViewType();
+            refreshTable();
         });
 
-        titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-        authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-        isbnCol.setCellValueFactory(new PropertyValueFactory<Book, String>("ISBN"));
-        categoryCol.setCellValueFactory(new PropertyValueFactory<Book, String>("category"));
-        qtyCol.setCellValueFactory(new PropertyValueFactory<Book, String>("quantity"));
-
-        //Code here to add the node into the tableDisplay
-
-        if(!bookList.isEmpty()) {
-            bookList = dbFnc.inventoryBookView();
-            bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
-            BookTableView.setItems(bookList);
-        }
     }
 
     private void sortBookData() {
@@ -137,36 +128,46 @@ public class inventoryController implements Initializable {
         }
     }
 
-    private void selectViewType() {
+    public void refreshTable() {
+        if (changeViewCB.getValue().equals("Table View")) {
+            refreshTableView();
+        } else if (changeViewCB.getValue().equals("Library View")) {
+            refreshLibraryView();
+        }
+    }
+
+    public void refreshTableView() {
+        titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
+        authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+        isbnCol.setCellValueFactory(new PropertyValueFactory<Book, String>("ISBN"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<Book, String>("category"));
+        qtyCol.setCellValueFactory(new PropertyValueFactory<Book, String>("quantity"));
+
+        ObservableList<Book> bookList = fnc.inventoryBookView();
+        BookTableView.setItems(bookList);
+        libraryBox.getChildren().clear();
+        libraryBox.getChildren().addAll(sortBox, BookTableView);
+    }
+
+    public void refreshLibraryView() {
         try {
-            if (bookList != null && !bookList.isEmpty()) {
-                if (changeViewCB.getValue().equals("Library View")) {
-                    libraryBox.getChildren().clear();
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(bkManageController.class.getResource("/stages/admin/library/libraryView.fxml"));
-                    VBox libraryView = fxmlLoader.load();
-                    libraryBox.getChildren().add(libraryView);
-                } else if (changeViewCB.getValue().equals("Table View")) {
-                    libraryBox.getChildren().clear();
-                    libraryBox.getChildren().add(BookTableView);
-                    bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
-                    BookTableView.refresh();
-                }
-            }
-        }catch(IOException e) {
+            libraryBox.getChildren().clear();
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(bkManageController.class.getResource("/stages/admin/library/libraryView.fxml"));
+            VBox libraryView = fxmlLoader.load();
+            libraryBox.getChildren().add(libraryView);
+        } catch (IOException e) {
             Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            error.setTitle("Change View Error");
+            error.setTitle("Refresh Error");
             error.showAndWait();
-        }catch(Exception e) {
+        } catch (Exception e) {
             Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            error.setTitle("Change View Error");
+            error.setTitle("Refresh Error");
             error.showAndWait();
         }
     }
 
-
-
-//SWITCHING MENU
+    //SWITCHING MENU
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_dashboard.fxml"));
@@ -206,7 +207,7 @@ public class inventoryController implements Initializable {
         alert.setHeaderText("You're about to logout!");
         alert.setContentText("Do you want to continue?");
 
-        if(alert.showAndWait().get() == ButtonType.OK) {
+        if (alert.showAndWait().get() == ButtonType.OK) {
             System.out.println("You successfully logged out!");
             Parent root = FXMLLoader.load(getClass().getResource("/stages/login/logFXML/login_view.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -239,6 +240,11 @@ public class inventoryController implements Initializable {
     //PROCEED TO SUB MENU
     @FXML
     private void doInsert(ActionEvent event) throws IOException {
+        if (changeViewCB.getValue().equals("Library View")) {
+            globalVariable.isLibraryView = true;
+        } else {
+            globalVariable.isLibraryView = false;
+        }
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/inventory/admin_inventoryInsert.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
@@ -247,6 +253,11 @@ public class inventoryController implements Initializable {
 
     @FXML
     private void doModify(ActionEvent event) throws IOException {
+        if (changeViewCB.getValue().equals("Library View")) {
+            globalVariable.isLibraryView = true;
+        } else {
+            globalVariable.isLibraryView = false;
+        }
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/inventory/admin_inventoryModify.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
@@ -255,6 +266,11 @@ public class inventoryController implements Initializable {
 
     @FXML
     private void doRemove(ActionEvent event) throws IOException {
+        if (changeViewCB.getValue().equals("Library View")) {
+            globalVariable.isLibraryView = true;
+        } else {
+            globalVariable.isLibraryView = false;
+        }
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/inventory/admin_inventoryDelete.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));

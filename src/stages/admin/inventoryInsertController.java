@@ -3,6 +3,7 @@ package stages.admin;
 import Entity.Book;
 import Entity.Category;
 import Function.globalVariable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -25,6 +28,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static Function.globalVariable.dbFnc;
 import static Function.globalVariable.fnc;
 
 public class inventoryInsertController implements Initializable {
@@ -68,19 +72,67 @@ public class inventoryInsertController implements Initializable {
     @FXML
     private TableColumn<Book, String> titleCol;
 
+    @FXML
+    private VBox libraryBox;
+    @FXML
+    private HBox sortBox;
+    @FXML
+    private ChoiceBox<String> sortCB;
+    @FXML
+    private ChoiceBox<String> changeViewCB;
+    private ObservableList<Book> bookList = FXCollections.observableArrayList();
+    private final String[] sortType = {"A-Z", "Z-A"};
+    private final String[] changeViewType = {"Table View", "Library View"};
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ArrayList<Category> categories = globalVariable.categoryList;
         if (categories != null && !categories.isEmpty()) {
             tfCategory.getItems().addAll(categories);
-            tfCategory.setValue(categories.get(0)); // Optional: Set a default value
+            tfCategory.setValue(categories.get(0));
         } else {
             System.out.println("No categories retrieved.");
         }
-        refreshTable();
+
+        sortCB.getItems().addAll(sortType);
+        sortCB.setValue(sortType[0]);
+        sortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            sortBookData();
+        });
+
+        changeViewCB.getItems().addAll(changeViewType);
+        if(globalVariable.isLibraryView==true) {
+            changeViewCB.setValue(changeViewType[1]);
+            refreshLibraryView();
+        }else {
+            changeViewCB.setValue(changeViewType[0]);
+            refreshTableView();
+        }
+        changeViewCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            refreshTable();
+        });
+    }
+
+    private void sortBookData() {
+        if (bookList != null && !bookList.isEmpty()) {
+            if (sortCB.getValue().equals("A-Z")) {
+                bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
+            } else if (sortCB.getValue().equals("Z-A")) {
+                bookList.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
+            }
+            BookTableView.refresh();
+        }
     }
 
     public void refreshTable() {
+        if (changeViewCB.getValue().equals("Table View")) {
+            refreshTableView();
+        } else if (changeViewCB.getValue().equals("Library View")) {
+            refreshLibraryView();
+        }
+    }
+
+    public void refreshTableView() {
         titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
         authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
         isbnCol.setCellValueFactory(new PropertyValueFactory<Book, String>("ISBN"));
@@ -88,11 +140,31 @@ public class inventoryInsertController implements Initializable {
         qtyCol.setCellValueFactory(new PropertyValueFactory<Book, String>("quantity"));
 
         ObservableList<Book> bookList = fnc.inventoryBookView();
-        System.out.println(bookList.size());
         BookTableView.setItems(bookList);
+        libraryBox.getChildren().clear();
+        libraryBox.getChildren().addAll(sortBox, BookTableView);
     }
 
-//SWITCHING MENU
+    public void refreshLibraryView() {
+        try {
+            libraryBox.getChildren().clear();
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(bkManageController.class.getResource("/stages/admin/library/libraryView.fxml"));
+            VBox libraryView = fxmlLoader.load();
+            libraryBox.getChildren().add(libraryView);
+        } catch (IOException e) {
+            Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            error.setTitle("Refresh Error");
+            error.showAndWait();
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            error.setTitle("Refresh Error");
+            error.showAndWait();
+        }
+    }
+
+
+    //SWITCHING MENU
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_dashboard.fxml"));
@@ -119,6 +191,11 @@ public class inventoryInsertController implements Initializable {
 
     @FXML
     private void goInventory(MouseEvent event) throws IOException {
+        if (changeViewCB.getValue().equals("Library View")) {
+            globalVariable.isLibraryView = true;
+        } else {
+            globalVariable.isLibraryView = false;
+        }
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/inventory/admin_inventory.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
@@ -132,7 +209,7 @@ public class inventoryInsertController implements Initializable {
         alert.setHeaderText("You're about to logout!");
         alert.setContentText("Do you want to continue?");
 
-        if(alert.showAndWait().get() == ButtonType.OK) {
+        if (alert.showAndWait().get() == ButtonType.OK) {
             System.out.println("You successfully logged out!");
             Parent root = FXMLLoader.load(getClass().getResource("/stages/login/logFXML/login_view.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -205,22 +282,30 @@ public class inventoryInsertController implements Initializable {
 
     @FXML
     private void createBook(ActionEvent event) {
-        if(newImage==null) {
-            lblError.setText("No image selected");  return;
-        }else if(tfTitle.getText()==null || tfTitle.getText().trim().isEmpty()) {
-            lblError.setText("Title is blank");  return;
-        }else if(tfAuthor.getText()==null || tfAuthor.getText().trim().isEmpty()) {
-            lblError.setText("Author is blank"); return;
-        }else if(tfISBN.getText()==null || tfISBN.getText().trim().isEmpty()) {
-            lblError.setText("ISBN is blank");return;
-        }else if(fnc.digitChecker(tfISBN.getText())==false || tfISBN.getText().trim().isEmpty()) {
-            lblError.setText("ISBN should be all digits"); return;
-        }else if(tfCategory.getSelectionModel()==null) {
-            lblError.setText("No category selected"); return;
-        }else if(tfQuantity.getText()==null || tfQuantity.getText().trim().isEmpty()) {
-            lblError.setText("Quantity is blank"); return;
-        }else if(fnc.digitChecker(tfQuantity.getText()) == false) {
-            lblError.setText("Quantity should be digits"); return;
+        if (newImage == null) {
+            lblError.setText("No image selected");
+            return;
+        } else if (tfTitle.getText() == null || tfTitle.getText().trim().isEmpty()) {
+            lblError.setText("Title is blank");
+            return;
+        } else if (tfAuthor.getText() == null || tfAuthor.getText().trim().isEmpty()) {
+            lblError.setText("Author is blank");
+            return;
+        } else if (tfISBN.getText() == null || tfISBN.getText().trim().isEmpty()) {
+            lblError.setText("ISBN is blank");
+            return;
+        } else if (fnc.digitChecker(tfISBN.getText()) == false || tfISBN.getText().trim().isEmpty()) {
+            lblError.setText("ISBN should be all digits");
+            return;
+        } else if (tfCategory.getSelectionModel() == null) {
+            lblError.setText("No category selected");
+            return;
+        } else if (tfQuantity.getText() == null || tfQuantity.getText().trim().isEmpty()) {
+            lblError.setText("Quantity is blank");
+            return;
+        } else if (fnc.digitChecker(tfQuantity.getText()) == false) {
+            lblError.setText("Quantity should be digits");
+            return;
         }
 
         //Upload the image to database
@@ -231,13 +316,13 @@ public class inventoryInsertController implements Initializable {
         String category = ctgryObj.getName();
         int quantity = Integer.parseInt(tfQuantity.getText());
 
-        String imgName = globalVariable.dbFnc.insertBookImageDB(newImage, bkTitle+bkAuthor);
+        String imgName = globalVariable.dbFnc.insertBookImageDB(newImage, bkTitle + bkAuthor);
 
         Book newBook = new Book(bkTitle, bkAuthor, category, newImage, bkISBN, quantity);
 
         //Upload the book to database
         boolean ifSuccess = globalVariable.dbFnc.insertBookDB(newBook, imgName);
-        if(ifSuccess) {
+        if (ifSuccess) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Book inserted successfully", ButtonType.OK);
             alert.setTitle("Book Insert");
             alert.show();
@@ -250,7 +335,7 @@ public class inventoryInsertController implements Initializable {
             tfQuantity.setText(null);
             lblError.setText(null);
             refreshTable();
-        }else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Book is not inserted", ButtonType.OK);
             alert.setTitle("Book Insert");
             alert.show();
