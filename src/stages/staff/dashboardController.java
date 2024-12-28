@@ -21,8 +21,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static Function.globalVariable.fnc;
-import static Function.globalVariable.sortedStudentListASC;
+import static Function.globalVariable.*;
+import static Function.globalVariable.bookList;
 
 public class dashboardController implements Initializable {
 
@@ -52,6 +52,8 @@ public class dashboardController implements Initializable {
     private TableView<Student> studentTableView;
     @FXML
     private TableColumn<Student, String> schoolIDCol, nameCol, sectionCol;
+
+
     //Book Table
     @FXML
     private TableView<Book> bookTableView;
@@ -63,27 +65,23 @@ public class dashboardController implements Initializable {
     private Label bookQty, studentQty;
 
     private String[] sortType = {"A-Z", "Z-A"};
-    private ObservableList<Student> studentList = FXCollections.observableArrayList();
-    private ObservableList<Book> bookList = FXCollections.observableArrayList();
+    private ObservableList<Student> StudentList = FXCollections.observableArrayList();
+    private ObservableList<Book> BookList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //For student sort Funciton
         studentSortCB.getItems().addAll(sortType);
         studentSortCB.setValue(sortType[0]);
-        studentSortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            sortStudentData(); // Call sorting method when the value changes
-        });
+
         //For book sort Function
         bookSortCB.getItems().addAll(sortType);
         bookSortCB.setValue(sortType[0]);
-        bookSortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            sortBookData(); // Call sorting method when the value changes
-        });
+
 
         //Set total quantity
-        bookQty.setText(Integer.toString(fnc.countBkQuantity(globalVariable.bookList)));
-        studentQty.setText(Integer.toString(sortedStudentListASC.size()));
+        bookQty.setText(Integer.toString(globalVariable.fnc.countBkQuantity(bookList)));
+        studentQty.setText(Integer.toString(globalVariable.sortedStudentListASC.size()));
 
         schoolIDCol.setCellValueFactory(new PropertyValueFactory<>("schoolID"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("fullName"));
@@ -94,17 +92,22 @@ public class dashboardController implements Initializable {
         bkAuthorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
         bkQtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        if(!studentList.isEmpty()) {
-            studentList = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
-            studentList.sort((t1, t2) -> t1.getLName().compareToIgnoreCase(t2.getLName()));
-            studentTableView.setItems(studentList);
+        if (studentList != null) {
+            StudentList = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
+        } else {
+            showErrorAlert("Error", "Student list is empty or not initialized.");
         }
 
-        if(!bookList.isEmpty()) {
-            bookList = fnc.retrieveBook(globalVariable.bookList);
-            bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
-            bookTableView.setItems(bookList);
+        if (bookList != null) {
+            BookList = fnc.retrieveBook(bookList);
+        } else {
+            showErrorAlert("Error", "Book list is empty or not initialized.");
         }
+
+
+
+        studentTableView.setItems(StudentList);
+        bookTableView.setItems(BookList);
     }
 
     private void showErrorAlert(String title, String message) {
@@ -114,27 +117,7 @@ public class dashboardController implements Initializable {
         alert.showAndWait();
     }
 
-    private void sortStudentData() {
-        if (studentList != null && !studentList.isEmpty()) {
-            if (studentSortCB.getValue().equals("A-Z")) {
-                studentList.sort((t1, t2) -> t1.getLName().compareToIgnoreCase(t2.getLName()));
-            } else if (studentSortCB.getValue().equals("Z-A")) {
-                studentList.sort((t1, t2) -> t2.getLName().compareToIgnoreCase(t1.getLName()));
-            }
-            studentTableView.refresh();
-        }
-    }
 
-    private void sortBookData() {
-        if (bookList != null && !bookList.isEmpty()) {
-            if (bookSortCB.getValue().equals("A-Z")) {
-                bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
-            } else if (bookSortCB.getValue().equals("Z-A")) {
-                bookList.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
-            }
-            bookTableView.refresh();
-        }
-    }
 
     @FXML
     private void goBorrowTransact(MouseEvent event) throws IOException {
