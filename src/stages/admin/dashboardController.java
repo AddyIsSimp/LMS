@@ -70,7 +70,6 @@ public class dashboardController implements Initializable {
     private final String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
     private ObservableList<Book> retrieveBooklist = FXCollections.observableArrayList();
-
     private Function fnc = new Function();
 
     @Override
@@ -95,26 +94,20 @@ public class dashboardController implements Initializable {
         // Set up TableView columns for Books
         isbnCol.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
-        qtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+//        authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
+//        qtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         // Load data into TableViews
-        if (studentList != null) {
+        if (!studentList.isEmpty()) {
             retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
-        } else {
-            showErrorAlert("Error", "Student list is empty or not initialized.");
+            studentAccTableView.setItems(retrieveStudentlist);
         }
 
-        if (bookList != null) {
+        if (!bookList.isEmpty()) {
             retrieveBooklist = fnc.retrieveBook(bookList);
-        } else {
-            showErrorAlert("Error", "Book list is empty or not initialized.");
+            bookDetailsTableView.setItems(retrieveBooklist);
         }
-
-        studentAccTableView.setItems(retrieveStudentlist);
-        bookDetailsTableView.setItems(retrieveBooklist);
     }
-
 
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

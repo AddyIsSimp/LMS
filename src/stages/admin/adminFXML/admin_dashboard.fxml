@@ -361,8 +361,8 @@
                            <columns>
                               <TableColumn fx:id="isbnCol" editable="false" prefWidth="97.59997713565826" text="ISBN" />
                               <TableColumn fx:id="titleCol" prefWidth="90.40001678466797" text="Title" />
-                              <TableColumn fx:id="authorCol" minWidth="8.79998779296875" prefWidth="88.0001220703125" text="Author" />
-                              <TableColumn fx:id="qtyCol" minWidth="8.79998779296875" prefWidth="80.7999267578125" text="Quantity" />
+                              <TableColumn fx:id="bkAuthorCol" minWidth="8.79998779296875" prefWidth="88.0001220703125" text="Author" />
+                              <TableColumn fx:id="bkqtyCol" minWidth="8.79998779296875" prefWidth="80.7999267578125" text="Quantity" />
                            </columns>
                         </TableView>
                      </children>
