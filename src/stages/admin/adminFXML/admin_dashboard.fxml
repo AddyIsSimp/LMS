@@ -260,7 +260,7 @@
                                     <Image url="@../../../icons/dashboard/staff.png" />
                                  </image>
                               </ImageView>
-                              <Label text="0">
+                              <Label fx:id="staffQty" text="0">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
@@ -291,7 +291,7 @@
                                     <Image url="@../../../icons/dashboard/student.png" />
                                  </image>
                               </ImageView>
-                              <Label text="0">
+                              <Label fx:id="studentQty" text="0">
                                  <font>
                                     <Font size="40.0" />
                                  </font>

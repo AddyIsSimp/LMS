@@ -110,10 +110,10 @@ public class staffAccountController implements Initializable {
                     .forEach(globalVariable.sortedStaffListASC::add);
             staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListASC));
         } else {
-            globalVariable.sortedStaffListDESC.clear();
+            sortedStaffListASC.clear();
             staffList.sorted((s1, s2) -> s2.getfName().compareToIgnoreCase(s1.getfName()))
-                    .forEach(globalVariable.sortedStaffListDESC::add);
-            staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListDESC));
+                    .forEach(sortedStaffListASC::add);
+            staffTableView.setItems(FXCollections.observableArrayList(sortedStaffListASC));
         }
     }
 

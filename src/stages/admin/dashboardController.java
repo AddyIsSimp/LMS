@@ -50,7 +50,7 @@ public class dashboardController implements Initializable {
     private HBox reportsBtn;
 
     @FXML
-    private Label bookQty;
+    private Label bookQty, staffQty, studentQty;
 
     @FXML
     private TableView<Student> studentAccTableView;
@@ -62,7 +62,7 @@ public class dashboardController implements Initializable {
     private TableColumn<Student, String> studentIDCol, firstNameCol, lastNameCol, sectionCol;
 
     @FXML
-    private TableColumn<DoublyLinkList, String> isbnCol, titleCol, authorCol, qtyCol;
+    private TableColumn<Book, String> isbnCol, titleCol, authorCol, qtyCol;
 
     @FXML
     private ChoiceBox<String> studentCB, bookCB;
@@ -81,6 +81,10 @@ public class dashboardController implements Initializable {
 
         bookCB.getItems().addAll(sortType);
         bookCB.setValue(sortType[0]);
+
+        bookQty.setText(Integer.toString(globalVariable.fnc.countBkQuantity(bookList)));
+        studentQty.setText(Integer.toString(globalVariable.sortedStudentListASC.size()));
+        staffQty.setText(Integer.toString(globalVariable.sortedStaffListASC.size()));
 
         // Set up TableView columns for Students
         studentIDCol.setCellValueFactory(new PropertyValueFactory<>("studentID"));
