@@ -362,5 +362,16 @@ public class Function {
         return true;
     }
 
+    public String getFullName(String lName, String fName) {
+        if (lName == null || fName == null || lName.isEmpty() || fName.isEmpty()) {
+            throw new IllegalArgumentException("Last name and first name cannot be null or empty");
+        }
+
+        fName = fName.substring(0, 1).toUpperCase() + fName.substring(1).toLowerCase();
+
+        return lName + " " + fName.charAt(0) + ".";
+    }
+
+
 
 }

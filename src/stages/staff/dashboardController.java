@@ -1,5 +1,6 @@
 package stages.staff;
 
+import Entity.Book;
 import Entity.Student;
 import Function.globalVariable;
 import javafx.collections.FXCollections;
@@ -46,35 +47,65 @@ public class dashboardController implements Initializable {
     @FXML
     private HBox reportsBtn;
 
-
+    //Student Table
     @FXML
     private TableView<Student> studentTableView;
     @FXML
-    private TableColumn<Student, String> schoolIDCol,firstNameCol, lastNameCol, sectionCol, emailCol, penaltyCol;
-
+    private TableColumn<Student, String> schoolIDCol, nameCol, sectionCol;
+    //Book Table
     @FXML
-    private ChoiceBox<String> sortCB;
+    private TableView<Book> bookTableView;
+    @FXML
+    private TableColumn<Book, String> bkIsbnCol, bkTitleCol, bkAuthorCol, bkQtyCol;
+    @FXML
+    private ChoiceBox<String> studentSortCB, bookSortCB;
+    @FXML
+    private Label bookQty, studentQty;
 
     private String[] sortType = {"A-Z", "Z-A"};
-    private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
+    private ObservableList<Student> studentList = FXCollections.observableArrayList();
+    private ObservableList<Book> bookList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Initialize sort options
-        sortCB.getItems().addAll(sortType);
-        sortCB.setValue(sortType[0]);
+        //For student sort Funciton
+        studentSortCB.getItems().addAll(sortType);
+        studentSortCB.setValue(sortType[0]);
+        studentSortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            sortStudentData(); // Call sorting method when the value changes
+        });
+        //For book sort Function
+        bookSortCB.getItems().addAll(sortType);
+        bookSortCB.setValue(sortType[0]);
+        bookSortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            sortBookData(); // Call sorting method when the value changes
+        });
 
-        //Set up TableView columns
+        //Set total quantity
+        bookQty.setText(Integer.toString(fnc.countBkQuantity(globalVariable.bookList)));
+        studentQty.setText(Integer.toString(sortedStudentListASC.size()));
+
         schoolIDCol.setCellValueFactory(new PropertyValueFactory<>("schoolID"));
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("section"));
 
-        retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
-        if(retrieveStudentlist.isEmpty()) {
+        bkTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        bkIsbnCol.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
+        bkAuthorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
+        bkQtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        studentList = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
+        if(studentList.isEmpty()) {
+            showErrorAlert("Error", "Student list is empty or not initialized.");
+        }
+
+        bookList = fnc.retrieveBook(globalVariable.bookList);
+        if(bookList.isEmpty()) {
             showErrorAlert("Error", "Book list is empty or not initialized.");
         }
 
-        studentTableView.setItems(retrieveStudentlist);
+        studentTableView.setItems(studentList);
+        bookTableView.setItems(bookList);
     }
 
     private void showErrorAlert(String title, String message) {
@@ -82,6 +113,28 @@ public class dashboardController implements Initializable {
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void sortStudentData() {
+        if (studentList != null && !studentList.isEmpty()) {
+            if (studentSortCB.getValue().equals("A-Z")) {
+                studentList.sort((t1, t2) -> t1.getlName().compareToIgnoreCase(t2.getlName()));
+            } else if (studentSortCB.getValue().equals("Z-A")) {
+                studentList.sort((t1, t2) -> t2.getlName().compareToIgnoreCase(t1.getlName()));
+            }
+            studentTableView.refresh();
+        }
+    }
+
+    private void sortBookData() {
+        if (bookList != null && !bookList.isEmpty()) {
+            if (bookSortCB.getValue().equals("A-Z")) {
+                bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
+            } else if (bookSortCB.getValue().equals("Z-A")) {
+                bookList.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
+            }
+            bookTableView.refresh();
+        }
     }
 
     @FXML

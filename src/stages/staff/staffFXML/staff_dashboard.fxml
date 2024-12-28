@@ -237,7 +237,7 @@
                                           <Image url="@../../../icons/dashboard/student.png" />
                                        </image>
                                     </ImageView>
-                                    <Label text="0">
+                                    <Label fx:id="studentQty" text="0">
                                        <font>
                                           <Font size="40.0" />
                                        </font>
@@ -267,7 +267,7 @@
                                           <Font size="13.0" />
                                        </font>
                                     </Label>
-                                    <ChoiceBox minHeight="-Infinity" prefHeight="23.0" prefWidth="57.0" />
+                                    <ChoiceBox fx:id="studentSortCB" minHeight="-Infinity" prefHeight="23.0" prefWidth="57.0" />
                                  </children>
                                  <padding>
                                     <Insets left="8.0" />
@@ -275,8 +275,8 @@
                               </HBox>
                               <TableView fx:id="studentTableView" prefHeight="378.0" prefWidth="354.0" stylesheets="@../../../style_File/Dashboard.css">
                                  <columns>
+                                    <TableColumn fx:id="nameCol" prefWidth="148.80005645751953" text="Name" />
                                     <TableColumn fx:id="schoolIDCol" editable="false" prefWidth="104.79998815059662" text="Student ID" />
-                                    <TableColumn fx:id="lastNameCol" prefWidth="148.80005645751953" text="Last Name" />
                                     <TableColumn fx:id="sectionCol" minWidth="8.79998779296875" prefWidth="100.0" text="Section" />
                                  </columns>
                               </TableView>
@@ -296,18 +296,18 @@
                                           <Font size="13.0" />
                                        </font>
                                     </Label>
-                                    <ChoiceBox fx:id="sortCB" minHeight="-Infinity" prefHeight="23.0" prefWidth="57.0" />
+                                    <ChoiceBox fx:id="bookSortCB" minHeight="-Infinity" prefHeight="23.0" prefWidth="57.0" />
                                  </children>
                                  <padding>
                                     <Insets left="8.0" />
                                  </padding>
                               </HBox>
-                              <TableView prefHeight="378.0" prefWidth="354.0" stylesheets="@../../../style_File/Dashboard.css">
+                              <TableView fx:id="bookTableView" prefHeight="378.0" prefWidth="354.0" stylesheets="@../../../style_File/Dashboard.css">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="73.59991610050201" text="ISBN" />
-                                    <TableColumn prefWidth="95.73320770263672" text="Name" />
-                                    <TableColumn minWidth="8.79998779296875" prefWidth="98.9334716796875" text="Author" />
-                                    <TableColumn minWidth="8.79998779296875" prefWidth="85.06646728515625" text="Quantity" />
+                                    <TableColumn fx:id="bkTitleCol" prefWidth="114.40001678466797" text="Title" />
+                                    <TableColumn fx:id="bkIsbnCol" editable="false" prefWidth="89.59997713565826" text="ISBN" />
+                                    <TableColumn fx:id="bkAuthorCol" minWidth="8.79998779296875" prefWidth="96.7999267578125" text="Author" />
+                                    <TableColumn fx:id="bkQtyCol" minWidth="8.79998779296875" prefWidth="54.400146484375" text="Qty" />
                                  </columns>
                               </TableView>
                            </children>
