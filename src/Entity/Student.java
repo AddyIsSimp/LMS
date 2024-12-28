@@ -3,7 +3,6 @@ package Entity;
 import static Function.globalVariable.fnc;
 
 public class Student {
-    private int studentID;
     private String fullName;
     private String fName;
     private String lName;
@@ -46,19 +45,19 @@ public class Student {
     }
 
 
-    public String getfName() {
+    public String getFName() {
         return fName;
     }
 
-    public void setfName(String fName) {
+    public void setFName(String fName) {
         this.fName = fName;
     }
 
-    public String getlName() {
+    public String getLName() {
         return lName;
     }
 
-    public void setlName(String lName) {
+    public void setLName(String lName) {
         this.lName = lName;
     }
 
@@ -102,13 +101,6 @@ public class Student {
         this.schoolID = schoolID;
     }
 
-    public int getStudentID() {
-        return studentID;
-    }
-
-    public void setStudentID(int studentID) {
-        this.studentID = studentID;
-    }
 
 
     public String getFullName() {

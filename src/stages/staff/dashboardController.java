@@ -96,7 +96,7 @@ public class dashboardController implements Initializable {
 
         if(!studentList.isEmpty()) {
             studentList = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
-            studentList.sort((t1, t2) -> t1.getlName().compareToIgnoreCase(t2.getlName()));
+            studentList.sort((t1, t2) -> t1.getLName().compareToIgnoreCase(t2.getLName()));
             studentTableView.setItems(studentList);
         }
 
@@ -117,9 +117,9 @@ public class dashboardController implements Initializable {
     private void sortStudentData() {
         if (studentList != null && !studentList.isEmpty()) {
             if (studentSortCB.getValue().equals("A-Z")) {
-                studentList.sort((t1, t2) -> t1.getlName().compareToIgnoreCase(t2.getlName()));
+                studentList.sort((t1, t2) -> t1.getLName().compareToIgnoreCase(t2.getLName()));
             } else if (studentSortCB.getValue().equals("Z-A")) {
-                studentList.sort((t1, t2) -> t2.getlName().compareToIgnoreCase(t1.getlName()));
+                studentList.sort((t1, t2) -> t2.getLName().compareToIgnoreCase(t1.getLName()));
             }
             studentTableView.refresh();
         }
