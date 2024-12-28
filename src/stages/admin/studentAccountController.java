@@ -1,7 +1,10 @@
 package stages.admin;
 
 import Entity.Book;
+import Entity.Staff;
 import Entity.Student;
+import Function.Function;
+import Function.dbFunction;
 import Function.globalVariable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +26,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static Function.globalVariable.*;
+
 
 public class studentAccountController implements Initializable {
 
@@ -50,6 +54,11 @@ public class studentAccountController implements Initializable {
     @FXML
     private HBox reportsBtn;
 
+
+    @FXML
+    private TextField schoolIDField, sectionIDField, confirmPassField, fNameField, lNameField, emailField,  passwordField;
+
+
     @FXML
     private TableView<Student> studentTableView;
 
@@ -57,11 +66,16 @@ public class studentAccountController implements Initializable {
     private TableColumn<Student, String> schoolIDCol,firstNameCol, lastNameCol, sectionCol, emailCol, penaltyCol;
 
     @FXML
+    private Label lblError;
+
+    dbFunction dbFunc = new dbFunction();
+    Function fnc = new Function();
+
+    @FXML
     private ChoiceBox<String> sortCB;
 
     private String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
-    private ObservableList<Book> retrieveBooklist = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -83,6 +97,8 @@ public class studentAccountController implements Initializable {
         }
 
         studentTableView.setItems(retrieveStudentlist);
+        studentTableView.refresh();
+
     }
 
     private void showErrorAlert(String title, String message) {
@@ -197,6 +213,73 @@ public class studentAccountController implements Initializable {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+
+    @FXML
+    private void doAddStudent(ActionEvent event) {
+        String schoolID = schoolIDField.getText();
+        String fName = fNameField.getText();
+        String lName = lNameField.getText();
+        String email = emailField.getText();
+        String section = sectionIDField.getText();
+        String pass = passwordField.getText();
+        String confirmPass = confirmPassField.getText();
+        int studentID = 0;
+
+        if (schoolID.isEmpty()) {
+            lblError.setText("Student ID is missing");
+            return;
+        }
+        if (fnc.retrieveStudentID(schoolID) != null) {
+            studentID = Integer.parseInt(fnc.retrieveStudentID(schoolID));
+        } else {
+            lblError.setText("Incorrect ID format (NNNN-NNNNN)");
+            return;
+        }
+
+        if (fName.isEmpty()) {
+            lblError.setText("First name is missing");
+            return;
+        } else if (lName.isEmpty()) {
+            lblError.setText("Last name is missing");
+            return;
+        } else if (email.isEmpty()) {
+            lblError.setText("Email is missing");
+            return;
+        } else if (section.isEmpty()) {
+            lblError.setText("Email is missing");
+            return;
+        } else if (pass.isEmpty()) {
+            lblError.setText("Password is missing");
+            return;
+        } else if (confirmPass.isEmpty()) {
+            lblError.setText("Confirm password is missing");
+            return;
+        }
+
+        if (fnc.passwordChecker(pass) == false) {
+            lblError.setText("Password is atleast 8 characters with letter and number or special character");
+            return;
+        }
+        if (pass.equals(confirmPass) == false) {
+            lblError.setText("Password does not match");
+            return;
+        }
+
+        Student newStudent = new Student(studentID, fName, lName, section, email, pass);
+        studentID = dbFunc.insertStudentDB(newStudent);
+
+        if (studentID != 0) {
+            sortedStudentListASC.add(newStudent);
+            studentTableView.refresh();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Student registered successfully");
+            alert.setTitle("Student Registration");
+            alert.showAndWait();
+        } else {
+            lblError.setText("Student Registration Fail");
+        }
+
     }
 
 }

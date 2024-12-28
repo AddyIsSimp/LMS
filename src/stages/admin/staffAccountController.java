@@ -55,6 +55,7 @@ public class staffAccountController implements Initializable {
 
     @FXML
     private TextField IDField, confirmPassField, fNameField, lNameField,  passwordField;
+
     @FXML
     private Label lblError;
 
@@ -270,6 +271,7 @@ public class staffAccountController implements Initializable {
             Staff newStaff = new Staff(fName, lName, staffID, password);
             dbFnc.insertStaffDB(newStaff);
             globalVariable.sortedStaffListASC.add(newStaff);
+            staffTableView.refresh();
             Alert alert = new Alert(Alert.AlertType.NONE, "Staff Registered Successfully", ButtonType.OK);
             alert.setTitle("Staff Register");
             alert.show();

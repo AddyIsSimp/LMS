@@ -24,7 +24,7 @@ import Function.*;
 
 import java.sql.*;
 
-import static Function.globalVariable.bookList;
+
 import static Function.globalVariable.loginStudent;
 
 public class LoginController {
@@ -456,15 +456,10 @@ public class LoginController {
         // Load the new FXML file for the student sign-in view
         FXMLLoader loader = new FXMLLoader(getClass().getResource("logFXML/signInStudent.fxml"));
         Parent root = loader.load();
-
-        // Get the current root node (parent container)
         AnchorPane loginRoot = (AnchorPane) ((Node) event.getSource()).getScene().getRoot();
-
-        // Set initial position of the new view off-screen to the right
         double sceneWidth = loginRoot.getWidth();
         root.translateXProperty().set(sceneWidth);
 
-        // Add the new view to the current root's children
         loginRoot.getChildren().add(root);
 
         // Create the animation timeline for sliding in the new view
@@ -494,10 +489,7 @@ public class LoginController {
         Scene scene = exit.getScene();
         double sceneWidth = scene.getWidth();
 
-        // Set the initial position of the new root outside the left edge
         root.translateXProperty().set(-sceneWidth);
-
-        // Get the parent container (assuming AnchorPane is the root)
         AnchorPane loginRoot = (AnchorPane) scene.getRoot();
 
         // Add the new root to the parent container

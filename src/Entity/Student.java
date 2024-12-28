@@ -33,6 +33,8 @@ public class Student {
         this.fullName = fnc.getFullName(fName, lName);
     }
 
+
+
     public Student (int schoolID, String fName, String lName, String section, String email, String pass, double penalty) {
         this.schoolID = schoolID;
         this.fName = fName;
@@ -42,6 +44,10 @@ public class Student {
         this.pass = pass;
         this.penalty = penalty;
         this.fullName = fnc.getFullName(fName, lName);
+    }
+
+    public Student(int schoolID, String sectionID, String fName, String lName, String password) {
+        
     }
 
 
