@@ -309,8 +309,8 @@ public class dbFunction {
                     "(fName, lName, staff_UN, password)" +
                     " VALUES (?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sqlInsertStudent);
-            pstmt.setString(1, staff.getfName());
-            pstmt.setString(2, staff.getlName());
+            pstmt.setString(1, staff.getFName());
+            pstmt.setString(2, staff.getLName());
             pstmt.setString(3, staff.getUsername());
             pstmt.setString(4, staff.getPassword());
 
@@ -424,8 +424,8 @@ public class dbFunction {
             while (rs.next()) {
                 Staff staff = new Staff();
                 staff.setStaffId(rs.getInt("staff_id"));
-                staff.setfName(rs.getString("fName"));
-                staff.setlName(rs.getString("lName"));
+                staff.setFName(rs.getString("fName"));
+                staff.setLName(rs.getString("lName"));
                 staff.setUsername(rs.getString("staff_UN"));
                 staff.setPassword(rs.getString("password"));
                 staffList.add(staff);

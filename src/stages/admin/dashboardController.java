@@ -86,7 +86,7 @@ public class dashboardController implements Initializable {
         staffQty.setText(Integer.toString(globalVariable.sortedStaffListASC.size()));
 
         // Set up TableView columns for Students
-        studentIDCol.setCellValueFactory(new PropertyValueFactory<>("studentID"));
+        studentIDCol.setCellValueFactory(new PropertyValueFactory<>("schoolID"));
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
         lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("section"));
