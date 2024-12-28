@@ -74,6 +74,7 @@ public class bkManageController implements Initializable {
 
         } catch (IOException e) {
             Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            error.setTitle("Book Manage Page Error");
             error.showAndWait();
         }
     }

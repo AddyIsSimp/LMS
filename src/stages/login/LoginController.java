@@ -58,9 +58,6 @@ public class LoginController {
     private Label errorText;
 //EXIT=======================================================================================================================================================================================
 
-    public void close() {
-        System.exit(0);
-    }
 
 //PASSWORD_TEXT=======================================================================================================================================================================================
 
@@ -150,8 +147,6 @@ public class LoginController {
 
         // Play the animation
         timeline.play();
-        System.out.println("Exit Node: " + exit);
-        System.out.println("Login Root: " + loginRoot);
     }
 
 //Login_STAFF=======================================================================================================================================================================================
@@ -340,9 +335,13 @@ public class LoginController {
                 alert.show();
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Login Failed");
+            alert.show();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Login Failed");
+            alert.show();
         }
     }
 
@@ -513,8 +512,6 @@ public class LoginController {
 
         // Play the animation
         timeline.play();
-        System.out.println("Exit Node: " + exit);
-        System.out.println("Login Root: " + loginRoot);
     }
 
 //Login_ADMIN=======================================================================================================================================================================================
