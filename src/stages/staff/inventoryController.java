@@ -88,7 +88,6 @@ public class inventoryController implements Initializable {
         qtyCol.setCellValueFactory(new PropertyValueFactory<Book, String>("quantity"));
 
         ObservableList<Book> bookList = dbFnc.inventoryBookView();
-        System.out.println(bookList.size());
         BookTableView.setItems(bookList);
 
         BookTableView.setItems(bookList);

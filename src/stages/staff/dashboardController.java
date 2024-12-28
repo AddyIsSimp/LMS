@@ -94,20 +94,17 @@ public class dashboardController implements Initializable {
         bkAuthorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
         bkQtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        studentList = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
-        if(studentList.isEmpty()) {
-            showErrorAlert("Error", "Student list is empty or not initialized.");
+        if(!studentList.isEmpty()) {
+            studentList = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
+            studentList.sort((t1, t2) -> t1.getlName().compareToIgnoreCase(t2.getlName()));
+            studentTableView.setItems(studentList);
         }
 
-        bookList = fnc.retrieveBook(globalVariable.bookList);
-        if(bookList.isEmpty()) {
-            showErrorAlert("Error", "Book list is empty or not initialized.");
+        if(!bookList.isEmpty()) {
+            bookList = fnc.retrieveBook(globalVariable.bookList);
+            bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
+            bookTableView.setItems(bookList);
         }
-
-        studentList.sort((t1, t2) -> t1.getlName().compareToIgnoreCase(t2.getlName()));
-        studentTableView.setItems(studentList);
-        bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
-        bookTableView.setItems(bookList);
     }
 
     private void showErrorAlert(String title, String message) {
