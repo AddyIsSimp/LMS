@@ -1,7 +1,5 @@
 package stages.admin;
 
-import Entity.Book;
-import Entity.Staff;
 import Entity.Student;
 import Function.Function;
 import Function.dbFunction;
@@ -19,39 +17,66 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static Function.globalVariable.*;
+import static Function.globalVariable.sortedStudentListASC;
 
-
-public class studentAccountController implements Initializable {
-
-    @FXML
-    private Label acctStaffBtn, acctStudentBtn, studentQty;
+public class studentAccountModifyController implements Initializable {
 
     @FXML
-    private HBox bkManageBtn, borrowTransBtn, dashboardBtn, inventoryBtn, logoutBtn, reportsBtn;
+    private Label acctStaffBtn;
 
+    @FXML
+    private Label acctStudentBtn;
+    @FXML
+    private Label studentQty;
+
+    @FXML
+    private HBox bkManageBtn;
+
+    @FXML
+    private HBox borrowTransBtn;
+
+    @FXML
+    private HBox dashboardBtn;
+
+    @FXML
+    private HBox inventoryBtn;
+
+    @FXML
+    private HBox logoutBtn;
+
+    @FXML
+    private HBox reportsBtn;
+
+
+    @FXML
+    private TextField schoolIDField, sectionIDField, confirmPassField, fNameField, lNameField, emailField,  passwordField;
     @FXML
     private TextField searchField;
+    @FXML
+    private RadioButton lNameRB, idRB;
+    @FXML
+    private Button saveBttn;
 
     @FXML
     private TableView<Student> studentTableView;
     @FXML
     private TableColumn<Student, String> schoolIDCol,firstNameCol, lastNameCol, sectionCol, emailCol;
+
     @FXML
-    private Label lblError;
-    @FXML
-    private ChoiceBox<String> sortCB;
+    private Label lblError, lblError2;
 
     Student searchStudent;
     dbFunction dbFunc = new dbFunction();
     Function fnc = new Function();
+
+    @FXML
+    private ChoiceBox<String> sortCB;
 
     private String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
@@ -59,7 +84,6 @@ public class studentAccountController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize sort options
-        studentQty.setText(Integer.toString(sortedStudentListASC.size()));
         sortCB.getItems().addAll(sortType);
         sortCB.setValue(sortType[0]);
 
@@ -157,27 +181,112 @@ public class studentAccountController implements Initializable {
     }
 
     @FXML
-    private void addStudent(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsAdd.fxml"));
+    private void returnAcctStudent(MouseEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("stages/admin/adminFXML/students/admin_acctStudents.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
     @FXML
-    private void editStudent(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsModify.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+    private void doSearch(MouseEvent event) {
+        String selected = "Email";
+        String searchFld;
+
+        if(lNameRB.isSelected()) { //find which button selected
+            selected = "Email";
+        }else {
+            selected = "ID";
+        }
+
+        if(searchField.getText().isEmpty()) {  //if searchfield is empty
+            lblError.setText("Search text is blank"); return;
+        }
+        searchFld = searchField.getText();
+
+        if(selected.equals("ID")) {
+            searchStudent = globalVariable.fnc.findStudentID(sortedStudentListASC, searchFld);
+        }else {
+            searchStudent = globalVariable.fnc.findStudentEmail(sortedStudentListASC, searchFld);
+        }
+
+        if(searchStudent==null) {
+            lblError.setText("Student not found"); return;
+        }else {
+            schoolIDField.setText(Integer.toString(searchStudent.getSchoolID()));
+            sectionIDField.setText(searchStudent.getSection());
+            confirmPassField.setText(searchStudent.getPass());
+            fNameField.setText(searchStudent.getFName());
+            lNameField.setText(searchStudent.getLName());
+            emailField.setText(searchStudent.getEmail());
+            passwordField.setText(searchStudent.getPass());
+
+            schoolIDField.setDisable(false);
+            sectionIDField.setDisable(false);
+            confirmPassField.setDisable(false);
+            fNameField.setDisable(false);
+            lNameField.setDisable(false);
+            emailField.setDisable(false);
+            passwordField.setDisable(false);
+            saveBttn.setDisable(false);
+        }
     }
 
     @FXML
-    private void deleteStudent(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsDelete.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+    private void doModifyStudent(MouseEvent event) {
+        try {
+            String schoolID = schoolIDField.getText();
+            String section = sectionIDField.getText();
+            String fName = fNameField.getText();
+            String lName = lNameField.getText();
+            String email = emailField.getText();
+            String pass = passwordField.getText();
+            String confirmPass = confirmPassField.getText();
+
+            if (schoolID == null || schoolID.trim().isEmpty()) {
+                lblError2.setText("School ID is empty");
+                return;
+            } else if (section == null || section.trim().isEmpty()) {
+                lblError2.setText("Section is empty");
+                return;
+            } else if (fName == null || fName.trim().isEmpty()) {
+                lblError2.setText("First name is empty");
+                return;
+            } else if (lName == null || lName.trim().isEmpty()) {
+                lblError2.setText("Last name is empty");
+                return;
+            } else if (email == null || email.trim().isEmpty()) {
+                lblError2.setText("Email is empty");
+                return;
+            } else if (email == null || email.trim().isEmpty()) {
+                lblError2.setText("Email is empty");
+                return;
+            } else if (pass == null || pass.trim().isEmpty()) {
+                lblError2.setText("Password is empty");
+                return;
+            } else if (confirmPass == null || confirmPass.trim().isEmpty()) {
+                lblError2.setText("Confirm password is missing");
+                return;
+            } else if (!fnc.emailChecker(email)) {
+                lblError2.setText("Wrong email format! e.g.(john.doe@example.com)");
+                return;
+            } else if (!fnc.passwordChecker(pass)) {
+                lblError2.setText("Password is atleast 8 characters with\nletter and number or special character");
+            } else if (!pass.equals(confirmPass)) {
+                lblError2.setText("Password does not match");
+                return;
+            }
+            int schoolIDInt = Integer.parseInt(fnc.retrieveStudentID(schoolID));
+
+            searchStudent = new Student(schoolIDInt, fName, lName, section, email, pass);
+            boolean isModify = dbFunc.modifyStudentDB(searchStudent, schoolIDInt);
+            if(isModify==true) {
+                fnc.showAlert("Student Account Update", "Student account updated successfully!");
+            }
+            refreshTable();
+        }catch(Exception e) {
+            fnc.showAlert("Modify Student Error", e.getMessage());
+        }
     }
 
 }

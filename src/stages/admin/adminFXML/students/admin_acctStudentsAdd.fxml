@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.admin.studentAccountController">
+<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.admin.studentAccountAddController">
    <top>
       <HBox prefHeight="68.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
@@ -483,8 +483,7 @@
                   <TableColumn fx:id="firstNameCol" minWidth="0.0" prefWidth="88.5333480834961" text="First Name" />
                   <TableColumn fx:id="lastNameCol" prefWidth="82.66659545898438" text="Last Name" />
                   <TableColumn fx:id="sectionCol" prefWidth="73.59988403320312" text="Section" />
-                  <TableColumn fx:id="emailCol" prefWidth="72.26678466796875" text="Email" />
-                  <TableColumn fx:id="penaltyCol" prefWidth="93.86663818359375" text="Penalty" />
+                  <TableColumn fx:id="emailCol" prefWidth="160.0" text="Email" />
                </columns>
             </TableView>
          </children></VBox>

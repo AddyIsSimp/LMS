@@ -1,9 +1,13 @@
 package stages.admin;
 
 
-
+import Entity.Staff;
+import Function.Function;
+import Function.dbFunction;
+import Function.globalVariable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,18 +26,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
 
-import Entity.Staff;
-import Function.Function;
-import Function.dbFunction;
-import javafx.event.ActionEvent;
+import static Function.globalVariable.sortedStaffListASC;
 
-import Function.globalVariable;
-
-import static Function.globalVariable.*;
-
-public class staffAccountController implements Initializable {
+public class staffAccountDeleteController implements Initializable {
 
     Connection conn;
     Statement stmt;
@@ -54,12 +50,13 @@ public class staffAccountController implements Initializable {
     @FXML
     private Label staffQty, studentQty;
 
+    @FXML
+    private Button saveBttn;
+    @FXML
+    private TextField IDField, confirmPassField, fNameField, lNameField,  passwordField, searchField;
 
     @FXML
-    private TextField IDField, confirmPassField, fNameField, lNameField,  passwordField;
-
-    @FXML
-    private Label lblError;
+    private Label lblError, lblError2;
 
     @FXML
     private TableView<Staff> staffTableView;
@@ -81,7 +78,7 @@ public class staffAccountController implements Initializable {
     @FXML
     private ToggleGroup searchToggleGroup; // Add this toggle group
 
-
+    private Staff searchStaff;
     private String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Staff> retrieveStaff = FXCollections.observableArrayList();
 
@@ -94,7 +91,6 @@ public class staffAccountController implements Initializable {
         sortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             applySorting(fnc.retrieveStaff(sortedStaffListASC));
         });
-        staffQty.setText(Integer.toString(sortedStaffListASC.size()));
 
         // Set up TableView columns
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
@@ -119,6 +115,11 @@ public class staffAccountController implements Initializable {
                     .forEach(sortedStaffListASC::add);
             staffTableView.setItems(FXCollections.observableArrayList(sortedStaffListASC));
         }
+    }
+
+    private void refreshTable() {
+        retrieveStaff = fnc.retrieveStaff(globalVariable.sortedStaffListASC);
+        applySorting(retrieveStaff);
     }
 
     private void showErrorAlert(String title, String message) {
@@ -208,68 +209,30 @@ public class staffAccountController implements Initializable {
     }
 
     @FXML
-    public void addStaff(ActionEvent actionevent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsAdd.fxml"));
-        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
+    private void doSearch(MouseEvent event) {
+        String searchFld = searchField.getText();
+        if(searchFld.isEmpty() || searchFld.equals(null)) {
+            lblError.setText("Search text is blank"); return;
+        }
 
-    @FXML
-    public void editStaff(ActionEvent actionevent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsModify.fxml"));
-        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    @FXML
-    public void deleteStaff(ActionEvent actionevent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsDelete.fxml"));
-        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    @FXML
-    private void doSearch(ActionEvent event) {
-
-    }
-
-    @FXML
-    private void generateID(ActionEvent event) {
-        try {
-            if (lNameField.getText() == null || lNameField.getText().trim().isEmpty()) {
-                lblError.setText("Last name is empty"); return;
-            }
-
-            conn = dbFnc.connectToDB();
-            int staffID = globalVariable.dbFnc.resetAutoIncrement(conn, "staff", "staff_id");
-            String staffIDTemp = fnc.getUserId(lNameField.getText(), staffID);
-            IDField.setText(staffIDTemp);
-        }catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            alert.setTitle("Generate ID Error");
-            alert.show();
+        searchStaff = fnc.findStaffID(sortedStaffListASC, searchFld);
+        if(searchStaff!=null) {
+            IDField.setText(searchStaff.getStaffId());
+            fNameField.setText(searchStaff.getFName());
+            lNameField.setText(searchStaff.getLName());
+            passwordField.setText(searchStaff.getPassword());
+            confirmPassField.setText(searchStaff.getPassword());
+            saveBttn.setDisable(false);
+        }else {
+            lblError.setText("Staff not found with the ID");
         }
     }
 
     @FXML
-    private void doAddStaff(ActionEvent event) {
+    private void doDeleteStaff(ActionEvent event) {
         try{
             if(fNameField.getText() == null || fNameField.getText().trim().isEmpty()) {
                 lblError.setText("First name is empty"); return;
-            }else if(lNameField.getText() == null || lNameField.getText().trim().isEmpty()) {
-                lblError.setText("Last name is empty"); return;
-            }else if(passwordField.getText() == null || passwordField.getText().trim().isEmpty()) {
-                lblError.setText("Password is empty"); return;
-            }else if(confirmPassField.getText() == null || confirmPassField.getText().trim().isEmpty()) {
-                lblError.setText("Confirm Password is empty");
-                return;
-            }else if(passwordField.getText().equals(confirmPassField.getText())==false) {
-                lblError.setText("Password does not match"); return;
-            } else if(IDField.getText() == null || IDField.getText().trim().isEmpty()) {
-                lblError.setText("Staff ID is empty"); return;
             }
 
             String fName = fNameField.getText();
@@ -277,10 +240,10 @@ public class staffAccountController implements Initializable {
             String password = passwordField.getText();
             String staffID = IDField.getText();
 
-            Staff newStaff = new Staff(fName, lName, staffID, password);
-            dbFnc.insertStaffDB(newStaff);
-            globalVariable.sortedStaffListASC.add(newStaff);
-            staffTableView.refresh();
+            dbFnc.deleteStaffDB(staffID);
+            fnc.deleteStaff(sortedStaffListASC, staffID);
+            refreshTable();
+
             Alert alert = new Alert(Alert.AlertType.NONE, "Staff Registered Successfully", ButtonType.OK);
             alert.setTitle("Staff Register");
             alert.show();
@@ -291,13 +254,11 @@ public class staffAccountController implements Initializable {
             confirmPassField.setText(null);
             IDField.setText(null);
             lblError.setText(null);
+            saveBttn.setDisable(true);
         }catch(Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("Register Staff Error");
             alert.show();
         }
     }
-
-
-
 }

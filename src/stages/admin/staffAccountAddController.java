@@ -1,9 +1,13 @@
 package stages.admin;
 
 
-
+import Entity.Staff;
+import Function.Function;
+import Function.dbFunction;
+import Function.globalVariable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,16 +28,9 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
-import Entity.Staff;
-import Function.Function;
-import Function.dbFunction;
-import javafx.event.ActionEvent;
+import static Function.globalVariable.sortedStaffListASC;
 
-import Function.globalVariable;
-
-import static Function.globalVariable.*;
-
-public class staffAccountController implements Initializable {
+public class staffAccountAddController implements Initializable {
 
     Connection conn;
     Statement stmt;
@@ -94,7 +91,6 @@ public class staffAccountController implements Initializable {
         sortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             applySorting(fnc.retrieveStaff(sortedStaffListASC));
         });
-        staffQty.setText(Integer.toString(sortedStaffListASC.size()));
 
         // Set up TableView columns
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
@@ -119,6 +115,11 @@ public class staffAccountController implements Initializable {
                     .forEach(sortedStaffListASC::add);
             staffTableView.setItems(FXCollections.observableArrayList(sortedStaffListASC));
         }
+    }
+
+    private void refreshTable() {
+        retrieveStaff = fnc.retrieveStaff(globalVariable.sortedStaffListASC);
+        applySorting(retrieveStaff);
     }
 
     private void showErrorAlert(String title, String message) {
@@ -208,35 +209,6 @@ public class staffAccountController implements Initializable {
     }
 
     @FXML
-    public void addStaff(ActionEvent actionevent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsAdd.fxml"));
-        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    @FXML
-    public void editStaff(ActionEvent actionevent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsModify.fxml"));
-        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    @FXML
-    public void deleteStaff(ActionEvent actionevent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsDelete.fxml"));
-        Stage stage = (Stage) ((Node) actionevent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    @FXML
-    private void doSearch(ActionEvent event) {
-
-    }
-
-    @FXML
     private void generateID(ActionEvent event) {
         try {
             if (lNameField.getText() == null || lNameField.getText().trim().isEmpty()) {
@@ -280,7 +252,8 @@ public class staffAccountController implements Initializable {
             Staff newStaff = new Staff(fName, lName, staffID, password);
             dbFnc.insertStaffDB(newStaff);
             globalVariable.sortedStaffListASC.add(newStaff);
-            staffTableView.refresh();
+            refreshTable();
+
             Alert alert = new Alert(Alert.AlertType.NONE, "Staff Registered Successfully", ButtonType.OK);
             alert.setTitle("Staff Register");
             alert.show();
@@ -297,7 +270,4 @@ public class staffAccountController implements Initializable {
             alert.show();
         }
     }
-
-
-
 }

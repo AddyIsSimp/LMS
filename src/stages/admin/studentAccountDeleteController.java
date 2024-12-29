@@ -1,7 +1,5 @@
 package stages.admin;
 
-import Entity.Book;
-import Entity.Staff;
 import Entity.Student;
 import Function.Function;
 import Function.dbFunction;
@@ -19,39 +17,66 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static Function.globalVariable.*;
+import static Function.globalVariable.sortedStudentListASC;
 
-
-public class studentAccountController implements Initializable {
-
-    @FXML
-    private Label acctStaffBtn, acctStudentBtn, studentQty;
+public class studentAccountDeleteController implements Initializable {
 
     @FXML
-    private HBox bkManageBtn, borrowTransBtn, dashboardBtn, inventoryBtn, logoutBtn, reportsBtn;
+    private Label acctStaffBtn;
 
+    @FXML
+    private Label acctStudentBtn;
+    @FXML
+    private Label studentQty;
+
+    @FXML
+    private HBox bkManageBtn;
+
+    @FXML
+    private HBox borrowTransBtn;
+
+    @FXML
+    private HBox dashboardBtn;
+
+    @FXML
+    private HBox inventoryBtn;
+
+    @FXML
+    private HBox logoutBtn;
+
+    @FXML
+    private HBox reportsBtn;
+
+
+    @FXML
+    private TextField schoolIDField, sectionIDField, confirmPassField, fNameField, lNameField, emailField,  passwordField;
     @FXML
     private TextField searchField;
+    @FXML
+    private RadioButton lNameRB, idRB;
+    @FXML
+    private Button saveBttn;
 
     @FXML
     private TableView<Student> studentTableView;
     @FXML
     private TableColumn<Student, String> schoolIDCol,firstNameCol, lastNameCol, sectionCol, emailCol;
+
     @FXML
-    private Label lblError;
-    @FXML
-    private ChoiceBox<String> sortCB;
+    private Label lblError, lblError2;
 
     Student searchStudent;
     dbFunction dbFunc = new dbFunction();
     Function fnc = new Function();
+
+    @FXML
+    private ChoiceBox<String> sortCB;
 
     private String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
@@ -59,7 +84,6 @@ public class studentAccountController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize sort options
-        studentQty.setText(Integer.toString(sortedStudentListASC.size()));
         sortCB.getItems().addAll(sortType);
         sortCB.setValue(sortType[0]);
 
@@ -157,27 +181,72 @@ public class studentAccountController implements Initializable {
     }
 
     @FXML
-    private void addStudent(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsAdd.fxml"));
+    private void returnAcctStudent(MouseEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("stages/admin/adminFXML/students/admin_acctStudents.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
     @FXML
-    private void editStudent(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsModify.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+    private void doSearch(MouseEvent event) {
+        String selected = "Email";
+        String searchFld;
+
+        if(lNameRB.isSelected()) { //find which button selected
+            selected = "Email";
+        }else {
+            selected = "ID";
+        }
+
+        if(searchField.getText().isEmpty()) {  //if searchfield is empty
+            lblError.setText("Search text is blank"); return;
+        }
+        searchFld = searchField.getText();
+
+        if(selected.equals("ID")) {
+            searchStudent = globalVariable.fnc.findStudentID(sortedStudentListASC, searchFld);
+        }else {
+            searchStudent = globalVariable.fnc.findStudentEmail(sortedStudentListASC, searchFld);
+        }
+
+        if(searchStudent==null) {
+            lblError.setText("Student not found"); return;
+        }else {
+            schoolIDField.setText(Integer.toString(searchStudent.getSchoolID()));
+            sectionIDField.setText(searchStudent.getSection());
+            confirmPassField.setText(searchStudent.getPass());
+            fNameField.setText(searchStudent.getFName());
+            lNameField.setText(searchStudent.getLName());
+            emailField.setText(searchStudent.getEmail());
+            passwordField.setText(searchStudent.getPass());
+
+            saveBttn.setDisable(false);
+        }
     }
 
     @FXML
-    private void deleteStudent(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsDelete.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+    private void doDeleteStudent(MouseEvent event) {
+        try {
+            String schoolID = schoolIDField.getText();
+            String id = fnc.retrieveStudentID(schoolID);
+            int schoolIDInt = 0;
+            if(id!=null) {
+                schoolIDInt = Integer.parseInt(id);
+            }else {
+                fnc.showAlert("Update Failed", "Student account with the ID not found!");
+                return;
+            }
+
+            boolean deleteStudentL = fnc.deleteStudent(sortedStudentListASC, schoolIDInt);
+            boolean deleteStudentD = dbFunc.deleteStudentDB(schoolIDInt);
+            if(deleteStudentL && deleteStudentD) {
+                fnc.showAlert("Student Account Delete", "Student account deleted successfully!");
+            }
+            refreshTable();
+        }catch(Exception e) {
+            fnc.showAlert("Modify Student Error", e.getMessage());
+        }
     }
 
 }

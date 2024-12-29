@@ -1,7 +1,5 @@
 package stages.admin;
 
-import Entity.Book;
-import Entity.Staff;
 import Entity.Student;
 import Function.Function;
 import Function.dbFunction;
@@ -19,39 +17,61 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static Function.globalVariable.*;
+import static Function.globalVariable.sortedStudentListASC;
 
 
-public class studentAccountController implements Initializable {
-
-    @FXML
-    private Label acctStaffBtn, acctStudentBtn, studentQty;
+public class studentAccountAddController implements Initializable {
 
     @FXML
-    private HBox bkManageBtn, borrowTransBtn, dashboardBtn, inventoryBtn, logoutBtn, reportsBtn;
+    private Label acctStaffBtn;
 
     @FXML
-    private TextField searchField;
+    private Label acctStudentBtn;
+    @FXML
+    private Label studentQty;
+
+    @FXML
+    private HBox bkManageBtn;
+
+    @FXML
+    private HBox borrowTransBtn;
+
+    @FXML
+    private HBox dashboardBtn;
+
+    @FXML
+    private HBox inventoryBtn;
+
+    @FXML
+    private HBox logoutBtn;
+
+    @FXML
+    private HBox reportsBtn;
+
+
+    @FXML
+    private TextField schoolIDField, sectionIDField, confirmPassField, fNameField, lNameField, emailField,  passwordField;
 
     @FXML
     private TableView<Student> studentTableView;
     @FXML
     private TableColumn<Student, String> schoolIDCol,firstNameCol, lastNameCol, sectionCol, emailCol;
+
     @FXML
     private Label lblError;
-    @FXML
-    private ChoiceBox<String> sortCB;
 
     Student searchStudent;
     dbFunction dbFunc = new dbFunction();
     Function fnc = new Function();
+
+    @FXML
+    private ChoiceBox<String> sortCB;
 
     private String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
@@ -59,7 +79,6 @@ public class studentAccountController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize sort options
-        studentQty.setText(Integer.toString(sortedStudentListASC.size()));
         sortCB.getItems().addAll(sortType);
         sortCB.setValue(sortType[0]);
 
@@ -157,27 +176,82 @@ public class studentAccountController implements Initializable {
     }
 
     @FXML
-    private void addStudent(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsAdd.fxml"));
+    private void returnAcctStudent(MouseEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("stages/admin/adminFXML/students/admin_acctStudents.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
     @FXML
-    private void editStudent(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsModify.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
+    private void doAddStudent(ActionEvent event) {
+        String schoolID = schoolIDField.getText();
+        String fName = fNameField.getText();
+        String lName = lNameField.getText();
+        String email = emailField.getText();
+        String section = sectionIDField.getText();
+        String pass = passwordField.getText();
+        String confirmPass = confirmPassField.getText();
+        int studentID = 0;
 
-    @FXML
-    private void deleteStudent(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsDelete.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        if (schoolID.isEmpty()) {
+            lblError.setText("Student ID is missing");
+            return;
+        }
+        if (fnc.retrieveStudentID(schoolID) != null) {
+            studentID = Integer.parseInt(fnc.retrieveStudentID(schoolID));
+        } else {
+            lblError.setText("Incorrect ID format (NNNN-NNNNN)");
+            return;
+        }
+        if(section.isEmpty()) {
+            lblError.setText("Section is missing");
+            return;
+        }
+
+        if (fName.isEmpty()) {
+            lblError.setText("First name is missing");
+            return;
+        } else if (lName.isEmpty()) {
+            lblError.setText("Last name is missing");
+            return;
+        } else if (email.isEmpty()) {
+            lblError.setText("Email is missing");
+            return;
+        } else if (pass.isEmpty()) {
+            lblError.setText("Password is missing");
+            return;
+        } else if (confirmPass.isEmpty()) {
+            lblError.setText("Confirm password is missing");
+            return;
+        }
+
+        if(fnc.emailChecker(email)==false) {
+            lblError.setText("Wrong email format! e.g.(john.doe@example.com)");
+            return;
+        }
+        if (fnc.passwordChecker(pass) == false) {
+            lblError.setText("Password is atleast 8 characters with\nletter and number or special character");
+            return;
+        }
+        if (pass.equals(confirmPass) == false) {
+            lblError.setText("Password does not match");
+            return;
+        }
+
+        Student newStudent = new Student(studentID, fName, lName, section, email, pass);
+        studentID = dbFunc.insertStudentDB(newStudent);
+
+        if (studentID != 0) {
+            sortedStudentListASC.add(newStudent);
+            refreshTable();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Student registered successfully");
+            alert.setTitle("Student Registration");
+            alert.showAndWait();
+        } else {
+            lblError.setText("Student Registration Fail");
+        }
+
     }
 
 }

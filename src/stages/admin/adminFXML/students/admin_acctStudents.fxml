@@ -241,7 +241,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="24.0" prefWidth="266.0">
                      <children>
-                        <TextField focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText="Search" stylesheets="@../../../../style_File/Dashboard.css">
+                        <TextField fx:id="searchField" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText="Search" stylesheets="@../../../../style_File/Dashboard.css">
                            <styleClass>
                               <String fx:value="bgcolor-white" />
                               <String fx:value="outlineAllBlack" />
@@ -386,8 +386,7 @@
                   <TableColumn fx:id="firstNameCol" minWidth="0.0" prefWidth="88.5333480834961" text="First Name" />
                   <TableColumn fx:id="lastNameCol" prefWidth="82.66659545898438" text="Last Name" />
                   <TableColumn fx:id="sectionCol" prefWidth="73.59988403320312" text="Section" />
-                  <TableColumn fx:id="emailCol" prefWidth="72.26678466796875" text="Email" />
-                  <TableColumn fx:id="penaltyCol" prefWidth="93.86663818359375" text="Penalty" />
+                  <TableColumn fx:id="emailCol" prefWidth="160.0" text="Email" />
                </columns>
             </TableView>
          </children></VBox>

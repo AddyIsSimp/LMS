@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.admin.studentAccountController">
+<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.admin.studentAccountDeleteController">
    <top>
       <HBox prefHeight="68.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
@@ -291,14 +291,14 @@
                         <Insets top="10.0" />
                      </padding>
                      <children>
-                        <VBox prefHeight="74.0" prefWidth="267.0">
+                        <VBox prefHeight="62.0" prefWidth="266.0">
                            <children>
                               <HBox prefHeight="27.0" prefWidth="252.0" spacing="5.0">
                                  <children>
                                     <Label prefHeight="26.0" prefWidth="62.0" text="Search by: " />
                                     <ToggleButtonGroup selectionType="SINGLE">
                                        <toggles>
-                                          <RadioButton fx:id="titleRB" mnemonicParsing="false" prefHeight="26.0" prefWidth="84.0" selected="true" text="Last Name" />
+                                          <RadioButton fx:id="titleRB" mnemonicParsing="false" prefHeight="26.0" prefWidth="84.0" selected="true" text="Email" />
                                           <RadioButton fx:id="isbnRB" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.0" text="School ID" />
                                        </toggles>
                                     </ToggleButtonGroup>
@@ -326,6 +326,7 @@
                               <Insets left="15.0" />
                            </padding>
                         </VBox>
+                        <Label fx:id="lblError" alignment="CENTER" prefHeight="18.0" prefWidth="268.0" textFill="RED" />
                         <VBox prefHeight="54.0" prefWidth="267.0">
                            <children>
                               <HBox prefHeight="100.0" prefWidth="200.0">
@@ -369,6 +370,9 @@
                            <padding>
                               <Insets left="15.0" right="10.0" />
                            </padding>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
                         </VBox>
                         <VBox prefHeight="54.0" prefWidth="267.0">
                            <children>
@@ -462,9 +466,10 @@
                         </VBox>
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" prefHeight="58.0" prefWidth="266.0">
+                  <Label fx:id="lblError2" alignment="CENTER" prefHeight="18.0" prefWidth="268.0" textFill="RED" />
+                  <HBox alignment="TOP_CENTER" prefHeight="58.0" prefWidth="266.0">
                      <children>
-                        <Button disable="true" mnemonicParsing="false" onAction="#deleteStudent" prefHeight="44.0" prefWidth="127.0" stylesheets="@../../../../style_File/Dashboard.css" text="DELETE" textFill="WHITE">
+                        <Button fx:id="saveBttn" disable="true" mnemonicParsing="false" onAction="#doDeleteStudent" prefHeight="44.0" prefWidth="127.0" stylesheets="@../../../../style_File/Dashboard.css" text="DELETE" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
@@ -524,8 +529,7 @@
                   <TableColumn fx:id="firstNameCol" minWidth="0.0" prefWidth="88.5333480834961" text="First Name" />
                   <TableColumn fx:id="lastNameCol" prefWidth="82.66659545898438" text="Last Name" />
                   <TableColumn fx:id="sectionCol" prefWidth="73.59988403320312" text="Section" />
-                  <TableColumn fx:id="emailCol" prefWidth="72.26678466796875" text="Email" />
-                  <TableColumn fx:id="penaltyCol" prefWidth="93.86663818359375" text="Penalty" />
+                  <TableColumn fx:id="emailCol" prefWidth="159.20001220703125" text="Email" />
                </columns>
             </TableView>
          </children></VBox>

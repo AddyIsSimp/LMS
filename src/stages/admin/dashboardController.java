@@ -99,7 +99,7 @@ public class dashboardController implements Initializable {
         bkqtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         // Retrieve lists
-        if (studentList != null) {
+        if (sortedStudentListASC != null) {
             retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
         } else {
             showErrorAlert("Error", "Student list is empty or not initialized.");

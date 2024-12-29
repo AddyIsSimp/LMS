@@ -295,6 +295,83 @@ public class dbFunction {
         return staffId;
     }
 
+    public boolean modifyStudentDB(Student student, int id) {
+        try {
+            conn = connectToDB(); // Establish database connection
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return false; // Return false if the connection fails
+            }
+
+            // SQL statement for updating a student record
+            String sqlUpdateStudent = "UPDATE librarydb.student " +
+                    "SET school_id = ?, fName = ?, lName = ?, section = ?, email = ?, password = ?, penalty = ? " +
+                    "WHERE school_id = ?";
+
+            pstmt = conn.prepareStatement(sqlUpdateStudent); // Prepare the SQL statement
+            pstmt.setInt(1, student.getSchoolID());          // Set school_id
+            pstmt.setString(2, student.getFName());          // Set fName
+            pstmt.setString(3, student.getLName());          // Set lName
+            pstmt.setString(4, student.getSection());        // Set section
+            pstmt.setString(5, student.getEmail());          // Set email
+            pstmt.setString(6, student.getPass());           // Set password
+            pstmt.setDouble(7, student.getPenalty());        // Set penalty
+            pstmt.setInt(8, id);                             // Set the student ID for the WHERE clause
+
+            int rowsUpdated = pstmt.executeUpdate(); // Execute the update
+
+            if (rowsUpdated > 0) {
+                return true; // Return true if the update was successful
+            }
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Modify Student Error");
+            alert.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Modify Student Error");
+            alert.show();
+        }
+        return false; // Return false if the update fails
+    }
+
+    public boolean deleteStudentDB(int id) {
+        try {
+            conn = connectToDB(); // Establish database connection
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return false; // Return false if the connection fails
+            }
+
+            // SQL statement for updating a student record
+            String sqlUpdateStudent = "DELETE FROM librarydb.student " +
+                    "WHERE school_id = ?";
+
+            pstmt = conn.prepareStatement(sqlUpdateStudent); // Prepare the SQL statement
+            pstmt.setInt(1, id);          // Set school_id
+
+            int rowsUpdated = pstmt.executeUpdate(); // Execute the update
+
+            if (rowsUpdated > 0) {
+                return true; // Return true if the update was successful
+            }
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Delete Student DB Error");
+            alert.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Delete Student DB Error");
+            alert.show();
+        }
+        return false; // Return false if the update fails
+    }
+
+
     public int insertStaffDB(Staff staff) {
         int staffId = 0;
         try{
@@ -635,7 +712,7 @@ public class dbFunction {
         return false;
     }
 
-    public int deleteStaffDB(String staffID, String lName, boolean searchByStaffID) {
+    public int deleteStaffDB(String staffID) {
         int result = 0;
 
         try {
@@ -647,22 +724,9 @@ public class dbFunction {
                 return 0;
             }
 
-
-            String sqlDeleteStaff;
-            if (searchByStaffID) {
-                sqlDeleteStaff = "DELETE FROM librarydb.staff WHERE staffID = ?";
-            } else {
-                sqlDeleteStaff = "DELETE FROM librarydb.staff WHERE lName = ?";
-            }
-
+            String sqlDeleteStaff = "DELETE FROM librarydb.staff WHERE staffID = ?";
             pstmt = conn.prepareStatement(sqlDeleteStaff);
-
-
-            if (searchByStaffID) {
-                pstmt.setString(1, staffID);
-            } else {
-                pstmt.setString(1, lName);
-            }
+            pstmt.setString(1, staffID);
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {

@@ -385,6 +385,68 @@ public class Function {
         return lName + " " + fName.charAt(0) + ".";
     }
 
+    public Student findStudentID(ArrayList<Student> studentList, String id) {
+        String studID = retrieveStudentID(id);
+        int studentID = 0;
+        if(studID!=null) {
+            studentID = Integer.parseInt(studID);
+        }else showAlert("Find Student Error", "Wrong ID Format");
 
+        for(Student student: studentList) {
+            if(student.getSchoolID()==studentID) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public Student findStudentEmail(ArrayList<Student> studentList, String email) {
+        for(Student student: studentList) {
+            if(student.getEmail().equals(email)) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public Staff findStaffID(ArrayList<Staff> staffList, String id) {
+        for(Staff staff: staffList) {
+            if(staff.getUsername().equals(id)) {
+                return staff;
+            }
+        }
+        return null;
+    }
+
+    public boolean emailChecker(String email) {
+        String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]$";
+
+        if (email == null || !email.matches(emailRegex)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteStudent(ArrayList<Student> studentList, int schoolID) {
+        boolean isDeleted = false;
+        for(Student student: studentList) {
+            if(student.getSchoolID()==schoolID) {
+                studentList.remove(student);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteStaff(ArrayList<Staff> staffList, String staffID) {
+        boolean isDeleted = false;
+        for(Staff staff :  staffList) {
+            if(staff.getUsername().equals(staffID)) {
+                staffList.remove(staff);
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

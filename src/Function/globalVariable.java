@@ -22,8 +22,6 @@ public class globalVariable {
     //LIBRARY
     public static Group cabinets = new Group();
     public static DoublyLinkList bookList = new DoublyLinkList();
-    public static DoublyLinkList studentList = new DoublyLinkList();
-    public static DoublyLinkList staffList = new DoublyLinkList();
     public static boolean isLibraryView = false;       //this is for inventory if false it should be tabular
 
     //ADMIN
