@@ -25,6 +25,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+
 import Entity.Staff;
 import Entity.Transact;
 import Function.Function;
@@ -77,6 +79,13 @@ public class staffAccountController implements Initializable {
     private TableColumn<Staff, String> firstNameCol, lastNameCol, staffIDCol;
     @FXML
     private ChoiceBox<String> sortCB;
+
+    @FXML
+    private RadioButton titleRB, isbnRB; // Declare these in your controller class
+
+    @FXML
+    private ToggleGroup searchToggleGroup; // Add this toggle group
+
 
     private String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Staff> retrieveStaff = FXCollections.observableArrayList();
@@ -292,6 +301,90 @@ public class staffAccountController implements Initializable {
             alert.show();
         }
     }
+
+    @FXML
+    private void doModifyStaff(ActionEvent event) {
+        try {
+            String searchValue = lNameField.getText();
+            if (titleRB.isSelected()) {
+                Staff staff = dbFnc.searchStaffByLastName(searchValue);
+                if (staff != null) {
+                    IDField.setText(staff.getStaffId());
+                    fNameField.setText(staff.getfName());
+                    lNameField.setText(staff.getlName());
+                    passwordField.setText(staff.getPassword());
+                    confirmPassField.setText(null);
+                } else {
+                    lblError.setText("No staff found with last name: " + searchValue);
+                }
+            } else if (isbnRB.isSelected()) {
+                Staff staff = dbFnc.searchStaffByID(searchValue);
+                if (staff != null) {
+                    IDField.setText(staff.getStaffId());
+                    fNameField.setText(staff.getfName());
+                    lNameField.setText(staff.getlName());
+                    passwordField.setText(staff.getPassword());
+                    confirmPassField.setText(null);
+                } else {
+                    lblError.setText("No staff found with ID: " + searchValue);
+                }
+            } else {
+                lblError.setText("Please select a search option.");
+                return;
+            }
+
+            if (IDField.getText().isEmpty()) {
+                lblError.setText("Staff ID is empty.");
+                return;
+            } else if (fNameField.getText().isEmpty()) {
+                lblError.setText("First name is empty.");
+                return;
+            } else if (lNameField.getText().isEmpty()) {
+                lblError.setText("Last name is empty.");
+                return;
+            } else if (passwordField.getText().isEmpty()) {
+                lblError.setText("Password is empty.");
+                return;
+            } else if (!passwordField.getText().equals(confirmPassField.getText())) {
+                lblError.setText("Passwords do not match.");
+                return;
+            }
+
+            String staffID = IDField.getText();
+            String fName = fNameField.getText();
+            String lName = lNameField.getText();
+            String password = passwordField.getText();
+
+            Staff modifiedStaff = new Staff(fName, lName, staffID, password);
+            dbFnc.updateStaffDB(modifiedStaff);
+
+            sortedStaffListASC.replaceAll((UnaryOperator<Staff>) modifiedStaff);  // Update the staff list
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Staff details updated successfully", ButtonType.OK);
+            alert.setTitle("Modify Staff");
+            alert.show();
+
+            IDField.setText(null);
+            fNameField.setText(null);
+            lNameField.setText(null);
+            passwordField.setText(null);
+            confirmPassField.setText(null);
+            lblError.setText(null);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Modify Staff Error");
+            alert.show();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 }

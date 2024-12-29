@@ -540,5 +540,154 @@ public class dbFunction {
         return false; // Return false if update was unsuccessful
     }
 
+    public Staff searchStaffByLastName(String lastName) {
+        Staff staff = null;
+        try {
+            conn = connectToDB();
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return null;
+            }
+            String sqlSearch = "SELECT * FROM librarydb.staff WHERE lName = ?";
+            pstmt = conn.prepareStatement(sqlSearch);
+            pstmt.setString(1, lastName);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String staffID = rs.getString("staff_UN");
+                String fName = rs.getString("fName");
+                String lName = rs.getString("lName");
+                String password = rs.getString("password");
+                staff = new Staff(fName, lName, staffID, password);
+            }
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Search Staff by Last Name Error");
+            alert.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Search Staff by Last Name Error");
+            alert.show();
+        }
+        return staff;
+    }
+
+    public Staff searchStaffByID(String staffID) {
+        Staff staff = null;
+        try {
+            conn = connectToDB();
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return null;
+            }
+            String sqlSearch = "SELECT * FROM librarydb.staff WHERE staff_UN = ?";
+            pstmt = conn.prepareStatement(sqlSearch);
+            pstmt.setString(1, staffID);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String fName = rs.getString("fName");
+                String lName = rs.getString("lName");
+                String password = rs.getString("password");
+                staff = new Staff(fName, lName, staffID, password);
+            }
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Search Staff by ID Error");
+            alert.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Search Staff by ID Error");
+            alert.show();
+        }
+        return staff;
+    }
+
+    public boolean updateStaffDB(Staff staff) {
+        try {
+            conn = connectToDB();
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return false;
+            }
+            String sqlUpdate = "UPDATE librarydb.staff SET fName = ?, lName = ?, password = ? WHERE staff_UN = ?";
+            pstmt = conn.prepareStatement(sqlUpdate);
+            pstmt.setString(1, staff.getfName());
+            pstmt.setString(2, staff.getlName());
+            pstmt.setString(3, staff.getPassword());
+            pstmt.setString(4, staff.getUsername());
+
+            int rowsUpdated = pstmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Update Staff Error");
+            alert.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Update Staff Error");
+            alert.show();
+        }
+        return false;
+    }
+
+    public int deleteStaffDB(String staffID, String lName, boolean searchByStaffID) {
+        int result = 0;
+
+        try {
+            conn = connectToDB(); // Establish database connection
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return 0;
+            }
+
+
+            String sqlDeleteStaff;
+            if (searchByStaffID) {
+                sqlDeleteStaff = "DELETE FROM librarydb.staff WHERE staffID = ?";
+            } else {
+                sqlDeleteStaff = "DELETE FROM librarydb.staff WHERE lName = ?";
+            }
+
+            pstmt = conn.prepareStatement(sqlDeleteStaff);
+
+
+            if (searchByStaffID) {
+                pstmt.setString(1, staffID);
+            } else {
+                pstmt.setString(1, lName);
+            }
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                result = rowsAffected; // Number of rows deleted
+            } else {
+                throw new SQLException("No staff found with the provided ID or last name.");
+            }
+
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Delete Staff Error");
+            alert.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Delete Staff Error");
+            alert.show();
+        }
+
+        return result;
+    }
+
+
+
+
 
 }

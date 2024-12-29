@@ -54,8 +54,8 @@ public class Staff {
         this.pass = pass;
     }
 
-    public int getStaffId() {
-        return StaffID;
+    public String getStaffId() {
+        return String.valueOf(StaffID);
     }
 
     public void setStaffId(int StaffID) {
