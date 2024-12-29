@@ -428,7 +428,7 @@
                   </VBox>
                   <HBox alignment="CENTER" prefHeight="74.0" prefWidth="266.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#deleteStaff" prefHeight="44.0" prefWidth="127.0" stylesheets="@../../../../style_File/Dashboard.css" text="DELETE" textFill="WHITE">
+                        <Button disable="true" mnemonicParsing="false" onAction="#deleteStaff" prefHeight="44.0" prefWidth="127.0" stylesheets="@../../../../style_File/Dashboard.css" text="DELETE" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
@@ -486,7 +486,7 @@
                <columns>
                   <TableColumn fx:id="firstNameCol" prefWidth="166.3999571800232" text="First Name" />
                   <TableColumn fx:id="lastNameCol" minWidth="0.0" prefWidth="176.79995727539062" text="Last Name" />
-                  <TableColumn fx:id="emailCol" prefWidth="158.40008544921875" text="Email" />
+                  <TableColumn fx:id="staffIDCol" prefWidth="158.40008544921875" text="Staff ID" />
                </columns>
             </TableView>
          </children></VBox>

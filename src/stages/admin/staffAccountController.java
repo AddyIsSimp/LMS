@@ -97,7 +97,6 @@ public class staffAccountController implements Initializable {
         lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
         staffIDCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 
-
         if (staffList != null) {
             retrieveStaff = fnc.retrieveStaff(globalVariable.sortedStaffListASC);
         } else {
@@ -305,9 +304,9 @@ public class staffAccountController implements Initializable {
             if (titleRB.isSelected()) {
                 Staff staff = dbFnc.searchStaffByLastName(searchValue);
                 if (staff != null) {
-                    IDField.setText(staff.getStaffId());
-                    fNameField.setText(staff.getfName());
-                    lNameField.setText(staff.getlName());
+                    IDField.setText(staff.getUsername());
+                    fNameField.setText(staff.getFName());
+                    lNameField.setText(staff.getLName());
                     passwordField.setText(staff.getPassword());
                     confirmPassField.setText(null);
                 } else {
@@ -316,9 +315,9 @@ public class staffAccountController implements Initializable {
             } else if (isbnRB.isSelected()) {
                 Staff staff = dbFnc.searchStaffByID(searchValue);
                 if (staff != null) {
-                    IDField.setText(staff.getStaffId());
-                    fNameField.setText(staff.getfName());
-                    lNameField.setText(staff.getlName());
+                    IDField.setText(staff.getUsername());
+                    fNameField.setText(staff.getFName());
+                    lNameField.setText(staff.getLName());
                     passwordField.setText(staff.getPassword());
                     confirmPassField.setText(null);
                 } else {

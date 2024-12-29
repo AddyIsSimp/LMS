@@ -91,6 +91,7 @@ public class studentAccountController implements Initializable {
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("section"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
 
+
         if (studentList != null) {
             retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
         } else {

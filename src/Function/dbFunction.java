@@ -616,8 +616,8 @@ public class dbFunction {
             }
             String sqlUpdate = "UPDATE librarydb.staff SET fName = ?, lName = ?, password = ? WHERE staff_UN = ?";
             pstmt = conn.prepareStatement(sqlUpdate);
-            pstmt.setString(1, staff.getfName());
-            pstmt.setString(2, staff.getlName());
+            pstmt.setString(1, staff.getFName());
+            pstmt.setString(2, staff.getLName());
             pstmt.setString(3, staff.getPassword());
             pstmt.setString(4, staff.getUsername());
 
