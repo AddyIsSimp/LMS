@@ -15,7 +15,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import stages.admin.bkManageController;
@@ -26,9 +25,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.ResourceBundle;
 import Function.*;
 import Function.globalVariable;
@@ -112,7 +108,7 @@ public class brrowBooksController implements Initializable {
             alert.setTitle("Borrow Book");
             alert.setHeaderText("Confirm Borrow Book Request");
             alert.setContentText("Borrower Info\nBorrower ID:  " + studentLogin.getSchoolID() +
-                    "\nBorrower Name:  " + studentLogin.getfName() +
+                    "\nBorrower Name:  " + studentLogin.getFName() +
                     "\n\nBook Info \nTitle:  " + bkTitleField.getText() +
                     "\nISBN:  " + bkISBNField.getText()
             );
@@ -124,7 +120,11 @@ public class brrowBooksController implements Initializable {
                 String bktitle = bkTitleField.getText();
                 String bookISBN = bkISBNField.getText();
 
-                Transact newTransact = new Transact(transactID, bktitle, bookISBN, studentLogin.getSchoolID(), studentLogin.getlName(), "PENDING");
+                Book book = globalVariable.fnc.getBook(globalVariable.bookList, bookISBN);
+                book.setQuantity(book.getQuantity()-1);
+                book.setBorrowed(book.getBorrowed()+1);
+
+                Transact newTransact = new Transact(transactID, bktitle, bookISBN, studentLogin.getSchoolID(), studentLogin.getLName(), "PENDING");
                 globalVariable.dbFnc.insertPendingTransact(newTransact);
                 globalVariable.transactList.add(newTransact);
             }

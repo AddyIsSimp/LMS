@@ -147,11 +147,11 @@
                      </padding>
                   </Label>
                   <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="208.0" />
-                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="396.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="389.0">
                      <children>
                         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="238.0">
                            <children>
-                              <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="searchField" stylesheets="@../../../style_File/Dashboard.css">
+                              <TextField fx:id="searchField" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="Search title" stylesheets="@../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="bgcolor-white" />
                                     <String fx:value="outlineAllBlack" />
@@ -192,13 +192,17 @@
                   <Insets left="15.0" />
                </padding>
             </HBox>
-            <TableView fx:id="brrwTransTblView" prefHeight="502.0" prefWidth="740.0" styleClass="outlineAllBlack" stylesheets="@../../../style_File/Dashboard.css">
+            <TableView fx:id="brrwTransTblView" prefHeight="502.0" prefWidth="753.0" styleClass="outlineAllBlack" stylesheets="@../../../style_File/Dashboard.css">
                <columns>
-                  <TableColumn prefWidth="199.4666075706482" text="Borrow Date" />
-                  <TableColumn fx:id="isbnCol" minWidth="0.0" prefWidth="192.53335571289062" text="Days" />
-                  <TableColumn fx:id="titleCol" prefWidth="238.39999389648438" text="Title" />
-                  <TableColumn fx:id="acceptBtnCol" minWidth="5.0" prefWidth="134.9332275390625" text="Return" />
+                  <TableColumn fx:id="brrwDateCol" prefWidth="168.80001878738403" text="Borrow Date" />
+                  <TableColumn fx:id="daysLeftCol" minWidth="0.0" prefWidth="108.79998779296875" text="Days Left" />
+                  <TableColumn fx:id="titleCol" prefWidth="212.00006103515625" text="Title" />
+                  <TableColumn fx:id="isbnCol" maxWidth="224.7999267578125" prefWidth="161.5999755859375" text="ISBN" />
+                  <TableColumn fx:id="statusCol" maxWidth="100.0" prefWidth="161.5999755859375" text="Status" />
                </columns>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
             </TableView>
          </children></VBox>
    </center>

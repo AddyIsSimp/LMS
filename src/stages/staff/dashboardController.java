@@ -1,5 +1,6 @@
 package stages.staff;
 
+import Entity.Book;
 import Entity.Student;
 import Function.globalVariable;
 import javafx.collections.FXCollections;
@@ -20,8 +21,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static Function.globalVariable.fnc;
-import static Function.globalVariable.sortedStudentListASC;
+import static Function.globalVariable.*;
+import static Function.globalVariable.bookList;
 
 public class dashboardController implements Initializable {
 
@@ -46,36 +47,85 @@ public class dashboardController implements Initializable {
     @FXML
     private HBox reportsBtn;
 
-
+    //Student Table
     @FXML
     private TableView<Student> studentTableView;
     @FXML
-    private TableColumn<Student, String> schoolIDCol,firstNameCol, lastNameCol, sectionCol, emailCol, penaltyCol;
+    private TableColumn<Student, String> schoolIDCol, nameCol, sectionCol;
 
+
+    //Book Table
     @FXML
-    private ChoiceBox<String> sortCB;
+    private TableView<Book> bookTableView;
+    @FXML
+    private TableColumn<Book, String> bkIsbnCol, bkTitleCol, bkAuthorCol, bkQtyCol;
+    @FXML
+    private ChoiceBox<String> studentSortCB, bookSortCB;
+    @FXML
+    private Label bookQty, studentQty;
 
     private String[] sortType = {"A-Z", "Z-A"};
-    private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
+    private ObservableList<Student> StudentList = FXCollections.observableArrayList();
+    private ObservableList<Book> BookList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Initialize sort options
-        sortCB.getItems().addAll(sortType);
-        sortCB.setValue(sortType[0]);
+        // For student sort Function
+        studentSortCB.getItems().addAll(sortType);
+        studentSortCB.setValue(sortType[0]);
 
-        //Set up TableView columns
+        // For book sort Function
+        bookSortCB.getItems().addAll(sortType);
+        bookSortCB.setValue(sortType[0]);
+
+        // Set total quantity
+        bookQty.setText(Integer.toString(globalVariable.fnc.countBkQuantity(bookList)));
+        studentQty.setText(Integer.toString(globalVariable.sortedStudentListASC.size()));
+
         schoolIDCol.setCellValueFactory(new PropertyValueFactory<>("schoolID"));
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("section"));
 
-        retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
-        if(retrieveStudentlist.isEmpty()) {
+        bkTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        bkIsbnCol.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
+        bkAuthorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
+        bkQtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        if (studentList != null) {
+            StudentList = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
+        } else {
+            showErrorAlert("Error", "Student list is empty or not initialized.");
+        }
+
+        if (bookList != null) {
+            BookList = fnc.retrieveBook(bookList);
+        } else {
             showErrorAlert("Error", "Book list is empty or not initialized.");
         }
 
-        studentTableView.setItems(retrieveStudentlist);
+        studentTableView.setItems(StudentList);
+        bookTableView.setItems(BookList);
+
+        // Add sorting functionality to ChoiceBox
+        studentSortCB.setOnAction(e -> {
+            String sortOption = studentSortCB.getValue();
+            if ("A-Z".equals(sortOption)) {
+                StudentList.sort((s1, s2) -> s1.getFullName().compareToIgnoreCase(s2.getFullName()));
+            } else if ("Z-A".equals(sortOption)) {
+                StudentList.sort((s1, s2) -> s2.getFullName().compareToIgnoreCase(s1.getFullName()));
+            }
+        });
+
+        bookSortCB.setOnAction(e -> {
+            String sortOption = bookSortCB.getValue();
+            if ("A-Z".equals(sortOption)) {
+                BookList.sort((b1, b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle()));
+            } else if ("Z-A".equals(sortOption)) {
+                BookList.sort((b1, b2) -> b2.getTitle().compareToIgnoreCase(b1.getTitle()));
+            }
+        });
     }
+
 
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -83,6 +133,8 @@ public class dashboardController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
 
     @FXML
     private void goBorrowTransact(MouseEvent event) throws IOException {

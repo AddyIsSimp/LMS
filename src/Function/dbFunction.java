@@ -5,8 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.UUID;
 
 import Entity.*;
 import LinkedList.*;
@@ -276,8 +274,8 @@ public class dbFunction {
                     " VALUES (?, ?, ?, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sqlInsertStudent);
             pstmt.setInt(1, student.getSchoolID());
-            pstmt.setString(2, student.getfName());
-            pstmt.setString(3, student.getlName());
+            pstmt.setString(2, student.getFName());
+            pstmt.setString(3, student.getLName());
             pstmt.setString(4, student.getSection());
             pstmt.setString(5, student.getEmail());
             pstmt.setString(6, student.getPass());
@@ -311,8 +309,8 @@ public class dbFunction {
                     "(fName, lName, staff_UN, password)" +
                     " VALUES (?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sqlInsertStudent);
-            pstmt.setString(1, staff.getfName());
-            pstmt.setString(2, staff.getlName());
+            pstmt.setString(1, staff.getFName());
+            pstmt.setString(2, staff.getLName());
             pstmt.setString(3, staff.getUsername());
             pstmt.setString(4, staff.getPassword());
 
@@ -426,8 +424,8 @@ public class dbFunction {
             while (rs.next()) {
                 Staff staff = new Staff();
                 staff.setStaffId(rs.getInt("staff_id"));
-                staff.setfName(rs.getString("fName"));
-                staff.setlName(rs.getString("lName"));
+                staff.setFName(rs.getString("fName"));
+                staff.setLName(rs.getString("lName"));
                 staff.setUsername(rs.getString("staff_UN"));
                 staff.setPassword(rs.getString("password"));
                 staffList.add(staff);
@@ -488,8 +486,8 @@ public class dbFunction {
             while (rs.next()) {
                 Student student = new Student();
                 student.setSchoolID(rs.getInt("school_id"));
-                student.setfName(rs.getString("fName"));
-                student.setlName(rs.getString("lName"));
+                student.setFName(rs.getString("fName"));
+                student.setLName(rs.getString("lName"));
                 student.setSection(rs.getString("section"));
                 student.setEmail(rs.getString("email"));
                 student.setPass(rs.getString("password"));

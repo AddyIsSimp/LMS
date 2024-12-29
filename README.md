@@ -13,5 +13,8 @@ SETUP VM Options
 4Then select the index.java as the main file 
 
 TODO
-- deleteBookDB
-- borrowTransact student
+- Admin - Inventory Table View sort not working
+- Student Settings
+- InsertBookImageDB - to debug
+- Sorting that needs Date sorting
+- Reports

@@ -1,7 +1,9 @@
 package Entity;
 
+import static Function.globalVariable.fnc;
+
 public class Student {
-    private int studentID;
+    private String fullName;
     private String fName;
     private String lName;
     private String section;
@@ -18,7 +20,6 @@ public class Student {
         this.email = email;
         this.pass = pass;
         this.penalty = penalty;
-
     }
 
     public Student (int schoolID, String fName, String lName, String section, String email, String pass) {
@@ -29,7 +30,10 @@ public class Student {
         this.email = email;
         this.pass = pass;
         this.penalty = penalty;
+        this.fullName = fnc.getFullName(fName, lName);
     }
+
+
 
     public Student (int schoolID, String fName, String lName, String section, String email, String pass, double penalty) {
         this.schoolID = schoolID;
@@ -39,22 +43,27 @@ public class Student {
         this.email = email;
         this.pass = pass;
         this.penalty = penalty;
+        this.fullName = fnc.getFullName(fName, lName);
+    }
+
+    public Student(int schoolID, String sectionID, String fName, String lName, String password) {
+        
     }
 
 
-    public String getfName() {
+    public String getFName() {
         return fName;
     }
 
-    public void setfName(String fName) {
+    public void setFName(String fName) {
         this.fName = fName;
     }
 
-    public String getlName() {
+    public String getLName() {
         return lName;
     }
 
-    public void setlName(String lName) {
+    public void setLName(String lName) {
         this.lName = lName;
     }
 
@@ -98,13 +107,14 @@ public class Student {
         this.schoolID = schoolID;
     }
 
-    public int getStudentID() {
-        return studentID;
+
+
+    public String getFullName() {
+        if(fName!=null && lName!=null ) this.fullName = fnc.getFullName(fName, lName);
+        return fullName;
     }
 
-    public void setStudentID(int studentID) {
-        this.studentID = studentID;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
-
-
 }

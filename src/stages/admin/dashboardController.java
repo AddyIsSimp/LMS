@@ -23,8 +23,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import Function.*;
 
-import static Function.globalVariable.bookList;
-import static Function.globalVariable.studentList;
+import static Function.globalVariable.*;
+import static Function.globalVariable.fnc;
 
 public class dashboardController implements Initializable {
 
@@ -50,7 +50,7 @@ public class dashboardController implements Initializable {
     private HBox reportsBtn;
 
     @FXML
-    private Label bookQty;
+    private Label bookQty, staffQty, studentQty;
 
     @FXML
     private TableView<Student> studentAccTableView;
@@ -62,7 +62,7 @@ public class dashboardController implements Initializable {
     private TableColumn<Student, String> studentIDCol, firstNameCol, lastNameCol, sectionCol;
 
     @FXML
-    private TableColumn<DoublyLinkList, String> isbnCol, titleCol, authorCol, qtyCol;
+    private TableColumn<Book, String> isbnCol, titleCol, bkAuthorCol, bkqtyCol;
 
     @FXML
     private ChoiceBox<String> studentCB, bookCB;
@@ -70,7 +70,6 @@ public class dashboardController implements Initializable {
     private final String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
     private ObservableList<Book> retrieveBooklist = FXCollections.observableArrayList();
-
     private Function fnc = new Function();
 
     @Override
@@ -82,8 +81,13 @@ public class dashboardController implements Initializable {
         bookCB.getItems().addAll(sortType);
         bookCB.setValue(sortType[0]);
 
+        // Display quantities
+        bookQty.setText(Integer.toString(globalVariable.fnc.countBkQuantity(bookList)));
+        studentQty.setText(Integer.toString(globalVariable.sortedStudentListASC.size()));
+        staffQty.setText(Integer.toString(globalVariable.sortedStaffListASC.size()));
+
         // Set up TableView columns for Students
-        studentIDCol.setCellValueFactory(new PropertyValueFactory<>("studentID"));
+        studentIDCol.setCellValueFactory(new PropertyValueFactory<>("schoolID"));
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
         lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("section"));
@@ -91,10 +95,10 @@ public class dashboardController implements Initializable {
         // Set up TableView columns for Books
         isbnCol.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
-        qtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        bkAuthorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
+        bkqtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        // Load data into TableViews
+        // Retrieve lists
         if (studentList != null) {
             retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
         } else {
@@ -107,17 +111,39 @@ public class dashboardController implements Initializable {
             showErrorAlert("Error", "Book list is empty or not initialized.");
         }
 
+        // Set lists to TableView
         studentAccTableView.setItems(retrieveStudentlist);
         bookDetailsTableView.setItems(retrieveBooklist);
+
+        // Sorting for students
+        studentCB.setOnAction(e -> {
+            String sortOption = studentCB.getValue();
+            if ("A-Z".equals(sortOption)) {
+                retrieveStudentlist.sort((s1, s2) -> s1.getFName().compareToIgnoreCase(s2.getFName()));
+            } else if ("Z-A".equals(sortOption)) {
+                retrieveStudentlist.sort((s1, s2) -> s2.getFName().compareToIgnoreCase(s1.getFName()));
+            }
+        });
+
+        // Sorting for books
+        bookCB.setOnAction(e -> {
+            String sortOption = bookCB.getValue();
+            if ("A-Z".equals(sortOption)) {
+                retrieveBooklist.sort((b1, b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle()));
+            } else if ("Z-A".equals(sortOption)) {
+                retrieveBooklist.sort((b1, b2) -> b2.getTitle().compareToIgnoreCase(b1.getTitle()));
+            }
+        });
     }
 
-
+    // Helper method for showing error alerts
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 
 
     //SWAP MENU

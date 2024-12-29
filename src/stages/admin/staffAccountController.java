@@ -2,8 +2,6 @@ package stages.admin;
 
 
 
-import Entity.Student;
-import Entity.Transact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,17 +20,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
 import Entity.Staff;
-import Entity.Transact;
 import Function.Function;
 import Function.dbFunction;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import Function.globalVariable;
@@ -63,6 +57,7 @@ public class staffAccountController implements Initializable {
 
     @FXML
     private TextField IDField, confirmPassField, fNameField, lNameField,  passwordField;
+
     @FXML
     private Label lblError;
 
@@ -115,14 +110,14 @@ public class staffAccountController implements Initializable {
     private void applySorting(ObservableList<Staff> staffList) {
         if (sortCB.getValue().equals("A-Z")) {
             globalVariable.sortedStaffListASC.clear();
-            staffList.sorted((s1, s2) -> s1.getfName().compareToIgnoreCase(s2.getfName()))
+            staffList.sorted((s1, s2) -> s1.getFName().compareToIgnoreCase(s2.getFName()))
                     .forEach(globalVariable.sortedStaffListASC::add);
             staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListASC));
         } else {
-            globalVariable.sortedStaffListDESC.clear();
-            staffList.sorted((s1, s2) -> s2.getfName().compareToIgnoreCase(s1.getfName()))
-                    .forEach(globalVariable.sortedStaffListDESC::add);
-            staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListDESC));
+            sortedStaffListASC.clear();
+            staffList.sorted((s1, s2) -> s2.getFName().compareToIgnoreCase(s1.getFName()))
+                    .forEach(sortedStaffListASC::add);
+            staffTableView.setItems(FXCollections.observableArrayList(sortedStaffListASC));
         }
     }
 
@@ -285,6 +280,7 @@ public class staffAccountController implements Initializable {
             Staff newStaff = new Staff(fName, lName, staffID, password);
             dbFnc.insertStaffDB(newStaff);
             globalVariable.sortedStaffListASC.add(newStaff);
+            staffTableView.refresh();
             Alert alert = new Alert(Alert.AlertType.NONE, "Staff Registered Successfully", ButtonType.OK);
             alert.setTitle("Staff Register");
             alert.show();
