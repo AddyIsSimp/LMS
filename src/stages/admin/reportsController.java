@@ -11,12 +11,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -25,7 +29,16 @@ import javafx.scene.control.*;
 
 import Function.*;
 
+import static Function.globalVariable.sortedStaffListASC;
+import static Function.globalVariable.staffList;
+
 public class reportsController implements Initializable {
+    Connection conn;
+    Statement stmt;
+    ResultSet rs;
+
+    dbFunction dbFnc = new dbFunction();
+    Function fnc = new Function();
 
     @FXML
     private HBox acctBtn;
@@ -49,53 +62,41 @@ public class reportsController implements Initializable {
     private HBox reportsBtn;
 
 
-    @FXML
-    private Label reportname;
 
     @FXML
     private ChoiceBox<String> reportbox;
 
-    // TABLE AND COLUMNS
     @FXML
-    private TableView<Staff> accountsReportTab;
+    private TableView<Staff> staffTableView;
     @FXML
-    private TableColumn<Staff, String> replastName;
+    private TableColumn<Staff, String> firstNameCol, lastNameCol, staffIDCol;
     @FXML
-    private TableColumn<Staff, String> repfirstName;
-    @FXML
-    private TableColumn<Staff, String> repuserName;
-    @FXML
-    private TableColumn<Staff, String> repemailName;
+    private ChoiceBox<String> sortCB;
+
 
 
     @FXML
-    private ChoiceBox<String> sortBy;
-
-    private final String[] sortType = {"A-Z", "Z-A"};
-    private ObservableList<Staff> staffs = FXCollections.observableArrayList();
+    private ToggleGroup searchToggleGroup; // Add this toggle group
 
 
-    // SWITCHING MENU
+    private String[] sortType = {"A-Z", "Z-A"};
+    private ObservableList<Staff> retrieveStaff = FXCollections.observableArrayList();
+
+
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-
-
             // Create a list of report options
             ArrayList<String> reportOptions = new ArrayList<>();
             reportOptions.add("Accounts");
             reportOptions.add("Books");
             reportOptions.add("Penalty");
             reportOptions.add("Transaction");
-
+    
             // Add options to the ChoiceBox and set the default value
-            if (!reportOptions.isEmpty()) {
-                reportbox.getItems().addAll(reportOptions);
-                reportbox.getValue(); // Set the default value
-
-            }
-
+            reportbox.getItems().addAll(reportOptions);
+    
             // Add a listener for selection changes
             reportbox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
@@ -118,11 +119,49 @@ public class reportsController implements Initializable {
                     }
                 }
             });
+    
+            // Initialize sort options
+            sortCB.getItems().addAll(sortType);
+            sortCB.setValue(sortType[0]);
+    
+            // Set up TableView columns
+            firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
+            lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
+            staffIDCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+    
+            if (staffList != null) {
+                retrieveStaff = fnc.retrieveStaff(globalVariable.sortedStaffListASC);
+            } else {
+                showErrorAlert("Error", "Staff list is empty or not initialized.");
+            }
+    
+            staffTableView.setItems(retrieveStaff);
         } catch (Exception e) {
             // Handle errors and show an alert
             Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred: " + e.getMessage());
             alert.showAndWait();
         }
+    }
+
+    private void applySorting(ObservableList<Staff> staffList) {
+        if (sortCB.getValue().equals("A-Z")) {
+            globalVariable.sortedStaffListASC.clear();
+            staffList.sorted((s1, s2) -> s1.getFName().compareToIgnoreCase(s2.getFName()))
+                    .forEach(globalVariable.sortedStaffListASC::add);
+            staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListASC));
+        } else {
+            sortedStaffListASC.clear();
+            staffList.sorted((s1, s2) -> s2.getFName().compareToIgnoreCase(s1.getFName()))
+                    .forEach(sortedStaffListASC::add);
+            staffTableView.setItems(FXCollections.observableArrayList(sortedStaffListASC));
+        }
+    }
+
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void updateChoiceBoxName(String name) {
