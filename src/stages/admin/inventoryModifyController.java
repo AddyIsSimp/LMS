@@ -2,6 +2,7 @@ package stages.admin;
 
 import Entity.Book;
 import Entity.Category;
+import Entity.Staff;
 import Function.globalVariable;
 import LinkedList.DoublyLinkList;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -347,12 +349,26 @@ public class inventoryModifyController implements Initializable {
         int quantity = Integer.parseInt(qtyField.getText());
 
         String imgName = globalVariable.dbFnc.insertBookImageDB(newImage, bkTitle+bkAuthor);
-
         Book newBook = new Book(bkTitle, bkAuthor, category, newImage, bkISBN, quantity);
-
+        boolean success=dbFnc.modifyBookDB(newBook,imgName);
         globalVariable.bookList.deleteBook(searchBook.getTitle());
         globalVariable.bookList.insertNOrder(newBook);
         refreshTable();
+
+        if (!success) {
+            lblError.setText("Database update failed.");
+            return;
+        }else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Book modify successfully", ButtonType.OK);
+            alert.setTitle("Book Modify");
+            alert.show();
+        }
+
+        imgName = globalVariable.dbFnc.insertBookImageDB(newImage, bkTitle + bkAuthor);
+        if (imgName == null) {
+            lblError.setText("Image upload failed.");
+            return;
+        }
 
         searchField.setText(null);
         bkImage.setImage(null);
