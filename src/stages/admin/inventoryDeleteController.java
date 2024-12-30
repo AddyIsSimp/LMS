@@ -277,18 +277,35 @@ public class inventoryDeleteController implements Initializable {
         String category = ctgryObj.getName();
         int quantity = Integer.parseInt(qtyField.getText());
 
-        boolean deletedInDB = dbFnc.removeBookDB(bkTitle, bkISBN);
-        globalVariable.bookList.deleteBook(searchBook.getTitle());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Delete Book", ButtonType.NO, ButtonType.YES);
+        alert.setTitle("Delete Book");
+        alert.setHeaderText("Do you really want to delete the book?");
 
-        searchField.setText(null);
-        bkImage.setImage(null);
-        titleField.setText(null);
-        authorField.setText(null);
-        isbnField.setText(null);
-        tfCategory.setValue(categories.getFirst());
-        qtyField.setText(null);
-        refreshTable();
-        deleteBttn.setDisable(true);
+        if(alert.showAndWait().get() == ButtonType.YES) {
+            boolean deletedInDB = dbFnc.removeBookDB(bkTitle, bkISBN);
+            globalVariable.bookList.deleteBook(searchBook.getTitle());
+
+            searchField.setText(null);
+            bkImage.setImage(null);
+            titleField.setText(null);
+            authorField.setText(null);
+            isbnField.setText(null);
+            tfCategory.setValue(categories.getFirst());
+            qtyField.setText(null);
+            refreshTable();
+            deleteBttn.setDisable(true);
+        }else {
+            searchField.setText(null);
+            bkImage.setImage(null);
+            titleField.setText(null);
+            authorField.setText(null);
+            isbnField.setText(null);
+            tfCategory.setValue(categories.getFirst());
+            qtyField.setText(null);
+            refreshTable();
+            deleteBttn.setDisable(true);
+            alert.close();
+        }
     }
 
 }

@@ -26,8 +26,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static Function.globalVariable.fnc;
-import static Function.globalVariable.modifyBook;
+import static Function.globalVariable.*;
 
 public class inventoryModifyController implements Initializable {
 
@@ -70,7 +69,7 @@ public class inventoryModifyController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         bookList = globalVariable.bookList;
-        categories = globalVariable.dbFnc.retrieveCategories();
+        categories = dbFnc.retrieveCategories();
 
         if (categories != null && !categories.isEmpty()) {
             tfCategory.getItems().addAll(categories);
@@ -261,20 +260,22 @@ public class inventoryModifyController implements Initializable {
     private void editBook(ActionEvent event) {
         if(newImage==null) {
             lblError.setText("No image selected");  return;
-        }else if(titleField.getText()==null) {
+        }else if(titleField.getText()==null || titleField.getText().trim().isEmpty()) {
             lblError.setText("Title is blank");  return;
-        }else if(authorField.getText()==null) {
+        }else if(authorField.getText()==null || authorField.getText().trim().isEmpty()) {
             lblError.setText("Author is blank"); return;
-        }else if(isbnField.getText()==null) {
+        }else if(isbnField.getText()==null || isbnField.getText().trim().isEmpty()) {
             lblError.setText("ISBN is blank");return;
-        }else if(fnc.digitChecker(isbnField.getText())==false) {
+        }else if(fnc.digitChecker(isbnField.getText())==false || isbnField.getText().trim().isEmpty()) {
             lblError.setText("ISBN should be all digits"); return;
         }else if(tfCategory.getSelectionModel()==null) {
             lblError.setText("No category selected"); return;
-        }else if(qtyField.getText()==null) {
+        }else if(qtyField.getText()==null || qtyField.getText().trim().isEmpty()) {
             lblError.setText("Quantity is blank"); return;
         }else if(fnc.digitChecker(qtyField.getText()) == false) {
             lblError.setText("Quantity should be digits"); return;
+        }else if(fnc.checkISBNExempt(globalVariable.bookList, isbnField.getText(), isbnField.getText())==false) {
+            lblError.setText("ISBN is already used"); return;
         }
 
         //Upload the image to database
@@ -285,13 +286,27 @@ public class inventoryModifyController implements Initializable {
         String category = ctgryObj.getName();
         int quantity = Integer.parseInt(qtyField.getText());
 
-        String imgName = globalVariable.dbFnc.insertBookImageDB(newImage, bkTitle+bkAuthor);
-
+        String imgName = dbFnc.insertBookImageDB(newImage, bkTitle+bkAuthor);
         Book newBook = new Book(bkTitle, bkAuthor, category, newImage, bkISBN, quantity);
-
-        bookList.deleteBook(searchBook.getTitle());
-        bookList.insertNOrder(newBook);
+        boolean success=dbFnc.modifyBookDB(newBook,imgName);
+        globalVariable.bookList.deleteBook(searchBook.getTitle());
+        globalVariable.bookList.insertNOrder(newBook);
         refreshTable();
+
+        if (!success) {
+            lblError.setText("Database update failed.");
+            return;
+        }else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Book modify successfully", ButtonType.OK);
+            alert.setTitle("Book Modify");
+            alert.show();
+        }
+
+        imgName = dbFnc.insertBookImageDB(newImage, bkTitle + bkAuthor);
+        if (imgName == null) {
+            lblError.setText("Image upload failed.");
+            return;
+        }
 
         searchField.setText(null);
         bkImage.setImage(null);
