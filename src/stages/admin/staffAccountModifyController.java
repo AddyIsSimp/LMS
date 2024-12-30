@@ -289,6 +289,9 @@ public class staffAccountModifyController implements Initializable {
             } else if (passwordField.getText().isEmpty()) {
                 lblError.setText("Password is empty.");
                 return;
+            } else if (!fnc.passwordChecker(passwordField.getText())) {
+                lblError2.setText("Password is atleast 8 characters" +
+                        "\n with letter and number or special character");
             } else if (!passwordField.getText().equals(confirmPassField.getText())) {
                 lblError.setText("Passwords do not match.");
                 return;

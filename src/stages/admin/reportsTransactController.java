@@ -1,7 +1,13 @@
 package stages.admin;
 
 
-import Entity.Staff;
+import Entity.Book;
+import Entity.Category;
+import Entity.Transact;
+import Function.Function;
+import Function.dbFunction;
+import Function.globalVariable;
+import LinkedList.DoublyLinkList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,14 +30,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javafx.scene.control.*;
+import static Function.globalVariable.bookList;
 
-
-import Function.*;
-
-import static Function.globalVariable.sortedStaffListASC;
-
-public class reportsController implements Initializable {
+public class reportsTransactController implements Initializable {
     Connection conn;
     Statement stmt;
     ResultSet rs;
@@ -66,49 +67,49 @@ public class reportsController implements Initializable {
     private ChoiceBox<String> reportbox;
 
     @FXML
-    private TableView<Staff> staffTableView;
+    private TableView<Transact> transactTableView;
     @FXML
-    private TableColumn<Staff, String> firstNameCol, lastNameCol, staffIDCol;
+    private TableColumn<Transact, String> bkTitleCol, bkIsbnCol, schoolIdCol, studentNameCol, brrwDateCol, statusCol;
     @FXML
     private ChoiceBox<String> sortCB;
-
-
-
     @FXML
-    private ToggleGroup searchToggleGroup; // Add this toggle group
-
+    private ChoiceBox<String> transactTypeCB;
+    @FXML
+    private Label pendingQty, ongoingQty, successQty, transactQty;
 
     private String[] sortType = {"A-Z", "Z-A"};
-    private ObservableList<Staff> retrieveStaff = FXCollections.observableArrayList();
-
+    private String[] transactType = {"All","Pending","Ongoing", "Finish"};
+    private String[] reportOptions = {"Account", "Book", "Transaction"};
+    private ObservableList<Transact> retrieveTransact = FXCollections.observableArrayList();
+    private ArrayList<Transact> transactionList;
 
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            // Create a list of report options
-            ArrayList<String> reportOptions = new ArrayList<>();
-            reportOptions.add("Accounts");
-            reportOptions.add("Books");
-            reportOptions.add("Penalty");
-            reportOptions.add("Transaction");
-    
-            // Add options to the ChoiceBox and set the default value
+            //Set the Quanity in the account reports
+            transactionList = globalVariable.transactList;
+            pendingQty.setText(Integer.toString(fnc.retrievePendingTransact(transactionList).size()));
+            ongoingQty.setText(Integer.toString(fnc.retrieveOngoingTransact(transactionList).size()));
+            successQty.setText(Integer.toString(fnc.retrieveFinishTransact(transactionList).size()));
+            transactQty.setText(Integer.toString(fnc.retrievePendingTransact(transactionList).size()));
+
+                transactTypeCB.getItems().addAll(transactType);
+                transactTypeCB.setValue(transactType[0]);
+
+            transactTypeCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                filterTransactType();
+            });
+
             reportbox.getItems().addAll(reportOptions);
-    
-            // Add a listener for selection changes
             reportbox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
-                    // Load the corresponding FXML file based on the selected option
                     switch (newValue) {
                         case "Accounts":
                             loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_acc_reports.fxml");
                             break;
                         case "Books":
                             loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_book_reports.fxml");
-                            break;
-                        case "Penalty":
-                            loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_penalty_reports.fxml");
                             break;
                         case "Transaction":
                             loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_trans_reports.fxml");
@@ -122,52 +123,49 @@ public class reportsController implements Initializable {
             // Initialize sort options
             sortCB.getItems().addAll(sortType);
             sortCB.setValue(sortType[0]);
+            sortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                applySorting();
+            });
     
-            // Set up TableView columns
-            firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
-            lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
-            staffIDCol.setCellValueFactory(new PropertyValueFactory<>("username"));
-    
-            if (sortedStaffListASC != null) {
-                retrieveStaff = fnc.retrieveStaff(globalVariable.sortedStaffListASC);
-            } else {
-                showErrorAlert("Error", "Staff list is empty or not initialized.");
-            }
-    
-            staffTableView.setItems(retrieveStaff);
+//            // Set up TableView columns
+//            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+//            authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
+//            ctgryCol.setCellValueFactory(new PropertyValueFactory<>("category"));
+//            isbnCol.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
+//            qtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+//            brrwCol.setCellValueFactory(new PropertyValueFactory<>("borrowed"));
+//
+//            if (bookList != null) {
+//                retrieveBook = fnc.retrieveBook(bookList);
+//                applySorting();
+//            }
+
         } catch (Exception e) {
             // Handle errors and show an alert
             Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred: " + e.getMessage());
+            alert.setTitle("Reports - Account Initialization Error");
             alert.showAndWait();
+            e.printStackTrace();
         }
     }
 
-    private void applySorting(ObservableList<Staff> staffList) {
+    private void applySorting() {
         if (sortCB.getValue().equals("A-Z")) {
-            globalVariable.sortedStaffListASC.clear();
-            staffList.sorted((s1, s2) -> s1.getFName().compareToIgnoreCase(s2.getFName()))
-                    .forEach(globalVariable.sortedStaffListASC::add);
-            staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListASC));
+            retrieveTransact.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
         } else {
-            sortedStaffListASC.clear();
-            staffList.sorted((s1, s2) -> s2.getFName().compareToIgnoreCase(s1.getFName()))
-                    .forEach(sortedStaffListASC::add);
-            staffTableView.setItems(FXCollections.observableArrayList(sortedStaffListASC));
+            retrieveTransact.sort((t1, t2) -> t2.getBookTitle().compareToIgnoreCase(t1.getBookTitle()));
+        }
+        transactTableView.refresh();
+        transactTableView.setItems(retrieveTransact);
+    }
+
+    //INCOMPLETE
+    private void filterTransactType() {
+        if(transactTypeCB.getValue().equals("All")) {
+
         }
     }
 
-    private void showErrorAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private void updateChoiceBoxName(String name) {
-        // Dynamically update the name of the ChoiceBox
-        reportbox.setAccessibleText(name); // Optional, for accessibility purposes
-        reportbox.setRotate(Double.parseDouble(name));     // Updates the prompt text to show the selected value
-    }
     private void loadFXMLForChoice(String fxmlPath) {
         try {
             // Load the FXML file
@@ -184,27 +182,6 @@ public class reportsController implements Initializable {
             alert.showAndWait();
         }
     }
-
-
-
-
-
-       /* switch (report) {
-            case "Accounts":
-                return "/stages/admin/adminFXML/reports/admin_acc_reports.fxml";
-            case "Book":
-                return "/stages/admin/adminFXML/reports/admin_book_reports.fxml";
-            case "Transaction":
-                return "/stages/admin/adminFXML/reports/admin_trans_reports.fxml";
-            case "Penalty":
-                return "/stages/admin/adminFXML/reports/admin_penalty_reports.fxml";
-            default:
-                return null;
-    */
-
-
-
-
 
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {
@@ -266,14 +243,4 @@ public class reportsController implements Initializable {
     private void goProfileAdmin(MouseEvent event) {
 
     }
-
-
-
-//    @FXML
-//    private void goReports(MouseEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_reports.fxml"));
-//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
 }

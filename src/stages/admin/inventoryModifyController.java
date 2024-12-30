@@ -318,24 +318,22 @@ public class inventoryModifyController implements Initializable {
 
     @FXML
     private void editBook(ActionEvent event) {
-        if(newImage==null) {
-            lblError.setText("No image selected");  return;
-        }else if(titleField.getText()==null || titleField.getText().trim().isEmpty()) {
-            lblError.setText("Title is blank");  return;
+        if(titleField.getText()==null || titleField.getText().trim().isEmpty()) {
+            lblError2.setText("Title is blank");  return;
         }else if(authorField.getText()==null || authorField.getText().trim().isEmpty()) {
-            lblError.setText("Author is blank"); return;
+            lblError2.setText("Author is blank"); return;
         }else if(isbnField.getText()==null || isbnField.getText().trim().isEmpty()) {
-            lblError.setText("ISBN is blank");return;
+            lblError2.setText("ISBN is blank");return;
         }else if(fnc.digitChecker(isbnField.getText())==false || isbnField.getText().trim().isEmpty()) {
-            lblError.setText("ISBN should be all digits"); return;
+            lblError2.setText("ISBN should be all digits"); return;
         }else if(tfCategory.getSelectionModel()==null) {
-            lblError.setText("No category selected"); return;
+            lblError2.setText("No category selected"); return;
         }else if(qtyField.getText()==null || qtyField.getText().trim().isEmpty()) {
-            lblError.setText("Quantity is blank"); return;
+            lblError2.setText("Quantity is blank"); return;
         }else if(fnc.digitChecker(qtyField.getText()) == false) {
-            lblError.setText("Quantity should be digits"); return;
+            lblError2.setText("Quantity should be digits"); return;
         }else if(fnc.checkISBNExempt(globalVariable.bookList, isbnField.getText(), isbnField.getText())==false) {
-            lblError.setText("ISBN is already used"); return;
+            lblError2.setText("ISBN is already used"); return;
         }
 
         //Upload the image to database

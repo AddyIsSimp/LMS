@@ -299,7 +299,8 @@ public class studentAccountModifyController implements Initializable {
                 lblError2.setText("Wrong email format! e.g.(john.doe@example.com)");
                 return;
             } else if (!fnc.passwordChecker(pass)) {
-                lblError2.setText("Password is atleast 8 characters with\nletter and number or special character");
+                lblError2.setText("Password is atleast 8 characters" +
+                        "\n with letter and number or special character");
             } else if (!pass.equals(confirmPass)) {
                 lblError2.setText("Password does not match");
                 return;

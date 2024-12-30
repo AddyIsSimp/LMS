@@ -263,7 +263,7 @@
                   </HBox>
                   <VBox prefHeight="412.0" prefWidth="266.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="266.0" textFill="RED" />
+                        <Label fx:id="lblError" alignment="CENTER" prefHeight="18.0" prefWidth="266.0" textFill="RED" />
                         <HBox alignment="CENTER" prefHeight="116.0" prefWidth="266.0" stylesheets="@../../../../style_File/Dashboard.css">
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="116.0" prefWidth="131.0" spacing="15.0" />

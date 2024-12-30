@@ -26,8 +26,7 @@ import java.util.ResourceBundle;
 import Function.*;
 import stages.admin.library.libraryController;
 
-import static Function.globalVariable.dbFnc;
-import static Function.globalVariable.fnc;
+import static Function.globalVariable.*;
 
 public class inventoryController implements Initializable {
 
