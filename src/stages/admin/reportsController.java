@@ -30,7 +30,6 @@ import javafx.scene.control.*;
 import Function.*;
 
 import static Function.globalVariable.sortedStaffListASC;
-import static Function.globalVariable.staffList;
 
 public class reportsController implements Initializable {
     Connection conn;
@@ -129,7 +128,7 @@ public class reportsController implements Initializable {
             lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
             staffIDCol.setCellValueFactory(new PropertyValueFactory<>("username"));
     
-            if (staffList != null) {
+            if (sortedStaffListASC != null) {
                 retrieveStaff = fnc.retrieveStaff(globalVariable.sortedStaffListASC);
             } else {
                 showErrorAlert("Error", "Staff list is empty or not initialized.");
