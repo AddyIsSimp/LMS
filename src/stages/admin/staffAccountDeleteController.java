@@ -217,7 +217,7 @@ public class staffAccountDeleteController implements Initializable {
 
         searchStaff = fnc.findStaffID(sortedStaffListASC, searchFld);
         if(searchStaff!=null) {
-            IDField.setText(searchStaff.getStaffId());
+            IDField.setText(searchStaff.getUsername());
             fNameField.setText(searchStaff.getFName());
             lNameField.setText(searchStaff.getLName());
             passwordField.setText(searchStaff.getPassword());

@@ -724,7 +724,7 @@ public class dbFunction {
                 return 0;
             }
 
-            String sqlDeleteStaff = "DELETE FROM librarydb.staff WHERE staffID = ?";
+            String sqlDeleteStaff = "DELETE FROM librarydb.staff WHERE staff_UN = ?";
             pstmt = conn.prepareStatement(sqlDeleteStaff);
             pstmt.setString(1, staffID);
 

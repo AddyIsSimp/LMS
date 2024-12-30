@@ -298,7 +298,7 @@
                                     <Label prefHeight="26.0" prefWidth="62.0" text="Search by: " />
                                     <ToggleButtonGroup selectionType="SINGLE">
                                        <toggles>
-                                          <RadioButton fx:id="lNameRB" mnemonicParsing="false" prefHeight="26.0" prefWidth="84.0" selected="true" text="Email" />
+                                          <RadioButton fx:id="emailRB" mnemonicParsing="false" prefHeight="26.0" prefWidth="84.0" selected="true" text="Email" />
                                           <RadioButton fx:id="idRB" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.0" text="School ID" />
                                        </toggles>
                                     </ToggleButtonGroup>

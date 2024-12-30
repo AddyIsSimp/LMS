@@ -27,6 +27,8 @@ public class globalVariable {
     //ADMIN
     public static ArrayList<Staff> sortedStaffListASC = new ArrayList<>();
     public static ArrayList<Student> sortedStudentListASC = new ArrayList<>();
+    public static Staff searchStaff;
+    public static Student searchStudent;
 
     //ADMIN & STAFF
     public static Book modifyBook;

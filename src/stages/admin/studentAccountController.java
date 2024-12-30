@@ -180,4 +180,21 @@ public class studentAccountController implements Initializable {
         stage.show();
     }
 
+    @FXML
+    private void doSearch(MouseEvent event) throws IOException {
+        if(searchField.getText().isEmpty()) {  //if searchfield is empty
+            lblError.setText("Search text is blank"); return;
+        }
+        String searchFld = searchField.getText();
+        searchStudent = globalVariable.fnc.findStudentID(sortedStudentListASC, searchFld);
+        if(searchStudent!=null) {
+            globalVariable.searchStudent = searchStudent;
+            Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsModify.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }else {
+            lblError.setText("Student not found with the specified ID"); return;
+        }
+    }
 }

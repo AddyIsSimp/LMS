@@ -177,7 +177,7 @@ public class studentAccountAddController implements Initializable {
 
     @FXML
     private void returnAcctStudent(MouseEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("stages/admin/adminFXML/students/admin_acctStudents.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudents.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -245,6 +245,14 @@ public class studentAccountAddController implements Initializable {
         if (studentID != 0) {
             sortedStudentListASC.add(newStudent);
             refreshTable();
+            schoolIDField.setText(null);
+            fNameField.setText(null);
+            lNameField.setText(null);
+            emailField.setText(null);
+            sectionIDField.setText(null);
+            passwordField.setText(null);
+            confirmPassField.setText(null);
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Student registered successfully");
             alert.setTitle("Student Registration");
             alert.showAndWait();

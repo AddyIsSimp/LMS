@@ -59,7 +59,7 @@ public class studentAccountModifyController implements Initializable {
     @FXML
     private TextField searchField;
     @FXML
-    private RadioButton lNameRB, idRB;
+    private RadioButton emailRB, idRB;
     @FXML
     private Button saveBttn;
 
@@ -86,6 +86,11 @@ public class studentAccountModifyController implements Initializable {
         // Initialize sort options
         sortCB.getItems().addAll(sortType);
         sortCB.setValue(sortType[0]);
+
+        if(globalVariable.searchStudent!=null) {
+            searchStudent=globalVariable.searchStudent;
+            loadSearch(searchStudent);
+        }
 
         // Set up TableView columns
         schoolIDCol.setCellValueFactory(new PropertyValueFactory<>("schoolID"));
@@ -182,10 +187,33 @@ public class studentAccountModifyController implements Initializable {
 
     @FXML
     private void returnAcctStudent(MouseEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("stages/admin/adminFXML/students/admin_acctStudents.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudents.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    private void loadSearch(Student student) {
+        if(searchStudent==null) {
+            lblError.setText("Student not found"); return;
+        }else {
+            schoolIDField.setText(Integer.toString(searchStudent.getSchoolID()));
+            sectionIDField.setText(searchStudent.getSection());
+            confirmPassField.setText(searchStudent.getPass());
+            fNameField.setText(searchStudent.getFName());
+            lNameField.setText(searchStudent.getLName());
+            emailField.setText(searchStudent.getEmail());
+            passwordField.setText(searchStudent.getPass());
+
+            schoolIDField.setDisable(false);
+            sectionIDField.setDisable(false);
+            confirmPassField.setDisable(false);
+            fNameField.setDisable(false);
+            lNameField.setDisable(false);
+            emailField.setDisable(false);
+            passwordField.setDisable(false);
+            saveBttn.setDisable(false);
+        }
     }
 
     @FXML
@@ -193,7 +221,7 @@ public class studentAccountModifyController implements Initializable {
         String selected = "Email";
         String searchFld;
 
-        if(lNameRB.isSelected()) { //find which button selected
+        if(emailRB.isSelected()) { //find which button selected
             selected = "Email";
         }else {
             selected = "ID";
@@ -233,7 +261,7 @@ public class studentAccountModifyController implements Initializable {
     }
 
     @FXML
-    private void doModifyStudent(MouseEvent event) {
+    private void doModifyStudent(ActionEvent event) {
         try {
             String schoolID = schoolIDField.getText();
             String section = sectionIDField.getText();
@@ -276,16 +304,43 @@ public class studentAccountModifyController implements Initializable {
                 lblError2.setText("Password does not match");
                 return;
             }
-            int schoolIDInt = Integer.parseInt(fnc.retrieveStudentID(schoolID));
+            int schoolIDInt = 0;
+            if(fnc.retrieveStudentID(schoolID)!=null) {
+                schoolIDInt = Integer.parseInt(fnc.retrieveStudentID(schoolID));
+            }
 
-            searchStudent = new Student(schoolIDInt, fName, lName, section, email, pass);
-            boolean isModify = dbFunc.modifyStudentDB(searchStudent, schoolIDInt);
-            if(isModify==true) {
-                fnc.showAlert("Student Account Update", "Student account updated successfully!");
+            if(schoolIDInt!=0) {
+                searchStudent = new Student(schoolIDInt, fName, lName, section, email, pass);
+                boolean isModify = dbFunc.modifyStudentDB(searchStudent, schoolIDInt);
+                if (isModify == true) {
+                    Alert error = new Alert(Alert.AlertType.NONE, "Student account updated successfully", ButtonType.OK);
+                    error.setTitle("Student Account Update");
+                    error.showAndWait();
+
+                    schoolIDField.setText(null);
+                    sectionIDField.setText(null);
+                    fNameField.setText(null);
+                    lNameField.setText(null);
+                    emailField.setText(null);
+                    passwordField.setText(null);
+                    confirmPassField.setText(null);
+                    schoolIDField.setDisable(true);
+                    sectionIDField.setDisable(true);
+                    confirmPassField.setDisable(true);
+                    fNameField.setDisable(true);
+                    lNameField.setDisable(true);
+                    emailField.setDisable(true);
+                    passwordField.setDisable(true);
+                    saveBttn.setDisable(true);
+                    refreshTable();
+                }
+            }else {
+                lblError2.setText("Invalid ID format e.g (NNNN-NNNNN)");
             }
             refreshTable();
         }catch(Exception e) {
             fnc.showAlert("Modify Student Error", e.getMessage());
+            e.printStackTrace();
         }
     }
 

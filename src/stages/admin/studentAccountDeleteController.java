@@ -59,7 +59,7 @@ public class studentAccountDeleteController implements Initializable {
     @FXML
     private TextField searchField;
     @FXML
-    private RadioButton lNameRB, idRB;
+    private RadioButton emailRB, idRB;
     @FXML
     private Button saveBttn;
 
@@ -182,7 +182,7 @@ public class studentAccountDeleteController implements Initializable {
 
     @FXML
     private void returnAcctStudent(MouseEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("stages/admin/adminFXML/students/admin_acctStudents.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudents.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -193,7 +193,7 @@ public class studentAccountDeleteController implements Initializable {
         String selected = "Email";
         String searchFld;
 
-        if(lNameRB.isSelected()) { //find which button selected
+        if(emailRB.isSelected()) { //find which button selected
             selected = "Email";
         }else {
             selected = "ID";
@@ -226,7 +226,7 @@ public class studentAccountDeleteController implements Initializable {
     }
 
     @FXML
-    private void doDeleteStudent(MouseEvent event) {
+    private void doDeleteStudent(ActionEvent event) {
         try {
             String schoolID = schoolIDField.getText();
             String id = fnc.retrieveStudentID(schoolID);
@@ -241,7 +241,26 @@ public class studentAccountDeleteController implements Initializable {
             boolean deleteStudentL = fnc.deleteStudent(sortedStudentListASC, schoolIDInt);
             boolean deleteStudentD = dbFunc.deleteStudentDB(schoolIDInt);
             if(deleteStudentL && deleteStudentD) {
-                fnc.showAlert("Student Account Delete", "Student account deleted successfully!");
+                Alert error = new Alert(Alert.AlertType.NONE, "Student account deleted successfully", ButtonType.OK);
+                error.setTitle("Student Account Delete");
+                error.showAndWait();
+
+                schoolIDField.setText(null);
+                sectionIDField.setText(null);
+                fNameField.setText(null);
+                lNameField.setText(null);
+                emailField.setText(null);
+                passwordField.setText(null);
+                confirmPassField.setText(null);
+                schoolIDField.setDisable(true);
+                sectionIDField.setDisable(true);
+                confirmPassField.setDisable(true);
+                fNameField.setDisable(true);
+                lNameField.setDisable(true);
+                emailField.setDisable(true);
+                passwordField.setDisable(true);
+                saveBttn.setDisable(true);
+                refreshTable();
             }
             refreshTable();
         }catch(Exception e) {

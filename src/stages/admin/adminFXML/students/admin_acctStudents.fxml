@@ -241,13 +241,13 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="24.0" prefWidth="266.0">
                      <children>
-                        <TextField fx:id="searchField" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText="Search" stylesheets="@../../../../style_File/Dashboard.css">
+                        <TextField fx:id="searchField" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText=" Search ID" stylesheets="@../../../../style_File/Dashboard.css">
                            <styleClass>
                               <String fx:value="bgcolor-white" />
                               <String fx:value="outlineAllBlack" />
                            </styleClass>
                         </TextField>
-                        <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" prefWidth="31.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
+                        <VBox maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#doSearch" prefHeight="25.0" prefWidth="31.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
                            <children>
                               <ImageView fitHeight="20.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -263,6 +263,7 @@
                   </HBox>
                   <VBox prefHeight="412.0" prefWidth="266.0">
                      <children>
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="266.0" textFill="RED" />
                         <HBox alignment="CENTER" prefHeight="116.0" prefWidth="266.0" stylesheets="@../../../../style_File/Dashboard.css">
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="116.0" prefWidth="131.0" spacing="15.0" />
@@ -300,7 +301,7 @@
                         <Insets />
                      </VBox.margin>
                      <padding>
-                        <Insets top="30.0" />
+                        <Insets top="5.0" />
                      </padding>
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">

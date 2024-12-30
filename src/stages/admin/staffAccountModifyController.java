@@ -74,11 +74,7 @@ public class staffAccountModifyController implements Initializable {
     private ChoiceBox<String> sortCB;
 
     @FXML
-    private RadioButton titleRB, isbnRB; // Declare these in your controller class
-
-    @FXML
     private ToggleGroup searchToggleGroup; // Add this toggle group
-
     private Staff searchStaff;
     private String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Staff> retrieveStaff = FXCollections.observableArrayList();
@@ -92,6 +88,11 @@ public class staffAccountModifyController implements Initializable {
         sortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             applySorting(fnc.retrieveStaff(sortedStaffListASC));
         });
+
+        if(globalVariable.searchStaff!=null) {
+            searchStaff=globalVariable.searchStaff;
+            loadStaff(searchStaff);
+        }
 
         // Set up TableView columns
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
@@ -227,6 +228,24 @@ public class staffAccountModifyController implements Initializable {
         }
     }
 
+    private void loadStaff(Staff staff) {
+        if(searchStaff!=null) {
+            IDField.setText(searchStaff.getUsername());
+            fNameField.setText(searchStaff.getFName());
+            lNameField.setText(searchStaff.getLName());
+            passwordField.setText(searchStaff.getPassword());
+            confirmPassField.setText(searchStaff.getPassword());
+            IDField.setDisable(true);
+            fNameField.setDisable(false);
+            lNameField.setDisable(false);
+            passwordField.setDisable(false);
+            confirmPassField.setDisable(false);
+            saveBttn.setDisable(false);
+        }else {
+            lblError.setText("Staff not found with the ID");
+        }
+    }
+
 
     @FXML
     private void doSearch(MouseEvent event) {
@@ -237,12 +256,12 @@ public class staffAccountModifyController implements Initializable {
 
         searchStaff = fnc.findStaffID(sortedStaffListASC, searchFld);
         if(searchStaff!=null) {
-            IDField.setText(searchStaff.getStaffId());
+            IDField.setText(searchStaff.getUsername());
             fNameField.setText(searchStaff.getFName());
             lNameField.setText(searchStaff.getLName());
             passwordField.setText(searchStaff.getPassword());
             confirmPassField.setText(searchStaff.getPassword());
-            IDField.setDisable(false);
+            IDField.setDisable(true);
             fNameField.setDisable(false);
             lNameField.setDisable(false);
             passwordField.setDisable(false);
@@ -257,32 +276,6 @@ public class staffAccountModifyController implements Initializable {
     private void doModifyStaff(ActionEvent event) {
         try {
             String searchValue = lNameField.getText();
-            if (titleRB.isSelected()) {
-                Staff staff = dbFnc.searchStaffByLastName(searchValue);
-                if (staff != null) {
-                    IDField.setText(staff.getUsername());
-                    fNameField.setText(staff.getFName());
-                    lNameField.setText(staff.getLName());
-                    passwordField.setText(staff.getPassword());
-                    confirmPassField.setText(null);
-                } else {
-                    lblError.setText("No staff found with last name: " + searchValue);
-                }
-            } else if (isbnRB.isSelected()) {
-                Staff staff = dbFnc.searchStaffByID(searchValue);
-                if (staff != null) {
-                    IDField.setText(staff.getUsername());
-                    fNameField.setText(staff.getFName());
-                    lNameField.setText(staff.getLName());
-                    passwordField.setText(staff.getPassword());
-                    confirmPassField.setText(null);
-                } else {
-                    lblError.setText("No staff found with ID: " + searchValue);
-                }
-            } else {
-                lblError.setText("Please select a search option.");
-                return;
-            }
 
             if (IDField.getText().isEmpty()) {
                 lblError.setText("Staff ID is empty.");
@@ -308,8 +301,10 @@ public class staffAccountModifyController implements Initializable {
 
             Staff modifiedStaff = new Staff(fName, lName, staffID, password);
             dbFnc.updateStaffDB(modifiedStaff);
+            sortedStaffListASC.remove(searchStaff);
+            sortedStaffListASC.add(modifiedStaff);
+            refreshTable();
 
-            sortedStaffListASC.replaceAll((UnaryOperator<Staff>) modifiedStaff);  // Update the staff list
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Staff details updated successfully", ButtonType.OK);
             alert.setTitle("Modify Staff");
             alert.show();
@@ -320,6 +315,7 @@ public class staffAccountModifyController implements Initializable {
             passwordField.setText(null);
             confirmPassField.setText(null);
             lblError.setText(null);
+            searchField.setText(null);
             IDField.setDisable(true);
             fNameField.setDisable(true);
             lNameField.setDisable(true);
@@ -330,6 +326,7 @@ public class staffAccountModifyController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("Modify Staff Error");
             alert.show();
+            e.printStackTrace();
         }
     }
 }
