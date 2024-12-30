@@ -214,7 +214,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label layoutX="660.0" layoutY="471.0" prefHeight="27.0" prefWidth="71.0" text="0">
+                        <Label fx:id="staffQty" layoutX="665.0" layoutY="471.0" prefHeight="27.0" prefWidth="71.0" text="0">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -229,7 +229,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <ChoiceBox fx:id="accUsers" layoutX="450.0" layoutY="10.0" prefHeight="25.0" prefWidth="92.0" />
+                        <ChoiceBox fx:id="accUsersCB" layoutX="450.0" layoutY="10.0" prefHeight="25.0" prefWidth="92.0" />
                         <Label layoutX="400.0" layoutY="13.0" prefHeight="20.0" prefWidth="59.0" text="Users :">
                            <font>
                               <Font name="System Bold" size="14.0" />
