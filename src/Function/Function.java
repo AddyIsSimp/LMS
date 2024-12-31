@@ -247,6 +247,14 @@ public class Function {
         return pendingTransact;
     }
 
+    public ObservableList<Transact> retrieveAllTransact(ArrayList<Transact> transactsList) {
+        ObservableList<Transact> pendingTransact = FXCollections.observableArrayList();
+        for (Transact transact : transactsList) {
+            pendingTransact.add(transact);
+        }
+        return pendingTransact;
+    }
+
     public ObservableList<Transact> retrieveStudentTransact(ArrayList<Transact> transactsList, int studentID) {
         ObservableList<Transact> studentTransact = FXCollections.observableArrayList();
         for (Transact transact : transactsList) {

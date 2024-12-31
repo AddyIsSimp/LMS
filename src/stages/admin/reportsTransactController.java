@@ -69,7 +69,7 @@ public class reportsTransactController implements Initializable {
     @FXML
     private TableView<Transact> transactTableView;
     @FXML
-    private TableColumn<Transact, String> bkTitleCol, bkIsbnCol, schoolIdCol, studentNameCol, brrwDateCol, statusCol;
+    private TableColumn<Transact, String> bkTitleCol, bkIsbnCol, schoolIdCol, studentNameCol, brrwDateCol, returnDateCol, statusCol;
     @FXML
     private ChoiceBox<String> sortCB;
     @FXML
@@ -105,10 +105,10 @@ public class reportsTransactController implements Initializable {
             reportbox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
                     switch (newValue) {
-                        case "Accounts":
+                        case "Account":
                             loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_acc_reports.fxml");
                             break;
-                        case "Books":
+                        case "Book":
                             loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_book_reports.fxml");
                             break;
                         case "Transaction":
@@ -127,18 +127,19 @@ public class reportsTransactController implements Initializable {
                 applySorting();
             });
     
-//            // Set up TableView columns
-//            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-//            authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
-//            ctgryCol.setCellValueFactory(new PropertyValueFactory<>("category"));
-//            isbnCol.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
-//            qtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-//            brrwCol.setCellValueFactory(new PropertyValueFactory<>("borrowed"));
-//
-//            if (bookList != null) {
-//                retrieveBook = fnc.retrieveBook(bookList);
-//                applySorting();
-//            }
+            // Set up TableView columns
+            bkTitleCol.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
+            bkIsbnCol.setCellValueFactory(new PropertyValueFactory<>("bkIsbn"));
+            schoolIdCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
+            studentNameCol.setCellValueFactory(new PropertyValueFactory<>("borrowerName"));
+            statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+            brrwDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+            returnDateCol.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+
+            if (globalVariable.transactList != null) {
+                retrieveTransact = fnc.retrieveAllTransact(globalVariable.transactList);
+                applySorting();
+            }
 
         } catch (Exception e) {
             // Handle errors and show an alert
@@ -159,22 +160,26 @@ public class reportsTransactController implements Initializable {
         transactTableView.setItems(retrieveTransact);
     }
 
-    //INCOMPLETE
     private void filterTransactType() {
         if(transactTypeCB.getValue().equals("All")) {
-
+            retrieveTransact = fnc.retrieveAllTransact(globalVariable.transactList);
+            applySorting();
+        }else if(transactTypeCB.getValue().equals("Pending")) {
+            retrieveTransact = fnc.retrievePendingTransact(globalVariable.transactList);
+            applySorting();
+        }else if(transactTypeCB.getValue().equals("Ongoing")) {
+            retrieveTransact = fnc.retrieveOngoingTransact(globalVariable.transactList);
+            applySorting();
+        }else if(transactTypeCB.getValue().equals("Finish")) {
+            retrieveTransact = fnc.retrieveFinishTransact(globalVariable.transactList);
+            applySorting();
         }
     }
 
     private void loadFXMLForChoice(String fxmlPath) {
         try {
-            // Load the FXML file
             Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-
-            // Get the current stage
             Stage stage = (Stage) reportbox.getScene().getWindow();
-
-            // Update the scene
             stage.setScene(new Scene(root));
         } catch (IOException e) {
             // Handle exceptions and show an alert

@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 import Function.*;
 
 import static Function.globalVariable.sortedStaffListASC;
+import static Function.globalVariable.sortedStudentListASC;
 
 public class reportsAcctStaffController implements Initializable {
     Connection conn;
@@ -75,7 +76,7 @@ public class reportsAcctStaffController implements Initializable {
 
     private String[] sortType = {"A-Z", "Z-A"};
     private String[] userType = {"Staff", "Student"};
-    private String[] reportOptions = {"Accounts", "Books", "Transactions"};
+    private String[] reportOptions = {"Account", "Book", "Transaction"};
     private ObservableList<Staff> retrieveStaff = FXCollections.observableArrayList();
 
     @FXML
@@ -91,10 +92,10 @@ public class reportsAcctStaffController implements Initializable {
             reportbox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
                     switch (newValue) {
-                        case "Accounts":
+                        case "Account":
                             loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_acc_reports.fxml");
                             break;
-                        case "Books":
+                        case "Book":
                             loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_book_reports.fxml");
                             break;
                         case "Transaction":

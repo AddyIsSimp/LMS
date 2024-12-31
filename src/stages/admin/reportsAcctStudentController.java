@@ -93,10 +93,10 @@ public class reportsAcctStudentController implements Initializable {
             reportbox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
                     switch (newValue) {
-                        case "Accounts":
+                        case "Account":
                             loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_acc_reports.fxml");
                             break;
-                        case "Books":
+                        case "Book":
                             loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_book_reports.fxml");
                             break;
                         case "Transaction":
