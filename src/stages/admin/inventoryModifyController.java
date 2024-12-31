@@ -289,7 +289,7 @@ public class inventoryModifyController implements Initializable {
             changeImgBttn.setDisable(false);
             titleField.setDisable(false);
             authorField.setDisable(false);
-            isbnField.setDisable(false);
+            isbnField.setDisable(true);
             tfCategory.setDisable(false);
             qtyField.setDisable(false);
             saveBttn.setDisable(false);

@@ -2,6 +2,7 @@ package stages.staff;
 
 import Entity.Book;
 import Entity.Category;
+import Function.Function;
 import Function.globalVariable;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -222,22 +223,30 @@ public class inventoryInsertController implements Initializable {
 
     @FXML
     private void createBook(ActionEvent event) {
-        if(newImage==null) {
-            lblError.setText("No image selected");  return;
-        }else if(tfTitle.getText()==null) {
-            lblError.setText("Title is blank");  return;
-        }else if(tfAuthor.getText()==null) {
-            lblError.setText("Author is blank"); return;
-        }else if(tfISBN.getText()==null) {
-            lblError.setText("ISBN is blank");return;
-        }else if(fnc.digitChecker(tfISBN.getText())==false) {
-            lblError.setText("ISBN should be all digits"); return;
-        }else if(tfCategory.getSelectionModel()==null) {
-            lblError.setText("No category selected"); return;
-        }else if(tfQuantity.getText()==null) {
-            lblError.setText("Quantity is blank"); return;
-        }else if(fnc.digitChecker(tfQuantity.getText()) == false) {
-            lblError.setText("Quantity should be digits"); return;
+        if (newImage == null) {
+            lblError.setText("No image selected");
+            return;
+        } else if (tfTitle.getText() == null) {
+            lblError.setText("Title is blank");
+            return;
+        } else if (tfAuthor.getText() == null) {
+            lblError.setText("Author is blank");
+            return;
+        } else if (tfISBN.getText() == null) {
+            lblError.setText("ISBN is blank");
+            return;
+        } else if (fnc.digitChecker(tfISBN.getText()) == false) {
+            lblError.setText("ISBN should be all digits");
+            return;
+        } else if (tfCategory.getSelectionModel() == null) {
+            lblError.setText("No category selected");
+            return;
+        } else if (tfQuantity.getText() == null) {
+            lblError.setText("Quantity is blank");
+            return;
+        } else if (fnc.digitChecker(tfQuantity.getText()) == false) {
+            lblError.setText("Quantity should be digits");
+            return;
         }
 
         //Upload the image to database
@@ -248,29 +257,37 @@ public class inventoryInsertController implements Initializable {
         String category = ctgryObj.getName();
         int quantity = Integer.parseInt(tfQuantity.getText());
 
-        String imgName = globalVariable.dbFnc.insertBookImageDB(newImage, bkTitle+bkAuthor);
+        String imgName = globalVariable.dbFnc.insertBookImageDB(newImage, bkTitle + bkAuthor);
 
         Book newBook = new Book(bkTitle, bkAuthor, category, newImage, bkISBN, quantity);
 
-        //Upload the book to database
-        boolean ifSuccess = globalVariable.dbFnc.insertBookDB(newBook, imgName);
-        if(ifSuccess) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Book inserted successfully", ButtonType.OK);
-            alert.setTitle("Book Insert");
-            alert.show();
-            globalVariable.bookList.insertNOrder(newBook);
-            imgView.setImage(null);
-            pathField.setText(null);
-            tfTitle.setText(null);
-            tfAuthor.setText(null);
-            tfISBN.setText(null);
-            tfQuantity.setText(null);
-            lblError.setText(null);
-            refreshTable();
+        Function fc = new Function();
+        boolean uniqueISBN = fc.checkISBN(globalVariable.bookList, bkISBN);
+
+        if (uniqueISBN) {
+            //Upload the book to database
+            boolean ifSuccess = globalVariable.dbFnc.insertBookDB(newBook, imgName);
+            if (ifSuccess) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Book inserted successfully", ButtonType.OK);
+                alert.setTitle("Book Insert");
+                alert.show();
+                globalVariable.bookList.insertNOrder(newBook);
+                imgView.setImage(null);
+                pathField.setText(null);
+                tfTitle.setText(null);
+                tfAuthor.setText(null);
+                tfISBN.setText(null);
+                tfQuantity.setText(null);
+                lblError.setText(null);
+                refreshTable();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Book is not inserted", ButtonType.OK);
+                alert.setTitle("Book Insert");
+                alert.show();
+            }
         }else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Book is not inserted", ButtonType.OK);
-            alert.setTitle("Book Insert");
-            alert.show();
+            lblError.setText("ISBN is is already use");
+            return;
         }
     }
 

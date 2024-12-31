@@ -2,6 +2,7 @@ package stages.admin;
 
 import Entity.Book;
 import Entity.Category;
+import Function.Function;
 import Function.globalVariable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -319,26 +320,33 @@ public class inventoryInsertController implements Initializable {
         String imgName = globalVariable.dbFnc.insertBookImageDB(newImage, bkTitle + bkAuthor);
 
         Book newBook = new Book(bkTitle, bkAuthor, category, newImage, bkISBN, quantity);
+        Function fc = new Function();
+        boolean uniqueISBN = fc.checkISBN(globalVariable.bookList, bkISBN);
 
-        //Upload the book to database
-        boolean ifSuccess = globalVariable.dbFnc.insertBookDB(newBook, imgName);
-        if (ifSuccess) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Book inserted successfully", ButtonType.OK);
-            alert.setTitle("Book Insert");
-            alert.show();
-            globalVariable.bookList.insertNOrder(newBook);
-            imgView.setImage(null);
-            pathField.setText(null);
-            tfTitle.setText(null);
-            tfAuthor.setText(null);
-            tfISBN.setText(null);
-            tfQuantity.setText(null);
-            lblError.setText(null);
-            refreshTable();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Book is not inserted", ButtonType.OK);
-            alert.setTitle("Book Insert");
-            alert.show();
+        if (uniqueISBN) {
+            //Upload the book to database
+            boolean ifSuccess = globalVariable.dbFnc.insertBookDB(newBook, imgName);
+            if (ifSuccess) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Book inserted successfully", ButtonType.OK);
+                alert.setTitle("Book Insert");
+                alert.show();
+                globalVariable.bookList.insertNOrder(newBook);
+                imgView.setImage(null);
+                pathField.setText(null);
+                tfTitle.setText(null);
+                tfAuthor.setText(null);
+                tfISBN.setText(null);
+                tfQuantity.setText(null);
+                lblError.setText(null);
+                refreshTable();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Book is not inserted", ButtonType.OK);
+                alert.setTitle("Book Insert");
+                alert.show();
+            }
+        }else{
+            lblError.setText("ISBN is is already use");
+            return;
         }
     }
 
