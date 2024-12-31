@@ -2,6 +2,10 @@ package stages.admin;
 
 
 import Entity.Staff;
+import Entity.Student;
+import Function.Function;
+import Function.dbFunction;
+import Function.globalVariable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,14 +28,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javafx.scene.control.*;
-
-
-import Function.*;
-
 import static Function.globalVariable.sortedStaffListASC;
+import static Function.globalVariable.sortedStudentListASC;
 
-public class reportsController implements Initializable {
+public class reportsStaffController implements Initializable {
     Connection conn;
     Statement stmt;
     ResultSet rs;
@@ -65,22 +65,26 @@ public class reportsController implements Initializable {
     @FXML
     private ChoiceBox<String> reportbox;
 
-
-    @FXML
-    private Label bookQty, staffQty, studentQty;
-
     @FXML
     private TableView<Staff> staffTableView;
     @FXML
+    private TableView<Student> studentAccTableView;
+
+    @FXML
     private TableColumn<Staff, String> firstNameCol, lastNameCol, staffIDCol;
     @FXML
-    private ChoiceBox<String> sortCB;
+    private ChoiceBox<String> sortCB, accUsersCB;
+    @FXML
+    private Label bookQty, staffQty, studentQty;
+
+
 
     @FXML
     private ToggleGroup searchToggleGroup; // Add this toggle group
 
 
     private String[] sortType = {"A-Z", "Z-A"};
+    private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
     private ObservableList<Staff> retrieveStaff = FXCollections.observableArrayList();
 
 
@@ -125,6 +129,9 @@ public class reportsController implements Initializable {
             sortCB.getItems().addAll(sortType);
             sortCB.setValue(sortType[0]);
 
+            accUsersCB.getItems().addAll(sortType);
+            accUsersCB.setValue(sortType[0]);
+
 
             staffQty.setText(Integer.toString(globalVariable.sortedStaffListASC.size()));
 
@@ -140,16 +147,6 @@ public class reportsController implements Initializable {
             }
     
             staffTableView.setItems(retrieveStaff);
-
-
-            sortCB.setOnAction(e -> {
-                String sortOption = sortCB.getValue();
-                if ("A-Z".equals(sortOption)) {
-                    retrieveStaff.sort((s1, s2) -> s1.getFName().compareToIgnoreCase(s2.getFName()));
-                } else if ("Z-A".equals(sortOption)) {
-                    retrieveStaff.sort((s1, s2) -> s2.getFName().compareToIgnoreCase(s1.getFName()));
-                }
-            });
         } catch (Exception e) {
             // Handle errors and show an alert
             Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred: " + e.getMessage());
@@ -157,6 +154,46 @@ public class reportsController implements Initializable {
         }
     }
 
+    private void populateStaffTable() {
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("fName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lName"));
+        staffIDCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+
+        if (sortedStaffListASC != null) {
+            ObservableList<Staff> staffList = fnc.retrieveStaff(globalVariable.sortedStaffListASC);
+            staffTableView.setItems(staffList);
+        } else {
+            showErrorAlert("Error", "Staff list is empty or not initialized.");
+        }
+    }
+
+    private void populateStudentTable() {
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        staffIDCol.setCellValueFactory(new PropertyValueFactory<>("studentID"));
+
+        if (retrieveStudentlist != null) {
+            studentAccTableView.setItems(FXCollections.observableArrayList(sortedStudentListASC));
+        } else {
+            showErrorAlert("Error", "Student list is empty or not initialized.");
+        }
+    }
+
+
+
+    private void applySorting(ObservableList<Staff> staffList) {
+        if (sortCB.getValue().equals("A-Z")) {
+            globalVariable.sortedStaffListASC.clear();
+            staffList.sorted((s1, s2) -> s1.getFName().compareToIgnoreCase(s2.getFName()))
+                    .forEach(globalVariable.sortedStaffListASC::add);
+            staffTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStaffListASC));
+        } else {
+            sortedStaffListASC.clear();
+            staffList.sorted((s1, s2) -> s2.getFName().compareToIgnoreCase(s1.getFName()))
+                    .forEach(sortedStaffListASC::add);
+            staffTableView.setItems(FXCollections.observableArrayList(sortedStaffListASC));
+        }
+    }
 
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
