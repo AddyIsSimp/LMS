@@ -1,6 +1,7 @@
 package stages.admin;
 
 import Entity.Book;
+import Entity.Category;
 import LinkedList.DoublyLinkList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Function.*;
@@ -85,7 +87,7 @@ public class inventoryController implements Initializable {
     private TableColumn<Book, String> titleCol;
 
     Function fnc = new Function();
-    private ObservableList<Book> bookList = FXCollections.observableArrayList();
+    private ObservableList<Book> retrieveBook = FXCollections.observableArrayList();
     private final String[] sortType = {"A-Z", "Z-A"};
     private final String[] changeViewType = {"Table View", "Library View"};
 
@@ -102,28 +104,35 @@ public class inventoryController implements Initializable {
             sortBookData();
         });
 
+        titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
+        authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+        isbnCol.setCellValueFactory(new PropertyValueFactory<Book, String>("ISBN"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<Book, String>("category"));
+        qtyCol.setCellValueFactory(new PropertyValueFactory<Book, String>("quantity"));
+
+        retrieveBook = fnc.retrieveBook(bookList);
         changeViewCB.getItems().addAll(changeViewType);
-        if(globalVariable.isLibraryView==true) {
+        if (globalVariable.isLibraryView == true) {
             changeViewCB.setValue(changeViewType[1]);
             refreshLibraryView();
-        }else {
+        } else {
             changeViewCB.setValue(changeViewType[0]);
             refreshTableView();
         }
         changeViewCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             refreshTable();
         });
-
     }
 
     private void sortBookData() {
-        if (bookList != null && !bookList.isEmpty()) {
+        if(retrieveBook!=null) {
             if (sortCB.getValue().equals("A-Z")) {
-                bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
+                retrieveBook.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
             } else if (sortCB.getValue().equals("Z-A")) {
-                bookList.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
+                retrieveBook.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
             }
             BookTableView.refresh();
+            BookTableView.setItems(retrieveBook);
         }
     }
 
@@ -136,12 +145,6 @@ public class inventoryController implements Initializable {
     }
 
     public void refreshTableView() {
-        titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-        authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-        isbnCol.setCellValueFactory(new PropertyValueFactory<Book, String>("ISBN"));
-        categoryCol.setCellValueFactory(new PropertyValueFactory<Book, String>("category"));
-        qtyCol.setCellValueFactory(new PropertyValueFactory<Book, String>("quantity"));
-
         ObservableList<Book> bookList = fnc.inventoryBookView();
         BookTableView.setItems(bookList);
         libraryBox.getChildren().clear();

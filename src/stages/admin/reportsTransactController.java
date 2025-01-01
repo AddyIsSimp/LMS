@@ -92,7 +92,7 @@ public class reportsTransactController implements Initializable {
             pendingQty.setText(Integer.toString(fnc.retrievePendingTransact(transactionList).size()));
             ongoingQty.setText(Integer.toString(fnc.retrieveOngoingTransact(transactionList).size()));
             successQty.setText(Integer.toString(fnc.retrieveFinishTransact(transactionList).size()));
-            transactQty.setText(Integer.toString(fnc.retrievePendingTransact(transactionList).size()));
+            transactQty.setText(Integer.toString(transactionList.size()));
 
                 transactTypeCB.getItems().addAll(transactType);
                 transactTypeCB.setValue(transactType[0]);

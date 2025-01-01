@@ -46,8 +46,10 @@ public class inventoryDeleteController implements Initializable {
     @FXML
     private Label lblError, lblError2;
 
-    @FXML private Image newImage;
-    @FXML private Button deleteBttn, changeImgBttn;
+    @FXML
+    private Image newImage;
+    @FXML
+    private Button deleteBttn, changeImgBttn;
     @FXML
     private TableView<Book> BookTableView;
     @FXML
@@ -74,7 +76,7 @@ public class inventoryDeleteController implements Initializable {
     private ChoiceBox<String> sortCB;
     @FXML
     private ChoiceBox<String> changeViewCB;
-    private ObservableList<Book> bookList = FXCollections.observableArrayList();
+    private ObservableList<Book> retrieveBook = FXCollections.observableArrayList();
     private final String[] sortType = {"A-Z", "Z-A"};
     private final String[] changeViewType = {"Table View", "Library View"};
 
@@ -96,11 +98,12 @@ public class inventoryDeleteController implements Initializable {
             sortBookData();
         });
 
+        retrieveBook = fnc.retrieveBook(globalVariable.bookList);
         changeViewCB.getItems().addAll(changeViewType);
-        if(globalVariable.isLibraryView==true) {
+        if (globalVariable.isLibraryView == true) {
             changeViewCB.setValue(changeViewType[1]);
             refreshLibraryView();
-        }else {
+        } else {
             changeViewCB.setValue(changeViewType[0]);
             refreshTableView();
         }
@@ -110,13 +113,14 @@ public class inventoryDeleteController implements Initializable {
     }
 
     private void sortBookData() {
-        if (bookList != null && !bookList.isEmpty()) {
+        if(retrieveBook!=null) {
             if (sortCB.getValue().equals("A-Z")) {
-                bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
+                retrieveBook.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
             } else if (sortCB.getValue().equals("Z-A")) {
-                bookList.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
+                retrieveBook.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
             }
             BookTableView.refresh();
+            BookTableView.setItems(retrieveBook);
         }
     }
 
@@ -204,7 +208,7 @@ public class inventoryDeleteController implements Initializable {
         alert.setHeaderText("You're about to logout!");
         alert.setContentText("Do you want to continue?");
 
-        if(alert.showAndWait().get() == ButtonType.OK) {
+        if (alert.showAndWait().get() == ButtonType.OK) {
             System.out.println("You successfully logged out!");
             Parent root = FXMLLoader.load(getClass().getResource("/stages/login/logFXML/login_view.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -235,27 +239,29 @@ public class inventoryDeleteController implements Initializable {
         String selected = "isbn";
         String searchFld;
 
-        if(isbnRB.isSelected()) { //find which button selected
+        if (isbnRB.isSelected()) { //find which button selected
             selected = "isbn";
-        }else {
+        } else {
             selected = "title";
         }
 
-        if(searchField==null || searchField.getText().isEmpty()) {  //if searchfield is empty
-            lblError.setText("Search text is blank"); return;
+        if (searchField == null || searchField.getText().isEmpty()) {  //if searchfield is empty
+            lblError.setText("Search text is blank");
+            return;
         }
         searchFld = searchField.getText();
 
         //REtrieve the book data
-        if(selected.equals("title")) {
+        if (selected.equals("title")) {
             searchBook = globalVariable.bookList.findTitle(searchFld);
-        }else {
+        } else {
             searchBook = globalVariable.bookList.findISBN(searchFld);
         }
 
-        if(searchBook==null) {
-            lblError.setText("Found no book"); return;
-        }else {
+        if (searchBook == null) {
+            lblError.setText("Found no book");
+            return;
+        } else {
             Image img = searchBook.getImageSrc();
             bkImage.setImage(img);
             titleField.setText(searchBook.getTitle());

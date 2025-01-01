@@ -21,7 +21,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
-public class bkTransactReturnController implements Initializable {
+public class bkTransactHistoryController implements Initializable {
 
     Connection conn;
     Statement stmt;
@@ -59,6 +59,7 @@ public class bkTransactReturnController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
 //SWITCHING MENU
 
     @FXML
