@@ -19,7 +19,6 @@ import Function.globalVariable;
 public class index extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-
         try {
             // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("stages/login/logFXML/login_view.fxml"));

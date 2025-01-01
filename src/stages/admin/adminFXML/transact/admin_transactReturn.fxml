@@ -268,9 +268,9 @@
             </HBox>
             <TableView fx:id="brrwTransTblView" prefHeight="502.0" prefWidth="740.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
               <columns>
+                <TableColumn fx:id="titleCol" prefWidth="185.5999755859375" text="Title" />
                   <TableColumn fx:id="borrowDateCol" prefWidth="121.59997701644897" text="Borrow Date" />
                 <TableColumn fx:id="daysCol" minWidth="0.0" prefWidth="89.60002899169922" text="Days Left" />
-                <TableColumn fx:id="titleCol" prefWidth="185.5999755859375" text="Title" />
                   <TableColumn fx:id="studentIDCol" prefWidth="122.40005493164062" text="Student ID" />
                   <TableColumn fx:id="studentNameCol" prefWidth="171.20001220703125" text="Student Name" />
                   <TableColumn fx:id="returnBtnCol" minWidth="5.0" prefWidth="78.4000244140625" text="Return" />

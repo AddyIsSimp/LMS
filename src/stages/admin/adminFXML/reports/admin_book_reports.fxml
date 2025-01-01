@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.admin.reportsController">
+<BorderPane blendMode="DARKEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stages.admin.reportsBookController">
    <top>
       <HBox prefHeight="68.0" prefWidth="970.0" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
@@ -207,39 +207,64 @@
                <children>
                   <AnchorPane layoutX="11.0" layoutY="61.0" prefHeight="519.0" prefWidth="750.0" styleClass="mainframe" stylesheets="@../../../../style_File/LoginSyle.css">
                      <children>
-                        <TableView layoutX="7.0" layoutY="50.0" prefHeight="398.0" prefWidth="722.0" stylesheets="@../../../../style_File/Dashboard.css">
+                        <TableView fx:id="bookTableView" layoutX="7.0" layoutY="50.0" prefHeight="417.0" prefWidth="722.0" stylesheets="@../../../../style_File/Dashboard.css">
                            <columns>
-                              <TableColumn prefWidth="185.0" text="Title" />
-                              <TableColumn prefWidth="118.0" text="Author" />
-                              <TableColumn prefWidth="145.0" text="Category" />
-                              <TableColumn prefWidth="126.0" text="ISBN" />
-                              <TableColumn minWidth="0.0" prefWidth="147.0" text="Qty" />
+                              <TableColumn fx:id="titleCol" prefWidth="177.60000038146973" text="Title" />
+                              <TableColumn fx:id="authorCol" prefWidth="132.0" text="Author" />
+                              <TableColumn fx:id="ctgryCol" prefWidth="121.60003662109375" text="Category" />
+                              <TableColumn fx:id="isbnCol" prefWidth="111.19998168945312" text="ISBN" />
+                              <TableColumn fx:id="qtyCol" minWidth="0.0" prefWidth="88.7999267578125" text="Qty" />
+                              <TableColumn fx:id="brrwCol" minWidth="0.0" prefWidth="88.7999267578125" text="Borrowed" />
                            </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
                         </TableView>
                         <ChoiceBox fx:id="reportbox" layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="121.0" />
                         <Line endX="43.666656494140625" layoutX="83.0" layoutY="42.0" startX="-72.33332824707031" strokeWidth="3.0" />
-                        <Label layoutX="572.0" layoutY="473.0" prefHeight="21.0" prefWidth="124.0" text="Total Books:">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="660.0" layoutY="471.0" prefHeight="27.0" prefWidth="71.0" text="0">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <ChoiceBox layoutX="607.0" layoutY="10.0" prefHeight="25.0" prefWidth="121.0" />
-                        <Label layoutX="614.0" layoutY="13.0" prefHeight="20.0" prefWidth="85.0" text="A-Z">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="551.0" layoutY="12.0" prefHeight="20.0" prefWidth="59.0" text="Sort by:">
+                        <ChoiceBox fx:id="sortCB" layoutX="647.0" layoutY="10.0" prefHeight="26.0" prefWidth="82.0" />
+                        <Label layoutX="581.0" layoutY="12.0" prefHeight="20.0" prefWidth="59.0" text="Sort by:">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
                         <Label alignment="CENTER" layoutX="11.0" layoutY="12.0" prefHeight="20.0" prefWidth="90.0" text="Books">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="481.0" prefHeight="22.0" prefWidth="68.0" text="Book title:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="titleQty" layoutX="83.0" layoutY="478.0" prefHeight="27.0" prefWidth="33.0" text="0">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="169.0" layoutY="481.0" prefHeight="22.0" prefWidth="101.0" text="Borrowed book:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="borrowQty" layoutX="272.0" layoutY="478.0" prefHeight="27.0" prefWidth="33.0" text="0">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="621.0" layoutY="481.0" prefHeight="22.0" prefWidth="73.0" text="Total book:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="bookQty" layoutX="695.0" layoutY="478.0" prefHeight="27.0" prefWidth="33.0" text="0">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="categoryCB" layoutX="439.0" layoutY="10.0" prefHeight="26.0" prefWidth="118.0" />
+                        <Label layoutX="368.0" layoutY="12.0" prefHeight="20.0" prefWidth="73.0" text="Category:">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>

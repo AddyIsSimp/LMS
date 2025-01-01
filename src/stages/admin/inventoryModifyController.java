@@ -47,8 +47,10 @@ public class inventoryModifyController implements Initializable {
     @FXML
     private Label lblError, lblError2;
 
-    @FXML private Image newImage;
-    @FXML private Button saveBttn, changeImgBttn;
+    @FXML
+    private Image newImage;
+    @FXML
+    private Button saveBttn, changeImgBttn;
     @FXML
     private TableView<Book> BookTableView;
     @FXML
@@ -75,7 +77,7 @@ public class inventoryModifyController implements Initializable {
     private ChoiceBox<String> sortCB;
     @FXML
     private ChoiceBox<String> changeViewCB;
-    private ObservableList<Book> bookList = FXCollections.observableArrayList();
+    private ObservableList<Book> retrieveBook = FXCollections.observableArrayList();
     private final String[] sortType = {"A-Z", "Z-A"};
     private final String[] changeViewType = {"Table View", "Library View"};
 
@@ -94,7 +96,7 @@ public class inventoryModifyController implements Initializable {
         }
 
         //If search
-        if(modifyBook!=null) {
+        if (modifyBook != null) {
             searchBook = modifyBook;
             Image img = searchBook.getImageSrc();
             bkImage.setImage(img);
@@ -119,11 +121,12 @@ public class inventoryModifyController implements Initializable {
             sortBookData();
         });
 
+        retrieveBook = fnc.retrieveBook(bookList);
         changeViewCB.getItems().addAll(changeViewType);
-        if(globalVariable.isLibraryView==true) {
+        if (globalVariable.isLibraryView == true) {
             changeViewCB.setValue(changeViewType[1]);
             refreshLibraryView();
-        }else {
+        } else {
             changeViewCB.setValue(changeViewType[0]);
             refreshTableView();
         }
@@ -133,13 +136,14 @@ public class inventoryModifyController implements Initializable {
     }
 
     private void sortBookData() {
-        if (bookList != null && !bookList.isEmpty()) {
+        if(retrieveBook!=null) {
             if (sortCB.getValue().equals("A-Z")) {
-                bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
+                retrieveBook.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
             } else if (sortCB.getValue().equals("Z-A")) {
-                bookList.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
+                retrieveBook.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
             }
             BookTableView.refresh();
+            BookTableView.setItems(retrieveBook);
         }
     }
 
@@ -182,7 +186,7 @@ public class inventoryModifyController implements Initializable {
         }
     }
 
-//SWITCHING MENU
+    //SWITCHING MENU
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_dashboard.fxml"));
@@ -227,7 +231,7 @@ public class inventoryModifyController implements Initializable {
         alert.setHeaderText("You're about to logout!");
         alert.setContentText("Do you want to continue?");
 
-        if(alert.showAndWait().get() == ButtonType.OK) {
+        if (alert.showAndWait().get() == ButtonType.OK) {
             System.out.println("You successfully logged out!");
             Parent root = FXMLLoader.load(getClass().getResource("/stages/login/logFXML/login_view.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -246,7 +250,7 @@ public class inventoryModifyController implements Initializable {
 
     @FXML
     private void goReports(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_reports.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/reports/admin_acc_reports.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -258,27 +262,29 @@ public class inventoryModifyController implements Initializable {
         String selected = "isbn";
         String searchFld;
 
-        if(isbnRB.isSelected()) { //find which button selected
+        if (isbnRB.isSelected()) { //find which button selected
             selected = "isbn";
-        }else {
+        } else {
             selected = "title";
         }
 
-        if(searchField.getText().isEmpty()) {  //if searchfield is empty
-            lblError.setText("Search text is blank"); return;
+        if (searchField.getText().isEmpty()) {  //if searchfield is empty
+            lblError.setText("Search text is blank");
+            return;
         }
         searchFld = searchField.getText();
 
         //REtrieve the book data
-        if(selected.equals("title")) {
+        if (selected.equals("title")) {
             searchBook = globalVariable.bookList.findTitle(searchFld);
-        }else {
+        } else {
             searchBook = globalVariable.bookList.findISBN(searchFld);
         }
 
-        if(searchBook==null) {
-            lblError.setText("Found no book"); return;
-        }else {
+        if (searchBook == null) {
+            lblError.setText("Found no book");
+            return;
+        } else {
             Image img = searchBook.getImageSrc();
             bkImage.setImage(img);
             titleField.setText(searchBook.getTitle());
@@ -320,24 +326,30 @@ public class inventoryModifyController implements Initializable {
 
     @FXML
     private void editBook(ActionEvent event) {
-        if(newImage==null) {
-            lblError.setText("No image selected");  return;
-        }else if(titleField.getText()==null || titleField.getText().trim().isEmpty()) {
-            lblError.setText("Title is blank");  return;
-        }else if(authorField.getText()==null || authorField.getText().trim().isEmpty()) {
-            lblError.setText("Author is blank"); return;
-        }else if(isbnField.getText()==null || isbnField.getText().trim().isEmpty()) {
-            lblError.setText("ISBN is blank");return;
-        }else if(fnc.digitChecker(isbnField.getText())==false || isbnField.getText().trim().isEmpty()) {
-            lblError.setText("ISBN should be all digits"); return;
-        }else if(tfCategory.getSelectionModel()==null) {
-            lblError.setText("No category selected"); return;
-        }else if(qtyField.getText()==null || qtyField.getText().trim().isEmpty()) {
-            lblError.setText("Quantity is blank"); return;
-        }else if(fnc.digitChecker(qtyField.getText()) == false) {
-            lblError.setText("Quantity should be digits"); return;
-        }else if(fnc.checkISBNExempt(globalVariable.bookList, isbnField.getText(), isbnField.getText())==false) {
-            lblError.setText("ISBN is already used"); return;
+        if (titleField.getText() == null || titleField.getText().trim().isEmpty()) {
+            lblError2.setText("Title is blank");
+            return;
+        } else if (authorField.getText() == null || authorField.getText().trim().isEmpty()) {
+            lblError2.setText("Author is blank");
+            return;
+        } else if (isbnField.getText() == null || isbnField.getText().trim().isEmpty()) {
+            lblError2.setText("ISBN is blank");
+            return;
+        } else if (fnc.digitChecker(isbnField.getText()) == false || isbnField.getText().trim().isEmpty()) {
+            lblError2.setText("ISBN should be all digits");
+            return;
+        } else if (tfCategory.getSelectionModel() == null) {
+            lblError2.setText("No category selected");
+            return;
+        } else if (qtyField.getText() == null || qtyField.getText().trim().isEmpty()) {
+            lblError2.setText("Quantity is blank");
+            return;
+        } else if (fnc.digitChecker(qtyField.getText()) == false) {
+            lblError2.setText("Quantity should be digits");
+            return;
+        } else if (fnc.checkISBNExempt(globalVariable.bookList, isbnField.getText(), isbnField.getText()) == false) {
+            lblError2.setText("ISBN is already used");
+            return;
         }
 
         //Upload the image to database
@@ -348,7 +360,7 @@ public class inventoryModifyController implements Initializable {
         String category = ctgryObj.getName();
         int quantity = Integer.parseInt(qtyField.getText());
 
-        String imgName = globalVariable.dbFnc.insertBookImageDB(newImage, bkTitle+bkAuthor);
+        String imgName = globalVariable.dbFnc.insertBookImageDB(newImage, bkTitle + bkAuthor);
         Book newBook = new Book(bkTitle, bkAuthor, category, newImage, bkISBN, quantity);
         boolean success=dbFnc.modifyBookDB(newBook,imgName);
         globalVariable.bookList.deleteBook(searchBook.getTitle());

@@ -81,7 +81,7 @@ public class inventoryInsertController implements Initializable {
     private ChoiceBox<String> sortCB;
     @FXML
     private ChoiceBox<String> changeViewCB;
-    private ObservableList<Book> bookList = FXCollections.observableArrayList();
+    private ObservableList<Book> retrieveBook = FXCollections.observableArrayList();
     private final String[] sortType = {"A-Z", "Z-A"};
     private final String[] changeViewType = {"Table View", "Library View"};
 
@@ -101,11 +101,12 @@ public class inventoryInsertController implements Initializable {
             sortBookData();
         });
 
+        retrieveBook = fnc.retrieveBook(globalVariable.bookList);
         changeViewCB.getItems().addAll(changeViewType);
-        if(globalVariable.isLibraryView==true) {
+        if (globalVariable.isLibraryView == true) {
             changeViewCB.setValue(changeViewType[1]);
             refreshLibraryView();
-        }else {
+        } else {
             changeViewCB.setValue(changeViewType[0]);
             refreshTableView();
         }
@@ -115,13 +116,14 @@ public class inventoryInsertController implements Initializable {
     }
 
     private void sortBookData() {
-        if (bookList != null && !bookList.isEmpty()) {
+        if(retrieveBook!=null) {
             if (sortCB.getValue().equals("A-Z")) {
-                bookList.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
+                retrieveBook.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
             } else if (sortCB.getValue().equals("Z-A")) {
-                bookList.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
+                retrieveBook.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
             }
             BookTableView.refresh();
+            BookTableView.setItems(retrieveBook);
         }
     }
 
@@ -228,13 +230,8 @@ public class inventoryInsertController implements Initializable {
     }
 
     @FXML
-    private void goProfileAdmin(MouseEvent event) {
-
-    }
-
-    @FXML
     private void goReports(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_reports.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/reports/admin_acc_reports.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

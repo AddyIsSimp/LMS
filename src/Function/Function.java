@@ -214,11 +214,9 @@ public class Function {
                 Book newBook = new Book(title, author, category, img, ISBN, quantity, borrowed);
 
                 inventoryBook.add(newBook); // Add it to the ObservableList.
-                System.out.println("Inserted in observable: " + newBook.getTitle());
                 current = current.getNext(); // Move to the next node.
             }
 
-            System.out.println(inventoryBook.size());
             return inventoryBook;
         } catch (NullPointerException e) {
             showAlert("Inventory Book View Error", "A null pointer was encountered: " + e.getMessage());
@@ -245,6 +243,14 @@ public class Function {
             if ("PENDING".equalsIgnoreCase(transact.getStatus())) {
                 pendingTransact.add(transact);
             }
+        }
+        return pendingTransact;
+    }
+
+    public ObservableList<Transact> retrieveAllTransact(ArrayList<Transact> transactsList) {
+        ObservableList<Transact> pendingTransact = FXCollections.observableArrayList();
+        for (Transact transact : transactsList) {
+            pendingTransact.add(transact);
         }
         return pendingTransact;
     }

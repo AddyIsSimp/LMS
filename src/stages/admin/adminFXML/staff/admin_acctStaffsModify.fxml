@@ -285,7 +285,7 @@
                         <Insets left="8.0" />
                      </padding>
                   </HBox>
-                  <VBox prefHeight="420.0" prefWidth="266.0">
+                  <VBox prefHeight="399.0" prefWidth="266.0">
                      <padding>
                         <Insets top="10.0" />
                      </padding>
@@ -421,7 +421,7 @@
                         </VBox>
                      </children>
                   </VBox>
-                  <Label fx:id="lblError1" alignment="CENTER" prefHeight="18.0" prefWidth="268.0" textFill="RED" />
+                  <Label fx:id="lblError1" alignment="BOTTOM_CENTER" prefHeight="35.0" prefWidth="266.0" textFill="RED" />
                   <HBox alignment="TOP_CENTER" prefHeight="62.0" prefWidth="266.0">
                      <children>
                         <Button fx:id="saveBttn" disable="true" mnemonicParsing="false" onAction="#doModifyStaff" prefHeight="44.0" prefWidth="127.0" stylesheets="@../../../../style_File/Dashboard.css" text="SAVE" textFill="WHITE">

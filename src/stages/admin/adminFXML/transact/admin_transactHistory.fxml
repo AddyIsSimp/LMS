@@ -214,14 +214,14 @@
                   </Label>
                   <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="570.0">
                      <children>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#goReturnTransact" prefHeight="30.0" prefWidth="194.0" spacing="5.0" stylesheets="@../../../../style_File/Dashboard.css">
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#goBrrwTransact" prefHeight="30.0" prefWidth="194.0" spacing="5.0" stylesheets="@../../../../style_File/Dashboard.css">
                            <children>
                               <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../icons/brrwIconBlack.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="30.0" prefWidth="152.0" text="Go To Return Transaction">
+                              <Label prefHeight="30.0" prefWidth="152.0" text="Go To Borrow Transaction">
                                  <font>
                                     <Font size="13.0" />
                                  </font>
@@ -235,14 +235,14 @@
                               <Insets right="15.0" />
                            </HBox.margin>
                         </HBox>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#goBrrwTransact" prefHeight="30.0" prefWidth="194.0" spacing="5.0" stylesheets="@../../../../style_File/Dashboard.css">
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#goReturnTransact" prefHeight="30.0" prefWidth="194.0" spacing="5.0" stylesheets="@../../../../style_File/Dashboard.css">
                            <children>
                               <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../icons/brrwIconBlack.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="30.0" prefWidth="152.0" text="Go To Borrow Transaction">
+                              <Label prefHeight="30.0" prefWidth="152.0" text="Go To Return Transaction">
                                  <font>
                                     <Font size="13.0" />
                                  </font>

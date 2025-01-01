@@ -325,21 +325,13 @@
                   </Label>
                   <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="261.0">
                      <children>
-                        <ChoiceBox prefHeight="26.0" prefWidth="104.0" />
+                        <ChoiceBox fx:id="changeViewCB" prefHeight="26.0" prefWidth="104.0" />
                      </children>
                      <padding>
                         <Insets left="10.0" />
                      </padding>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="129.0">
-                     <children>
-                        <Label text="Sort by: " textFill="WHITE">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <ChoiceBox fx:id="sortCB" prefHeight="26.0" prefWidth="69.0" stylesheets="@../../../../style_File/Dashboard.css" />
-                     </children>
                      <padding>
                         <Insets top="10.0" />
                      </padding>
@@ -349,9 +341,22 @@
                   <Insets left="10.0" />
                </padding>
             </HBox>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="505.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css">
+            <VBox fx:id="libraryBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="505.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css">
                <children>
-                  <TableView fx:id="BookTableView" prefHeight="552.0" prefWidth="506.0" stylesheets="@../../../../style_File/Dashboard.css">
+                  <HBox fx:id="sortBox" alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="506.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
+                     <children>
+                        <Label text="Sort by: " textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="sortCB" prefHeight="26.0" prefWidth="69.0" stylesheets="@../../../../style_File/Dashboard.css" />
+                     </children>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </HBox>
+                  <TableView fx:id="BookTableView" prefHeight="518.0" prefWidth="506.0" stylesheets="@../../../../style_File/Dashboard.css">
                      <columns>
                         <TableColumn fx:id="titleCol" prefWidth="143.99998170137405" text="Title" />
                         <TableColumn fx:id="authorCol" prefWidth="116.00007629394531" text="Author" />

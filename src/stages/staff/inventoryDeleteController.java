@@ -2,8 +2,10 @@ package stages.staff;
 
 import Entity.Book;
 import Entity.Category;
+import Function.Function;
 import Function.globalVariable;
 import LinkedList.DoublyLinkList;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +19,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import stages.admin.bkManageController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,6 +48,12 @@ public class inventoryDeleteController implements Initializable {
     @FXML
     private Label lblError, lblError2;
 
+    @FXML
+    private ChoiceBox<String> changeViewCB;
+    @FXML
+    private VBox libraryBox;
+    @FXML
+    private HBox sortBox;
     @FXML private Image newImage;
     @FXML private Button deleteBttn, changeImgBttn;
     @FXML
@@ -63,12 +74,15 @@ public class inventoryDeleteController implements Initializable {
     Book searchBook;
     DoublyLinkList bookList;
     ArrayList<Category> categories;
+    Function fnc = new Function();
+    private ObservableList<Book> retrieveBook = FXCollections.observableArrayList();
+    private final String[] sortType = {"A-Z", "Z-A"};
+    private final String[] changeViewType = {"Table View", "Library View"};
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         bookList = globalVariable.bookList;
         categories = globalVariable.dbFnc.retrieveCategories();
-
         if (categories != null && !categories.isEmpty()) {
             tfCategory.getItems().addAll(categories);
             tfCategory.setValue(categories.get(0)); // Optional: Set a default value
@@ -77,30 +91,76 @@ public class inventoryDeleteController implements Initializable {
             alert.showAndWait();
         }
 
-        //Insert book in table
         titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
         authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
         isbnCol.setCellValueFactory(new PropertyValueFactory<Book, String>("ISBN"));
         categoryCol.setCellValueFactory(new PropertyValueFactory<Book, String>("category"));
         qtyCol.setCellValueFactory(new PropertyValueFactory<Book, String>("quantity"));
 
-        ObservableList<Book> bookList = fnc.inventoryBookView();
-        System.out.println(bookList.size());
-        BookTableView.setItems(bookList);
+        sortCB.getItems().addAll(sortType);
+        sortCB.setValue(sortType[0]);
+        sortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            sortBookData();
+        });
 
-        sortCB.getItems().addAll("A-Z", "Z-A");
+        retrieveBook = fnc.retrieveBook(globalVariable.bookList);
+        changeViewCB.getItems().addAll(changeViewType);
+        if (globalVariable.isLibraryView == true) {
+            changeViewCB.setValue(changeViewType[1]);
+            refreshLibraryView();
+        } else {
+            changeViewCB.setValue(changeViewType[0]);
+            refreshTableView();
+        }
+
+        changeViewCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            refreshTable();
+        });
+    }
+
+    private void sortBookData() {
+        if(retrieveBook!=null) {
+            if (sortCB.getValue().equals("A-Z")) {
+                retrieveBook.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
+            } else if (sortCB.getValue().equals("Z-A")) {
+                retrieveBook.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
+            }
+            BookTableView.refresh();
+            BookTableView.setItems(retrieveBook);
+        }
     }
 
     public void refreshTable() {
-        titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-        authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-        isbnCol.setCellValueFactory(new PropertyValueFactory<Book, String>("ISBN"));
-        categoryCol.setCellValueFactory(new PropertyValueFactory<Book, String>("category"));
-        qtyCol.setCellValueFactory(new PropertyValueFactory<Book, String>("quantity"));
+        if (changeViewCB.getValue().equals("Table View")) {
+            refreshTableView();
+        } else if (changeViewCB.getValue().equals("Library View")) {
+            refreshLibraryView();
+        }
+    }
 
+    public void refreshTableView() {
         ObservableList<Book> bookList = fnc.inventoryBookView();
-        System.out.println(bookList.size());
         BookTableView.setItems(bookList);
+        libraryBox.getChildren().clear();
+        libraryBox.getChildren().addAll(sortBox, BookTableView);
+    }
+
+    public void refreshLibraryView() {
+        try {
+            libraryBox.getChildren().clear();
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(bkManageController.class.getResource("/stages/admin/library/libraryView.fxml"));
+            VBox libraryView = fxmlLoader.load();
+            libraryBox.getChildren().add(libraryView);
+        } catch (IOException e) {
+            Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            error.setTitle("Refresh Error");
+            error.showAndWait();
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            error.setTitle("Refresh Error");
+            error.showAndWait();
+        }
     }
 
     //SWITCHING MENU
@@ -130,6 +190,11 @@ public class inventoryDeleteController implements Initializable {
 
     @FXML
     private void goInventory(MouseEvent event) throws IOException {
+        if (changeViewCB.getValue().equals("Library View")) {
+            globalVariable.isLibraryView = true;
+        } else {
+            globalVariable.isLibraryView = false;
+        }
         Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/inventory/staff_inventory.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
