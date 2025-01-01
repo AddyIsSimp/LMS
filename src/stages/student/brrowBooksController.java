@@ -127,6 +127,10 @@ public class brrowBooksController implements Initializable {
                 Transact newTransact = new Transact(transactID, bktitle, bookISBN, studentLogin.getSchoolID(), studentLogin.getLName(), "PENDING");
                 globalVariable.dbFnc.insertPendingTransact(newTransact);
                 globalVariable.transactList.add(newTransact);
+
+                alert = new Alert(Alert.AlertType.INFORMATION, "Book Borrow Pending. Kindly proceed to the library within this week.", ButtonType.OK);
+                alert.setTitle("Book Borrowing");
+                alert.show();
             }
         }catch(Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
