@@ -197,6 +197,40 @@ public class dbFunction {
         return false;
     }
 
+    public boolean modifyBookDB(Book book, String imgName) {
+        try{
+            conn = connectToDB();
+            if(conn==null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return false;
+            }
+            String sqlModifyBook = "UPDATE librarydb.book SET title = ?, author = ?, isbn = ? , quantity = ?," +
+                    " ctgry = ?, imgID = ? WHERE isbn = ?";
+            pstmt = conn.prepareStatement(sqlModifyBook);
+            pstmt.setString(1, book.getTitle());
+            pstmt.setString(2, book.getAuthor());
+            pstmt.setString(3, book.getISBN());
+            pstmt.setInt(4, book.getQuantity());
+            pstmt.setString(5, book.getCategory());
+            pstmt.setString(6, imgName);
+            pstmt.setString(7, book.getISBN());
+            pstmt.executeUpdate();
+
+            return true;
+        }catch(SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("ModiyBookError");
+            alert.show();
+        }catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("ModifyBookError");
+            alert.show();
+        }
+        return false;
+    }
+
     public boolean removeBookDB(String title, String isbn) {
         try{
             conn = connectToDB();
@@ -223,6 +257,38 @@ public class dbFunction {
             alert.show();
         }
         return false;
+    }
+
+    public int getBookID(String bookTitle) {
+        int bookID = 0;
+        try {
+            conn = connectToDB();
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return bookID;
+            }
+
+            String searchBookID = "SELECT book_id FROM librarydb.book WHERE title = ?";
+            PreparedStatement pstmt = conn.prepareStatement(searchBookID);
+            pstmt.setString(1, bookTitle);
+
+            if (rs.next()) {
+                bookID = rs.getInt("book_id");
+            } else {
+                System.err.println("No book found with title: " + bookTitle);
+            }
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("FindBookError");
+            alert.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("FindBookError");
+            alert.show();
+        }
+        return bookID;
     }
 
     public String insertBookImageDB(Image img, String imgTitle) {
@@ -595,7 +661,7 @@ public class dbFunction {
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, newStatus);
-            pstmt.setDate(2, globalVariable.fnc.getDateNow());
+            pstmt.setDate(2, fnc.getDateNow());
             pstmt.setInt(3, transact.getTransID());
 
             int rowsUpdated = pstmt.executeUpdate();

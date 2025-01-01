@@ -230,9 +230,10 @@ public class staffAccountDeleteController implements Initializable {
 
     @FXML
     private void doDeleteStaff(ActionEvent event) {
-        try{
-            if(fNameField.getText() == null || fNameField.getText().trim().isEmpty()) {
-                lblError.setText("First name is empty"); return;
+        try {
+            if (fNameField.getText() == null || fNameField.getText().trim().isEmpty()) {
+                lblError.setText("First name is empty");
+                return;
             }
 
             String fName = fNameField.getText();
@@ -240,25 +241,42 @@ public class staffAccountDeleteController implements Initializable {
             String password = passwordField.getText();
             String staffID = IDField.getText();
 
-            dbFnc.deleteStaffDB(staffID);
-            fnc.deleteStaff(sortedStaffListASC, staffID);
-            refreshTable();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Delete Staff", ButtonType.NO, ButtonType.YES);
+            alert.setTitle("Delete Staff");
+            alert.setHeaderText("Do you really want to delete the staff account?");
 
-            Alert alert = new Alert(Alert.AlertType.NONE, "Staff Registered Successfully", ButtonType.OK);
-            alert.setTitle("Staff Register");
-            alert.show();
+            if (alert.showAndWait().get() == ButtonType.YES) {
+                dbFnc.deleteStaffDB(staffID);
+                fnc.deleteStaff(sortedStaffListASC, staffID);
+                refreshTable();
 
-            fNameField.setText(null);
-            lNameField.setText(null);
-            passwordField.setText(null);
-            confirmPassField.setText(null);
-            IDField.setText(null);
-            lblError.setText(null);
-            saveBttn.setDisable(true);
-        }catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            alert.setTitle("Register Staff Error");
-            alert.show();
-        }
+                alert = new Alert(Alert.AlertType.NONE, "Delete Staff Successfully", ButtonType.OK);
+                alert.setTitle("Staff Account Delete");
+                alert.show();
+
+                fNameField.setText(null);
+                lNameField.setText(null);
+                passwordField.setText(null);
+                confirmPassField.setText(null);
+                IDField.setText(null);
+                lblError.setText(null);
+                saveBttn.setDisable(true);
+            }else{
+                fNameField.setText(null);
+                lNameField.setText(null);
+                passwordField.setText(null);
+                confirmPassField.setText(null);
+                IDField.setText(null);
+                lblError.setText(null);
+                saveBttn.setDisable(true);
+                alert.close();
+            }
+            }catch(Exception e){
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                alert.setTitle("Delete Staff Error");
+                alert.show();
+            }
+
+
     }
 }
