@@ -238,13 +238,36 @@ public class studentAccountDeleteController implements Initializable {
                 return;
             }
 
-            boolean deleteStudentL = fnc.deleteStudent(sortedStudentListASC, schoolIDInt);
-            boolean deleteStudentD = dbFunc.deleteStudentDB(schoolIDInt);
-            if(deleteStudentL && deleteStudentD) {
-                Alert error = new Alert(Alert.AlertType.NONE, "Student account deleted successfully", ButtonType.OK);
-                error.setTitle("Student Account Delete");
-                error.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Delete Book", ButtonType.NO, ButtonType.YES);
+            alert.setTitle("Delete Student");
+            alert.setHeaderText("Do you really want to delete the student account?");
 
+            if(alert.showAndWait().get() == ButtonType.YES) {
+                boolean deleteStudentL = fnc.deleteStudent(sortedStudentListASC, schoolIDInt);
+                boolean deleteStudentD = dbFunc.deleteStudentDB(schoolIDInt);
+                if (deleteStudentL && deleteStudentD) {
+                    Alert error = new Alert(Alert.AlertType.NONE, "Student account deleted successfully", ButtonType.OK);
+                    error.setTitle("Student Account Delete");
+                    error.showAndWait();
+
+                    schoolIDField.setText(null);
+                    sectionIDField.setText(null);
+                    fNameField.setText(null);
+                    lNameField.setText(null);
+                    emailField.setText(null);
+                    passwordField.setText(null);
+                    confirmPassField.setText(null);
+                    schoolIDField.setDisable(true);
+                    sectionIDField.setDisable(true);
+                    confirmPassField.setDisable(true);
+                    fNameField.setDisable(true);
+                    lNameField.setDisable(true);
+                    emailField.setDisable(true);
+                    passwordField.setDisable(true);
+                    saveBttn.setDisable(true);
+                    refreshTable();
+                }
+            }else {
                 schoolIDField.setText(null);
                 sectionIDField.setText(null);
                 fNameField.setText(null);
@@ -262,7 +285,6 @@ public class studentAccountDeleteController implements Initializable {
                 saveBttn.setDisable(true);
                 refreshTable();
             }
-            refreshTable();
         }catch(Exception e) {
             fnc.showAlert("Modify Student Error", e.getMessage());
         }
