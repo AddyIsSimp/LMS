@@ -99,6 +99,14 @@ public class reportsBookController implements Initializable {
                 System.out.println("No categories retrieved.");
             }
 
+            // Set up TableView columns
+            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
+            ctgryCol.setCellValueFactory(new PropertyValueFactory<>("category"));
+            isbnCol.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
+            qtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+            brrwCol.setCellValueFactory(new PropertyValueFactory<>("borrowed"));
+
             categoryCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
                     if (newValue.getName().equals("All")) {
@@ -130,20 +138,11 @@ public class reportsBookController implements Initializable {
                 }
             });
     
-            // Initialize sort options
             sortCB.getItems().addAll(sortType);
             sortCB.setValue(sortType[0]);
             sortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 applySorting();
             });
-    
-            // Set up TableView columns
-            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-            authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
-            ctgryCol.setCellValueFactory(new PropertyValueFactory<>("category"));
-            isbnCol.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
-            qtyCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-            brrwCol.setCellValueFactory(new PropertyValueFactory<>("borrowed"));
 
             if (bookList != null) {
                 retrieveBook = fnc.retrieveBook(bookList);
@@ -151,22 +150,23 @@ public class reportsBookController implements Initializable {
             }
 
         } catch (Exception e) {
-            // Handle errors and show an alert
             Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred: " + e.getMessage());
-            alert.setTitle("Reports - Account Initialization Error");
+            alert.setTitle("Reports - Book Initialization Error");
             alert.showAndWait();
             e.printStackTrace();
         }
     }
 
     private void applySorting() {
-        if (sortCB.getValue().equals("A-Z")) {
-            retrieveBook.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
-        } else {
-            retrieveBook.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
+        if(retrieveBook!=null) {
+            if (sortCB.getValue().equals("A-Z")) {
+                retrieveBook.sort((t1, t2) -> t1.getTitle().compareToIgnoreCase(t2.getTitle()));
+            } else {
+                retrieveBook.sort((t1, t2) -> t2.getTitle().compareToIgnoreCase(t1.getTitle()));
+            }
+            bookTableView.refresh();
+            bookTableView.setItems(retrieveBook);
         }
-        bookTableView.refresh();
-        bookTableView.setItems(retrieveBook);
     }
 
     private void filterTable(DoublyLinkList bookListCtgry) {
