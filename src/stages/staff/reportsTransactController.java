@@ -74,7 +74,7 @@ public class reportsTransactController implements Initializable {
 
     private String[] sortType = {"A-Z", "Z-A"};
     private String[] transactType = {"All","Pending","Ongoing", "Finish"};
-    private String[] reportOptions = {"Account", "Book", "Transaction"};
+    private String[] reportOptions = {"Book", "Transaction"};
     private ObservableList<Transact> retrieveTransact = FXCollections.observableArrayList();
     private ArrayList<Transact> transactionList;
 
