@@ -115,9 +115,7 @@ public class Function {
     }
 
     public java.sql.Date getDateNow() {
-        LocalDate now = LocalDate.now();
-        java.sql.Date date = java.sql.Date.valueOf(now);
-        return date;
+        return globalVariable.globalDate;
     }
 
 
