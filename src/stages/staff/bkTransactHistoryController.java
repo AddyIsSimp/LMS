@@ -60,7 +60,6 @@ public class bkTransactHistoryController implements Initializable {
     private final String[] sortType = {"A-Z", "Z-A"};
     private ObservableList<Transact> transacts = FXCollections.observableArrayList();
 
-    //INITIALIZE
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sortBy.getItems().addAll(sortType);
@@ -99,7 +98,6 @@ public class bkTransactHistoryController implements Initializable {
             brrwTransTblView.refresh();
         }
     }
-
 //SWITCHING MENU
 
     @FXML

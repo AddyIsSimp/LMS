@@ -176,83 +176,79 @@
    <center>
       <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="607.0" prefWidth="505.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
+            <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="773.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="773.0">
+                  <Label prefHeight="28.0" prefWidth="198.0" styleClass="text-menuHeader" stylesheets="@../../../../style_File/Dashboard.css" text="RETURN TRANSACTION" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets left="3.0" />
+                     </padding>
+                  </Label>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="551.0">
                      <children>
-                        <Label prefHeight="28.0" prefWidth="198.0" styleClass="text-menuHeader" stylesheets="@../../../../style_File/Dashboard.css" text="RETURN TRANSACTION" textFill="WHITE" wrapText="true">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                           <padding>
-                              <Insets left="3.0" />
-                           </padding>
-                        </Label>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="551.0">
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#goBorrowTransact" prefHeight="30.0" prefWidth="194.0" spacing="5.0" stylesheets="@../../../../style_File/Dashboard.css">
                            <children>
-                              <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#goBorrowTransact" prefHeight="30.0" prefWidth="194.0" spacing="5.0" stylesheets="@../../../../style_File/Dashboard.css">
-                                 <children>
-                                    <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../../icons/brrwIconBlack.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label prefHeight="30.0" prefWidth="152.0" text="Go To Borrow Transaction">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <styleClass>
-                                    <String fx:value="bgcolor-white" />
-                                    <String fx:value="roundEdge" />
-                                 </styleClass>
-                              </HBox>
+                              <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../icons/brrwIconBlack.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="30.0" prefWidth="152.0" text="Go To Borrow Transaction">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
                            </children>
+                           <styleClass>
+                              <String fx:value="bgcolor-white" />
+                              <String fx:value="roundEdge" />
+                           </styleClass>
                         </HBox>
                      </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="773.0" spacing="20.0">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#goTransactHistory" prefHeight="27.0" prefWidth="144.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css" text="Transact History" textFill="WHITE">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Button>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="580.0">
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="238.0" />
-                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="122.0">
-                                 <children>
-                                    <Label prefHeight="18.0" prefWidth="50.0" text="Sort by:" textFill="WHITE" />
-                                    <ChoiceBox fx:id="sortBy" prefHeight="26.0" prefWidth="58.0" styleClass="bgcolor-white" stylesheets="@../../../../style_File/Dashboard.css" />
-                                 </children>
-                              </HBox>
-                           </children>
-                           <padding>
-                              <Insets top="6.0" />
-                           </padding>
-                        </HBox>
-                     </children>
-                     <padding>
-                        <Insets left="15.0" />
-                     </padding>
-                  </HBox>
-                  <TableView fx:id="brrwTransTblView" prefHeight="502.0" prefWidth="740.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
-                     <columns>
-                        <TableColumn fx:id="titleCol" prefWidth="185.5999755859375" text="Title" />
-                        <TableColumn prefWidth="121.59997701644897" text="Borrow Date" />
-                        <TableColumn fx:id="isbnCol" minWidth="0.0" prefWidth="89.60002899169922" text="Days" />
-                        <TableColumn fx:id="studentIDCol" prefWidth="122.40005493164062" text="Student ID" />
-                        <TableColumn fx:id="studentNameCol" prefWidth="171.20001220703125" text="Student Name" />
-                        <TableColumn fx:id="acceptBtnCol" minWidth="5.0" prefWidth="78.4000244140625" text="Return" />
-                     </columns>
-                  </TableView>
                </children>
-            </VBox>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="773.0" spacing="20.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#goTransactHistory" prefHeight="27.0" prefWidth="144.0" styleClass="bgcolor-brown" stylesheets="@../../../../style_File/Dashboard.css" text="Transact History" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="580.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="238.0" />
+                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="122.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="50.0" text="Sort by:" textFill="WHITE" />
+                              <ChoiceBox fx:id="sortBy" prefHeight="26.0" prefWidth="58.0" styleClass="bgcolor-white" stylesheets="@../../../../style_File/Dashboard.css" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets top="6.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </HBox>
+            <TableView fx:id="brrwTransTblView" prefHeight="502.0" prefWidth="740.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
+               <columns>
+                  <TableColumn fx:id="titleCol" prefWidth="185.5999755859375" text="Title" />
+                  <TableColumn fx:id="borrowDateCol" prefWidth="121.59997701644897" text="Borrow Date" />
+                  <TableColumn fx:id="daysCol" minWidth="0.0" prefWidth="89.60002899169922" text="Days Left" />
+                  <TableColumn fx:id="studentIDCol" prefWidth="122.40005493164062" text="Student ID" />
+                  <TableColumn fx:id="studentNameCol" prefWidth="171.20001220703125" text="Student Name" />
+                  <TableColumn fx:id="returnBtnCol" minWidth="5.0" prefWidth="78.4000244140625" text="Return" />
+               </columns>
+            </TableView>
          </children></VBox>
    </center>
 </BorderPane>

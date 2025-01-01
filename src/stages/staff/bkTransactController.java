@@ -170,6 +170,7 @@ public class bkTransactController implements Initializable {
         stage.show();
     }
 
+
     @FXML
     private void goReturnTransact(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/transact/staff_brrowtransReturn.fxml"));
@@ -178,7 +179,6 @@ public class bkTransactController implements Initializable {
         stage.show();
     }
 
-
     @FXML
     private void goTransactHistory(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/transact/staff_transactHistory.fxml"));
@@ -186,5 +186,4 @@ public class bkTransactController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
     }
-
 }
