@@ -288,8 +288,15 @@ public class inventoryDeleteController implements Initializable {
         alert.setHeaderText("Do you really want to delete the book?");
 
         if(alert.showAndWait().get() == ButtonType.YES) {
-            boolean deletedInDB = dbFnc.removeBookDB(bkTitle, bkISBN);
-            globalVariable.bookList.deleteBook(searchBook.getTitle());
+            if(searchBook.getBorrowed()>0) {
+                Alert alert2 = new Alert(Alert.AlertType.ERROR, "Book is used and borrowed", ButtonType.OK);
+                alert2.setTitle("Book Delete Fail");
+                alert2.show();
+                return;
+            }else {
+                boolean deletedInDB = dbFnc.removeBookDB(searchBook, bkISBN);
+                globalVariable.bookList.deleteBook(searchBook.getTitle());
+            }
 
             searchField.setText(null);
             bkImage.setImage(null);

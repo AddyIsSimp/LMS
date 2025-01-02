@@ -114,7 +114,9 @@ public class Transact {
                         brrwBook.setBorrowed(brrwBook.getBorrowed() + 1);
                         this.status = "ONGOING";
                         this.borrowDate = globalVariable.fnc.getDateNow();
-                        setDayLeft();
+                        if(this.borrowDate!=null) {
+                            setDayLeft();
+                        }
                         globalVariable.dbFnc.updateTransactStatus(this, "ONGOING");
                     }else {
                         globalVariable.fnc.showAlert("Borrow Request Fail", "Book is not available");
@@ -221,12 +223,16 @@ public class Transact {
     }
 
     public int getDayLeft() {
-        this.dayLeft = globalVariable.fnc.computeDayLeft(borrowDate);
+        if(this.borrowDate!=null) {
+            this.dayLeft = globalVariable.fnc.computeDayLeft(borrowDate);
+        }
         return dayLeft;
     }
 
     public void setDayLeft() {
-        this.dayLeft = globalVariable.fnc.computeDayLeft(borrowDate);
+        if(this.borrowDate!=null) {
+            this.dayLeft = globalVariable.fnc.computeDayLeft(borrowDate);
+        }
     }
 
     public Button getReturnBtn() {

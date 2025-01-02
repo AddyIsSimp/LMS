@@ -27,22 +27,22 @@ public class dbFunction {
     public void loadDriver() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        }catch(Exception e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Unable to find and load driver", "Driver Error", 0);
         }
     }
 
     public Connection connectToDB() {
-        try{
+        try {
             loadDriver();
             String url = "jdbc:mysql://localhost:3306/librarydb";
             String user = "root";
             String password = "";
             Connection connect = DriverManager.getConnection(url, user, password);
             return connect;
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
@@ -50,9 +50,9 @@ public class dbFunction {
 
     public ArrayList<Category> retrieveCategories() {
         ArrayList<Category> categories = new ArrayList<Category>();
-        try{
+        try {
             conn = connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -64,16 +64,16 @@ public class dbFunction {
 
             //Retrieve the category starting from id 1
             rs = pstmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 int id = rs.getInt("ctgry_id");
                 String ctgryName = rs.getString("ctgry_name");
                 categories.add(new Category(id, ctgryName));
             }
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("RetrieveCategoryError");
             alert.show();
-        }catch(Exception e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("RetrieveCategoryError");
             alert.show();
@@ -87,7 +87,7 @@ public class dbFunction {
             DoublyLinkList books = new DoublyLinkList();
 
             conn = connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -97,7 +97,7 @@ public class dbFunction {
             String sqlGetBook = "SELECT * FROM book";
             pstmt = conn.prepareStatement(sqlGetBook);
             rs = pstmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 //Retrieve all
                 String title = rs.getString("title");
                 String author = rs.getString("author");
@@ -115,12 +115,12 @@ public class dbFunction {
                 books.insertNOrder(nBook);
             }
             return books;
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("RetrieveBookError");
             alert.show();
             e.printStackTrace();
-        }catch(Exception e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("RetrieveBookError");
             alert.show();
@@ -133,7 +133,7 @@ public class dbFunction {
         int id = 0;
         try {
             conn = connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -151,7 +151,7 @@ public class dbFunction {
             }
             String sqlAlterInc = "ALTER TABLE " + table + " AUTO_INCREMENT=" + (id + 1) + ";";
             stmt.executeUpdate(sqlAlterInc);
-            return id+1;
+            return id + 1;
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("ResetIncrementError");
@@ -161,13 +161,13 @@ public class dbFunction {
             alert.setTitle("ResetIncrementError");
             alert.show();
         }
-        return id+1;
+        return id + 1;
     }
 
     public boolean insertBookDB(Book book, String imgName) {
-        try{
+        try {
             conn = connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -185,11 +185,11 @@ public class dbFunction {
             pstmt.setString(6, imgName);
             pstmt.executeUpdate();
             return true;
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("InsertBookError");
             alert.show();
-        }catch(Exception e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("InsertBookError");
             alert.show();
@@ -198,9 +198,9 @@ public class dbFunction {
     }
 
     public boolean modifyBookDB(Book book, String imgName) {
-        try{
+        try {
             conn = connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -219,11 +219,11 @@ public class dbFunction {
             pstmt.executeUpdate();
 
             return true;
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("ModiyBookError");
             alert.show();
-        }catch(Exception e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("ModifyBookError");
             alert.show();
@@ -231,27 +231,33 @@ public class dbFunction {
         return false;
     }
 
-    public boolean removeBookDB(String title, String isbn) {
-        try{
-            conn = connectToDB();
-            if(conn==null) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
-                alert.setTitle("Server Error");
+    public boolean removeBookDB(Book book, String isbn) {
+        try {
+            if(book.getBorrowed()>0) {
+                conn = connectToDB();
+                if (conn == null) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
+                    alert.setTitle("Server Error");
+                    alert.show();
+                    return false;
+                }
+
+                String sqlDeleteBook = "DELETE FROM librarydb.book WHERE isbn = ?";
+                pstmt = conn.prepareStatement(sqlDeleteBook);
+                pstmt.setString(1, isbn);
+                pstmt.executeUpdate();
+                return true;
+            }else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Book is borrowed and cant be deleted", ButtonType.OK);
+                alert.setTitle("DeleteBookError");
                 alert.show();
-                return false;
             }
 
-            String sqlDeleteBook = "DELETE FROM librarydb.book WHERE title = ? AND isbn = ?";
-            pstmt = conn.prepareStatement(sqlDeleteBook);
-            pstmt.setString(1, title);
-            pstmt.setString(2, isbn);
-            pstmt.executeUpdate();
-            return true;
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("DeleteBookError");
             alert.show();
-        }catch(Exception e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("DeleteBookError");
             alert.show();
@@ -260,9 +266,9 @@ public class dbFunction {
     }
 
     public boolean removeBookOneDB(String title, String isbn) {
-        try{
+        try {
             conn = connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -275,11 +281,11 @@ public class dbFunction {
             pstmt.setString(2, isbn);
             pstmt.executeUpdate();
             return true;
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("DeleteBookError");
             alert.show();
-        }catch(Exception e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("DeleteBookError");
             alert.show();
@@ -355,9 +361,9 @@ public class dbFunction {
 
     public int insertStudentDB(Student student) {
         int staffId = 0;
-        try{
+        try {
             conn = connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -376,12 +382,12 @@ public class dbFunction {
             pstmt.setDouble(7, student.getPenalty());
 
             pstmt.execute();
-            return staffId+1;
-        }catch(SQLException e) {
+            return staffId + 1;
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("Insert Student Error");
             alert.show();
-        }catch(Exception e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("Insert Student Error");
             alert.show();
@@ -467,9 +473,9 @@ public class dbFunction {
 
     public int insertStaffDB(Staff staff) {
         int staffId = 0;
-        try{
+        try {
             conn = connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -485,12 +491,12 @@ public class dbFunction {
             pstmt.setString(4, staff.getPassword());
 
             pstmt.execute();
-            return staffId+1;
-        }catch(SQLException e) {
+            return staffId + 1;
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("Insert Student Error");
             alert.show();
-        }catch(Exception e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("Insert Student Error");
             alert.show();
@@ -501,7 +507,7 @@ public class dbFunction {
     public ObservableList<Book> inventoryBookView() {
         try {
             conn = connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -540,10 +546,10 @@ public class dbFunction {
 
     public ArrayList<Transact> retrieveAllTransacts() {
         ArrayList<Transact> finishTrans = new ArrayList<>();
-        int transId=0;
+        int transId = 0;
         try {
             conn = connectToDB();
-            if(conn==null) {
+            if (conn == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
                 alert.setTitle("Server Error");
                 alert.show();
@@ -840,9 +846,6 @@ public class dbFunction {
 
         return result;
     }
-
-
-
 
 
 }
