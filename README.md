@@ -14,10 +14,3 @@ SETUP VM Options
 
 TODO
 - Create an executable file .jar
-- Borrow transact must not be success if quantity is 0
-
-- Admin - Inventory Table View sort not working
-- Student Settings
-- InsertBookImageDB - to debug
-- Sorting that needs Date sorting
-- Reports``
