@@ -111,6 +111,7 @@ public class bkManageController implements Initializable {
 
     public void setBookData(Book book) {
         if (book != null) {
+            searchBook = book;
             if(bkQtyField == null) {
                 lblError.setText("Book not available");
             }
