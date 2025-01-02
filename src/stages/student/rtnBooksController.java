@@ -45,7 +45,7 @@ public class rtnBooksController implements Initializable {
     @FXML
     private TableView<Transact> brrwTransTblView;
     @FXML
-    private TableColumn<Transact, String> brrwDateCol, daysLeftCol, isbnCol, titleCol, statusCol;
+    private TableColumn<Transact, String> brrwDateCol, daysLeftCol, isbnCol, titleCol, statusCol, penaltyCol, returnDateCol;
 //    @FXML
 //    private TableColumn<Transact, ?> daysLeftCol;
 //    @FXML
@@ -71,8 +71,10 @@ public class rtnBooksController implements Initializable {
         titleCol.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
         isbnCol.setCellValueFactory(new PropertyValueFactory<>("bkIsbn"));
         brrwDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+        returnDateCol.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         daysLeftCol.setCellValueFactory(new PropertyValueFactory<>("dayLeft"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+        penaltyCol.setCellValueFactory(new PropertyValueFactory<>("penalty"));
 
         transacts = globalVariable.fnc.retrieveStudentTransact(globalVariable.transactList, globalVariable.loginStudent.getSchoolID());
         if (globalVariable.transactList != null) {

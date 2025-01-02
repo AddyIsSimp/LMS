@@ -64,7 +64,7 @@ public class reportsTransactController implements Initializable {
     @FXML
     private TableView<Transact> transactTableView;
     @FXML
-    private TableColumn<Transact, String> bkTitleCol, bkIsbnCol, schoolIdCol, studentNameCol, brrwDateCol, returnDateCol, statusCol;
+    private TableColumn<Transact, String> bkTitleCol, bkIsbnCol, schoolIdCol, studentNameCol, brrwDateCol, returnDateCol, statusCol, penaltyCol;
     @FXML
     private ChoiceBox<String> sortCB;
     @FXML
@@ -89,8 +89,8 @@ public class reportsTransactController implements Initializable {
             successQty.setText(Integer.toString(fnc.retrieveFinishTransact(transactionList).size()));
             transactQty.setText(Integer.toString(transactionList.size()));
 
-                transactTypeCB.getItems().addAll(transactType);
-                transactTypeCB.setValue(transactType[0]);
+            transactTypeCB.getItems().addAll(transactType);
+            transactTypeCB.setValue(transactType[0]);
 
             transactTypeCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 filterTransactType();
@@ -127,6 +127,7 @@ public class reportsTransactController implements Initializable {
             statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
             brrwDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
             returnDateCol.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+            penaltyCol.setCellValueFactory(new PropertyValueFactory<>("penalty"));
 
             if (globalVariable.transactList != null) {
                 retrieveTransact = fnc.retrieveAllTransact(globalVariable.transactList);
@@ -227,6 +228,4 @@ public class reportsTransactController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
     }
-
-
 }

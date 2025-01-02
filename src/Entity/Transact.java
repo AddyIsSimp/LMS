@@ -70,14 +70,15 @@ public class Transact {
 
             if(dayLeft<0) {
                 int numDay = Math.abs(dayLeft);
+                int penaltyCalculate = numDay*5;
                 contentText = "Borrower Info\nBorrower ID:  " + borrowerID +
                         "\nBorrower Name:  " + borrowerName +
                         "\n\nBook Info \nTitle:  " + bookTitle +
                         "\nISBN:  " + bkIsbn +
-                        "\n\nPENALTY: " + numDay + "(day)  x  Php5 = " + (numDay*5) + "Php"
+                        "\n\nPENALTY: " + numDay + "(day)  x  Php5 = " + penaltyCalculate + "Php"
                 ;
-
-
+                this.setPenalty(penaltyCalculate);
+                globalVariable.dbFnc.updatePenaltyDB(this, getPenalty());
             }else {
                 contentText = "Borrower Info\nBorrower ID:  " + borrowerID +
                         "\nBorrower Name:  " + borrowerName +
@@ -94,6 +95,8 @@ public class Transact {
                 book.setBorrowed(book.getBorrowed()-1);
                 book.setQuantity(book.getQuantity()+1);
                 globalVariable.dbFnc.updateTransactStatus(this, "FINISH");
+                this.setReturnDate(globalVariable.fnc.getDateNow());
+                globalVariable.dbFnc.updateReturnDateDB(this, globalVariable.fnc.getDateNow());
                 globalVariable.dbFnc.addBookOneDB(getBookTitle(), getBkIsbn());
             }else {
                 alert.close();
@@ -116,7 +119,7 @@ public class Transact {
                 Book brrwBook = globalVariable.fnc.getBook(globalVariable.bookList, bkIsbn);
                 if(brrwBook!=null) {
                     if(brrwBook.getQuantity()>0) {
-                        brrwBook.setQuantity(brrwBook.getQuantity() - 1);
+                        brrwBook.setQuantity(brrwBook.getQuantity()-1);
                         brrwBook.setBorrowed(brrwBook.getBorrowed() + 1);
                         this.status = "ONGOING";
                         this.borrowDate = globalVariable.fnc.getDateNow();

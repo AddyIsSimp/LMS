@@ -187,7 +187,8 @@
                               <TableColumn fx:id="studentNameCol" prefWidth="116.0" text="Borrower Name" />
                               <TableColumn fx:id="statusCol" prefWidth="83.99996948242188" text="Status" />
                               <TableColumn fx:id="brrwDateCol" prefWidth="92.800048828125" text="Borrow Date" />
-                              <TableColumn fx:id="returnDateCol" prefWidth="112.0" text="Return Date" />
+                              <TableColumn fx:id="returnDateCol" prefWidth="89.5999755859375" text="Return Date" />
+                              <TableColumn fx:id="penaltyCol" prefWidth="71.2000732421875" text="Penalty" />
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

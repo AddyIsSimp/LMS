@@ -287,6 +287,10 @@ public class dbFunction {
 
             if (rowsAffected > 0) {
                 return true;
+            }else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Updating of book after \naccept is not succesful", ButtonType.OK);
+                alert.setTitle("Update Book Server - remove one");
+                alert.show();
             }
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
@@ -312,7 +316,7 @@ public class dbFunction {
 
             String sqlUpdateBook = "UPDATE librarydb.book " +
                     "SET quantity = quantity + 1, borrowed = borrowed - 1 " +
-                    "WHERE title = ? AND isbn = ? AND quantity > 0";
+                    "WHERE title = ? AND isbn = ?";
 
             pstmt = conn.prepareStatement(sqlUpdateBook);
             pstmt.setString(1, title);
@@ -739,6 +743,74 @@ public class dbFunction {
             pstmt.setString(1, newStatus);
             pstmt.setDate(2, fnc.getDateNow());
             pstmt.setInt(3, transact.getTransID());
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                pstmt.close();
+                conn.close();
+                return true;
+            }
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Update Transaction Error", e.getMessage());
+        }
+
+        return false; // Return false if update was unsuccessful
+    }
+
+    public boolean updatePenaltyDB(Transact transact, double penalty) {
+        try {
+            conn = connectToDB();
+
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return false;
+            }
+
+            String sql = "UPDATE librarydb.transact SET penalty = ? WHERE trans_id = ?";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setDouble(1, penalty);
+            pstmt.setInt(2, transact.getTransID());
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                pstmt.close();
+                conn.close();
+                return true;
+            }
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Update Transaction Error", e.getMessage());
+        }
+
+        return false; // Return false if update was unsuccessful
+    }
+
+    public boolean updateReturnDateDB(Transact transact, Date date) {
+        try {
+            conn = connectToDB();
+
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet opened the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return false;
+            }
+
+            String sql = "UPDATE librarydb.transact SET return_date = ? WHERE trans_id = ?";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setDate(1, date);
+            pstmt.setInt(2, transact.getTransID());
 
             int rowsUpdated = pstmt.executeUpdate();
 

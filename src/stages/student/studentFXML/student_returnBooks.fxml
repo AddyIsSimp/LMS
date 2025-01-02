@@ -173,14 +173,19 @@
             <TableView fx:id="brrwTransTblView" prefHeight="502.0" prefWidth="753.0" styleClass="outlineAllBlack" stylesheets="@../../../style_File/Dashboard.css">
                <columns>
                   <TableColumn fx:id="brrwDateCol" prefWidth="168.80001878738403" text="Borrow Date" />
+                  <TableColumn fx:id="returnDateCol" prefWidth="168.80001878738403" text="Return Date" />
                   <TableColumn fx:id="daysLeftCol" minWidth="0.0" prefWidth="108.79998779296875" text="Days Left" />
                   <TableColumn fx:id="titleCol" prefWidth="212.00006103515625" text="Title" />
                   <TableColumn fx:id="isbnCol" maxWidth="224.7999267578125" prefWidth="161.5999755859375" text="ISBN" />
                   <TableColumn fx:id="statusCol" maxWidth="100.0" prefWidth="161.5999755859375" text="Status" />
+                  <TableColumn fx:id="penaltyCol" maxWidth="100.0" prefWidth="161.5999755859375" text="Penalty" />
                </columns>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
          </children></VBox>
    </center>
