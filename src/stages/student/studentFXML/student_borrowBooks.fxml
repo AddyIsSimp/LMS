@@ -263,7 +263,7 @@
                         </VBox>
                      </children>
                   </VBox>
-                  <Button mnemonicParsing="false" onAction="#goBorrowBook" prefHeight="37.0" prefWidth="171.0" styleClass="bgcolor-brown" stylesheets="@../../../style_File/Dashboard.css" text="Borrow" textFill="WHITE">
+                  <Button fx:id="brrwButton" disable="true" mnemonicParsing="false" onAction="#goBorrowBook" prefHeight="37.0" prefWidth="171.0" styleClass="bgcolor-brown" stylesheets="@../../../style_File/Dashboard.css" text="Borrow" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>

@@ -10,10 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -44,7 +41,8 @@ public class brrowBooksController implements Initializable {
     private TextField searchField;
     @FXML
     private VBox libraryBox;
-
+    @FXML
+    private Button brrwButton;
     @FXML
     private TextField bkTitleField;
 
@@ -100,6 +98,9 @@ public class brrowBooksController implements Initializable {
             bkISBNField.setText(book.getISBN());
             bkCtgryField.setText(book.getCategory());
             bkQtyField.setText(Integer.toString(book.getQuantity()));
+            if(book.getQuantity()>0) {
+                brrwButton.setDisable(false);
+            }
         }
     }
 
@@ -112,7 +113,6 @@ public class brrowBooksController implements Initializable {
                 error.show();
                 return;
             }
-
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Borrow Book Request", ButtonType.NO, ButtonType.YES);
             alert.setTitle("Borrow Book");
             alert.setHeaderText("Confirm Borrow Book Request");
