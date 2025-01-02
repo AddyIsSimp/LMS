@@ -262,7 +262,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="773.0" spacing="20.0">
                <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="742.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="681.0">
                      <children>
                         <HBox alignment="CENTER" prefHeight="44.0" prefWidth="267.0" />
                         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="122.0">
@@ -275,6 +275,19 @@
                      <padding>
                         <Insets top="6.0" />
                      </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" maxHeight="-Infinity" onMouseClicked="#refresh" prefHeight="38.0" prefWidth="42.0" stylesheets="@../../../../style_File/Dashboard.css">
+                     <children>
+                        <ImageView fitHeight="29.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../icons/refresh.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <styleClass>
+                        <String fx:value="bgcolor-brown" />
+                        <String fx:value="roundEdge" />
+                     </styleClass>
                   </HBox>
                </children>
                <padding>

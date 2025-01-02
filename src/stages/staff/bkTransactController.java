@@ -82,13 +82,9 @@ public class bkTransactController implements Initializable {
 
             if (globalVariable.transactList != null) {
                 transacts = fnc.retrievePendingTransact(globalVariable.transactList);
-            } else {
-                globalVariable.fnc.showAlert("Error", "Transaction list is empty or not initialized.");
-                return;
+                transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
+                brrwTransTblView.setItems(transacts);
             }
-
-            transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
-            brrwTransTblView.setItems(transacts);
         } catch (Exception e) {
             showErrorAlert("Initialization Error", e.getMessage());
         }
@@ -192,5 +188,10 @@ public class bkTransactController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    @FXML
+    private void refresh(MouseEvent event) {
+        refreshTable();
     }
 }

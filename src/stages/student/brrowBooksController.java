@@ -100,6 +100,8 @@ public class brrowBooksController implements Initializable {
             bkQtyField.setText(Integer.toString(book.getQuantity()));
             if(book.getQuantity()>0) {
                 brrwButton.setDisable(false);
+            }else {
+                brrwButton.setDisable(true);
             }
         }
     }
