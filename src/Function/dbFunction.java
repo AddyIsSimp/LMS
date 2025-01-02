@@ -269,29 +269,80 @@ public class dbFunction {
         try {
             conn = connectToDB();
             if (conn == null) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
-                alert.setTitle("Server Error");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Database connection not established.", ButtonType.OK);
+                alert.setTitle("Connection Error");
                 alert.show();
                 return false;
             }
 
-            String sqlDeleteBook = "DELETE FROM librarydb.book WHERE title = ? AND isbn = ?";
-            pstmt = conn.prepareStatement(sqlDeleteBook);
+            String sqlUpdateBook = "UPDATE librarydb.book " +
+                    "SET quantity = quantity - 1, borrowed = borrowed + 1 " +
+                    "WHERE title = ? AND isbn = ? AND quantity > 0";
+
+            pstmt = conn.prepareStatement(sqlUpdateBook);
             pstmt.setString(1, title);
             pstmt.setString(2, isbn);
-            pstmt.executeUpdate();
-            return true;
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Book not available or insufficient quantity.", ButtonType.OK);
+                alert.setTitle("Update Error");
+                alert.show();
+            }
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            alert.setTitle("DeleteBookError");
+            alert.setTitle("Database Error");
             alert.show();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            alert.setTitle("DeleteBookError");
+            alert.setTitle("Error");
             alert.show();
         }
-        return false;
+        return false; // If any exception occurs, return false
     }
+
+    public boolean addBookOneDB(String title, String isbn) {
+        try {
+            conn = connectToDB();
+            if (conn == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Database connection not established.", ButtonType.OK);
+                alert.setTitle("Connection Error");
+                alert.show();
+                return false;
+            }
+
+            String sqlUpdateBook = "UPDATE librarydb.book " +
+                    "SET quantity = quantity + 1, borrowed = borrowed - 1 " +
+                    "WHERE title = ? AND isbn = ? AND quantity > 0";
+
+            pstmt = conn.prepareStatement(sqlUpdateBook);
+            pstmt.setString(1, title);
+            pstmt.setString(2, isbn);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Book not available or insufficient quantity.", ButtonType.OK);
+                alert.setTitle("Update Error");
+                alert.show();
+            }
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Database Error");
+            alert.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Error");
+            alert.show();
+        }
+        return false; // If any exception occurs, return false
+    }
+
 
     public int getBookID(String bookTitle) {
         int bookID = 0;
