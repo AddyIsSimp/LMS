@@ -19,24 +19,21 @@ public class config {
     public void createDB() {
         try {
 
-            //Establish connection
             String url = "jdbc:mysql://localhost:3306/";
             String user = "root";
             String password = "";
             conn = DriverManager.getConnection(url, user, password);
             stmt = conn.createStatement();
 
-            //Create database
             String sqlCreateDB = "CREATE DATABASE IF NOT EXISTS librarydb";
             stmt.executeUpdate(sqlCreateDB);
             System.out.println("Database created successfully");
 
-            //Switched to library db
             String sqlUseDb = "USE librarydb";
             stmt.executeUpdate(sqlUseDb);
             System.out.println("Switched to database librarydb");
 
-            //Create tables
+
             createTable();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Create Database Error", JOptionPane.ERROR_MESSAGE);
@@ -47,7 +44,7 @@ public class config {
 
     public void createTable() {
         try {
-            //Establish connection
+
             String url = "jdbc:mysql://localhost:3306/librarydb";
             String user = "root";
             String password = "";
@@ -61,7 +58,7 @@ public class config {
             stmt.executeUpdate(sqlTableCategory);
             System.out.println("Table 'category' created successfully");
 
-            //Create Book Table
+
             String sqlTableBook = "CREATE TABLE IF NOT EXISTS librarydb.book (" +
                     "book_id INT NOT NULL AUTO_INCREMENT," +
                     "title VARCHAR(64) NOT NULL," +
@@ -124,7 +121,7 @@ public class config {
     }
 
     public void insertAdmin() {
-        // Add admin account in staff
+
         try {
             conn = dbFunct.connectToDB();
             if (conn == null) {
@@ -135,7 +132,7 @@ public class config {
             }
             stmt = conn.createStatement();
 
-            // Check if admin account already exists
+
             String sqlCheckAdmin = "SELECT COUNT(*) AS count FROM staff WHERE staff_UN = 'Admin123'";
             ResultSet rs = stmt.executeQuery(sqlCheckAdmin);
             if (rs.next() && rs.getInt("count") > 0) {
@@ -143,7 +140,7 @@ public class config {
                 return;
             }
 
-            // Insert admin account
+
             String sqlAddAdmin = "INSERT INTO staff(staff_id, fName, lName, staff_UN, password) VALUES (0, 'Admin', 'N/A', 'Admin123', 'admin@123')";
             stmt.executeUpdate(sqlAddAdmin);
             System.out.println("Admin successfully setup");
