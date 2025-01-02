@@ -75,8 +75,7 @@ public class Transact {
                         "\nBorrower Name:  " + borrowerName +
                         "\n\nBook Info \nTitle:  " + bookTitle +
                         "\nISBN:  " + bkIsbn +
-                        "\n\nPENALTY: " + numDay + "(day)  x  Php5 = " + penaltyCalculate + "Php"
-                ;
+                        "\n\nPENALTY: " + numDay + "(day)  x  Php5 = Php" + + penaltyCalculate;
                 this.setPenalty(penaltyCalculate);
                 globalVariable.dbFnc.updatePenaltyDB(this, getPenalty());
             }else {
