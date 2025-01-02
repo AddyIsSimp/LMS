@@ -99,6 +99,7 @@ public class brrowBooksController implements Initializable {
             bkAuthorField.setText(book.getAuthor());
             bkISBNField.setText(book.getISBN());
             bkCtgryField.setText(book.getCategory());
+
             int quantity = book.getQuantity();
             if (quantity == 0) { // If quantity is 0
                 bkQtyField.setText("Book not available");
