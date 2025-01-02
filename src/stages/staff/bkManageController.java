@@ -102,6 +102,7 @@ public class bkManageController implements Initializable {
 
     public void setBookData(Book book) {
         if (book != null) {
+            searchBook = book;
             bkImage.setImage(book.getImageSrc());
             bkTitleField.setText(book.getTitle());
             bkAuthorField.setText(book.getAuthor());

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static Function.globalVariable.*;
+import static Function.globalVariable.fnc;
 
 public class reportsBookController implements Initializable {
     Connection conn;
@@ -79,7 +80,7 @@ public class reportsBookController implements Initializable {
     private String[] sortType = {"A-Z", "Z-A"};
     private String[] reportOptions = {"Account", "Book", "Transaction"};
     private ObservableList<Book> retrieveBook = FXCollections.observableArrayList();
-
+    int totalBook = fnc.countBookPresent(globalVariable.bookList);
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -87,8 +88,11 @@ public class reportsBookController implements Initializable {
             //Set the Quanity in the account reports
             titleQty.setText(Integer.toString(fnc.countUniBkQuantity(globalVariable.bookList)));
             borrowQty.setText(Integer.toString(fnc.countBkBorrow(globalVariable.bookList)));
-            bookQty.setText(Integer.toString(globalVariable.bookList.getSize()));
-
+            if (totalBook != 0) {
+                bookQty.setText(Integer.toString(fnc.countBkQuantity(globalVariable.bookList)));
+            } else {
+                bookQty.setText("0");
+            }
             ArrayList<Category> categories = globalVariable.categoryList;
             Category ctgryAll = new Category(000, "All");
             if (categories != null && !categories.isEmpty()) {

@@ -43,8 +43,6 @@ public class rtnBooksController implements Initializable {
     private HBox reportsBtn;
 
     @FXML
-    private TextField searchField;
-    @FXML
     private TableView<Transact> brrwTransTblView;
     @FXML
     private TableColumn<Transact, String> brrwDateCol, daysLeftCol, isbnCol, titleCol, statusCol;
