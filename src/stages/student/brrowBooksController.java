@@ -97,11 +97,13 @@ public class brrowBooksController implements Initializable {
             bkAuthorField.setText(book.getAuthor());
             bkISBNField.setText(book.getISBN());
             bkCtgryField.setText(book.getCategory());
-            bkQtyField.setText(Integer.toString(book.getQuantity()));
-            if(book.getQuantity()>0) {
-                brrwButton.setDisable(false);
-            }else {
+            int quantity = book.getQuantity();
+            if (quantity == 0) { // If quantity is 0
+                bkQtyField.setText("Book not available");
                 brrwButton.setDisable(true);
+            } else {
+                bkQtyField.setText(Integer.toString(quantity)); // Show quantity
+                brrwButton.setDisable(false);
             }
         }
     }
