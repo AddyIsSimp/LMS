@@ -309,7 +309,7 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="bkQtyField" editable="false" prefHeight="29.0" prefWidth="144.0" stylesheets="@../../../style_File/Dashboard.css">
+                                    <TextField fx:id="bkQtyField" editable="false" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../style_File/Dashboard.css">
                                        <styleClass>
                                           <String fx:value="transparent" />
                                           <String fx:value="outlineDown" />

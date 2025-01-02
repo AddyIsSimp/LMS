@@ -74,7 +74,6 @@ public class rtnBooksController implements Initializable {
         daysLeftCol.setCellValueFactory(new PropertyValueFactory<>("dayLeft"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-
         transacts = globalVariable.fnc.retrieveStudentTransact(globalVariable.transactList, globalVariable.loginStudent.getSchoolID());
         if (globalVariable.transactList != null) {
 
@@ -84,7 +83,6 @@ public class rtnBooksController implements Initializable {
         }
 
         brrwTransTblView.setItems(transacts);
-
     }
 
     private void sortTransactData() {
