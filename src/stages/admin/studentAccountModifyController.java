@@ -287,9 +287,6 @@ public class studentAccountModifyController implements Initializable {
             } else if (email == null || email.trim().isEmpty()) {
                 lblError2.setText("Email is empty");
                 return;
-            } else if (email == null || email.trim().isEmpty()) {
-                lblError2.setText("Email is empty");
-                return;
             } else if (pass == null || pass.trim().isEmpty()) {
                 lblError2.setText("Password is empty");
                 return;

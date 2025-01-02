@@ -49,7 +49,7 @@ public class studentAccountController implements Initializable {
     @FXML
     private ChoiceBox<String> sortCB;
 
-    Student searchStudent;
+    Student searchStudent2;
     dbFunction dbFunc = new dbFunction();
     Function fnc = new Function();
 
@@ -186,9 +186,9 @@ public class studentAccountController implements Initializable {
             lblError.setText("Search text is blank"); return;
         }
         String searchFld = searchField.getText();
-        searchStudent = globalVariable.fnc.findStudentID(sortedStudentListASC, searchFld);
-        if(searchStudent!=null) {
-            globalVariable.searchStudent = searchStudent;
+        searchStudent2 = globalVariable.fnc.findStudentID(sortedStudentListASC, searchFld);
+        if(searchStudent2!=null) {
+            globalVariable.searchStudent = searchStudent2;
             Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/students/admin_acctStudentsModify.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));

@@ -188,6 +188,29 @@ public class studentAccountDeleteController implements Initializable {
         stage.show();
     }
 
+    private void loadSearch(Student student) {
+        if(searchStudent==null) {
+            lblError.setText("Student not found"); return;
+        }else {
+            schoolIDField.setText(Integer.toString(searchStudent.getSchoolID()));
+            sectionIDField.setText(searchStudent.getSection());
+            confirmPassField.setText(searchStudent.getPass());
+            fNameField.setText(searchStudent.getFName());
+            lNameField.setText(searchStudent.getLName());
+            emailField.setText(searchStudent.getEmail());
+            passwordField.setText(searchStudent.getPass());
+
+            schoolIDField.setDisable(false);
+            sectionIDField.setDisable(false);
+            confirmPassField.setDisable(false);
+            fNameField.setDisable(false);
+            lNameField.setDisable(false);
+            emailField.setDisable(false);
+            passwordField.setDisable(false);
+            saveBttn.setDisable(false);
+        }
+    }
+
     @FXML
     private void doSearch(MouseEvent event) {
         String selected = "Email";
@@ -228,66 +251,68 @@ public class studentAccountDeleteController implements Initializable {
     @FXML
     private void doDeleteStudent(ActionEvent event) {
         try {
-            String schoolID = schoolIDField.getText();
-            String id = fnc.retrieveStudentID(schoolID);
-            int schoolIDInt = 0;
-            if(id!=null) {
-                schoolIDInt = Integer.parseInt(id);
-            }else {
-                fnc.showAlert("Update Failed", "Student account with the ID not found!");
+            if (schoolIDField.getText() == null || schoolIDField.getText().trim().isEmpty()) {
+                lblError.setText("School ID is empty");
                 return;
             }
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Delete Book", ButtonType.NO, ButtonType.YES);
+            String schoolID = schoolIDField.getText();
+            String id = fnc.retrieveStudentID(schoolID);
+
+            if (id != null) {
+                lblError.setText("Student account with the provided ID not found!");
+                return;
+            }
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Delete Student", ButtonType.NO, ButtonType.YES);
             alert.setTitle("Delete Student");
             alert.setHeaderText("Do you really want to delete the student account?");
 
-            if(alert.showAndWait().get() == ButtonType.YES) {
-                boolean deleteStudentL = fnc.deleteStudent(sortedStudentListASC, schoolIDInt);
-                boolean deleteStudentD = dbFunc.deleteStudentDB(schoolIDInt);
-                if (deleteStudentL && deleteStudentD) {
-                    Alert error = new Alert(Alert.AlertType.NONE, "Student account deleted successfully", ButtonType.OK);
-                    error.setTitle("Student Account Delete");
-                    error.showAndWait();
+            if (alert.showAndWait().get() == ButtonType.YES) {
+                boolean deleteFromList = fnc.deleteStudent(sortedStudentListASC, Integer.parseInt(null));
+                boolean deleteFromDB = dbFunc.deleteStudentDB(Integer.parseInt(null));
 
-                    schoolIDField.setText(null);
-                    sectionIDField.setText(null);
-                    fNameField.setText(null);
-                    lNameField.setText(null);
-                    emailField.setText(null);
-                    passwordField.setText(null);
-                    confirmPassField.setText(null);
-                    schoolIDField.setDisable(true);
-                    sectionIDField.setDisable(true);
-                    confirmPassField.setDisable(true);
-                    fNameField.setDisable(true);
-                    lNameField.setDisable(true);
-                    emailField.setDisable(true);
-                    passwordField.setDisable(true);
-                    saveBttn.setDisable(true);
+                if (deleteFromList && deleteFromDB) {
+                    alert = new Alert(Alert.AlertType.NONE, "Student account deleted successfully", ButtonType.OK);
+                    alert.setTitle("Student Account Delete");
+                    alert.show();
+
+                    resetFields();
+                    lblError.setText(null);
                     refreshTable();
+                } else {
+                    lblError.setText("Failed to delete student account.");
                 }
-            }else {
-                schoolIDField.setText(null);
-                sectionIDField.setText(null);
-                fNameField.setText(null);
-                lNameField.setText(null);
-                emailField.setText(null);
-                passwordField.setText(null);
-                confirmPassField.setText(null);
-                schoolIDField.setDisable(true);
-                sectionIDField.setDisable(true);
-                confirmPassField.setDisable(true);
-                fNameField.setDisable(true);
-                lNameField.setDisable(true);
-                emailField.setDisable(true);
-                passwordField.setDisable(true);
-                saveBttn.setDisable(true);
-                refreshTable();
+            } else {
+                resetFields();
+                lblError.setText(null);
             }
-        }catch(Exception e) {
-            fnc.showAlert("Modify Student Error", e.getMessage());
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Delete Student Error");
+            alert.show();
         }
     }
+
+    private void resetFields() {
+        schoolIDField.setText(null);
+        sectionIDField.setText(null);
+        fNameField.setText(null);
+        lNameField.setText(null);
+        emailField.setText(null);
+        passwordField.setText(null);
+        confirmPassField.setText(null);
+
+        schoolIDField.setDisable(true);
+        sectionIDField.setDisable(true);
+        confirmPassField.setDisable(true);
+        fNameField.setDisable(true);
+        lNameField.setDisable(true);
+        emailField.setDisable(true);
+        passwordField.setDisable(true);
+        saveBttn.setDisable(true);
+    }
+
+
 
 }
