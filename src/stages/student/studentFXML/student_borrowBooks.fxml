@@ -46,11 +46,15 @@
                         <Font name="System Italic" size="20.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="46.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../icons/usericon.png" />
-                     </image>
-                  </ImageView>
+                  <Button fx:id="set" mnemonicParsing="false" onAction="#goAccountStudent" prefHeight="55.0" prefWidth="59.0" styleClass="userButacc" stylesheets="@../../../style_File/LoginSyle.css" textFill="TRANSPARENT">
+                     <graphic>
+                        <ImageView fitHeight="46.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/usericon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </HBox>
          </children>

@@ -3,6 +3,7 @@ package stages.student;
 import Entity.Transact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -41,6 +42,9 @@ public class rtnBooksController implements Initializable {
 
     @FXML
     private HBox reportsBtn;
+
+    @FXML
+    private Button set;
 
     @FXML
     private TableView<Transact> brrwTransTblView;
@@ -95,6 +99,16 @@ public class rtnBooksController implements Initializable {
             brrwTransTblView.refresh();
         }
     }
+
+    @FXML
+    void goAccountStudents(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_Settings.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    }
+
 
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {

@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,6 +61,10 @@ public class brrowBooksController implements Initializable {
     @FXML
     private TextField bkQtyField;
 
+
+    @FXML
+    private Button set;
+
     @FXML
     private ImageView bkImage;
 
@@ -102,6 +107,18 @@ public class brrowBooksController implements Initializable {
             bkQtyField.setText(Integer.toString(book.getQuantity()));
         }
     }
+
+    @FXML
+    void goAccountStudent(ActionEvent event) throws IOException {
+            Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_Settings.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+    }
+
+
+
 
     @FXML
     private void goBorrowBook(ActionEvent event) {
@@ -204,15 +221,20 @@ public class brrowBooksController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_returnBooks.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        stage.show();    }
+        stage.show();
+    }
 
-//    @FXML
-//    void goReports(MouseEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_reports.fxml"));
-//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
