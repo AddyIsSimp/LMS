@@ -187,7 +187,7 @@ public class bkManageController implements Initializable {
         if(bkTitleField==null || bkTitleField.getText()==null) {
             lblError.setText("No book selected");
         }
-        globalVariable.modifyBook = searchBook;
+        globalVariable.searchBook = searchBook;
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/inventory/admin_inventoryModify.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
