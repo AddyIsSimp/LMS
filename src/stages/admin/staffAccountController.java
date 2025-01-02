@@ -39,6 +39,7 @@ public class staffAccountController implements Initializable {
     Statement stmt;
     ResultSet rs;
 
+    Staff searchStaff2;
     dbFunction dbFnc = new dbFunction();
     Function fnc = new Function();
 
@@ -57,6 +58,9 @@ public class staffAccountController implements Initializable {
 
     @FXML
     private TextField IDField, confirmPassField, fNameField, lNameField,  passwordField;
+
+    @FXML
+    private TextField searchField;
 
     @FXML
     private Label lblError;
@@ -232,8 +236,36 @@ public class staffAccountController implements Initializable {
     }
 
     @FXML
-    private void doSearch(ActionEvent event) {
+    private void doSearch(MouseEvent event) throws IOException {
+        if (searchField.getText().isEmpty()) {
+            lblError.setText("Search text is blank");
+            return;
+        }
 
+        String searchFld = searchField.getText();
+        searchStaff2 = globalVariable.fnc.findStaffID(sortedStaffListASC, searchFld);
+        if (searchStaff2 != null) {
+            globalVariable.searchStaff = searchStaff2;
+
+            Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffsModify.fxml"));
+
+            if (event.getSource() instanceof Node) {
+                Node sourceNode = (Node) event.getSource();
+                if (sourceNode.getScene() != null) {
+                    Stage stage = (Stage) sourceNode.getScene().getWindow();
+                    if (stage != null) {
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    }
+                } else {
+                    System.out.println("Source Node is not in a scene.");
+                }
+            } else {
+                System.out.println("Event source is not a Node.");
+            }
+        } else {
+            lblError.setText("Staff not found with the specified ID");
+        }
     }
 
     @FXML

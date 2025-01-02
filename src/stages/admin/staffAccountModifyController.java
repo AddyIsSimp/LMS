@@ -235,12 +235,14 @@ public class staffAccountModifyController implements Initializable {
             lNameField.setText(searchStaff.getLName());
             passwordField.setText(searchStaff.getPassword());
             confirmPassField.setText(searchStaff.getPassword());
+
             IDField.setDisable(true);
             fNameField.setDisable(false);
             lNameField.setDisable(false);
             passwordField.setDisable(false);
             confirmPassField.setDisable(false);
             saveBttn.setDisable(false);
+            globalVariable.searchStaff = null;
         }else {
             lblError.setText("Staff not found with the ID");
         }
@@ -290,7 +292,7 @@ public class staffAccountModifyController implements Initializable {
                 lblError.setText("Password is empty.");
                 return;
             } else if (!fnc.passwordChecker(passwordField.getText())) {
-                lblError2.setText("Password is atleast 8 characters" +
+                lblError.setText("Password is atleast 8 characters" +
                         "\n with letter and number or special character");
             } else if (!passwordField.getText().equals(confirmPassField.getText())) {
                 lblError.setText("Passwords do not match.");
