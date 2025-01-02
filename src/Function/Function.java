@@ -255,6 +255,9 @@ public class Function {
         for (Transact transact : transactsList) {
             if (transact.getBorrowerID()==studentID) {
                 studentTransact.add(transact);
+                if(transact.getBorrowDate()!=null) {
+                    transact.setDayLeft();
+                }
             }
         }
         return studentTransact;
