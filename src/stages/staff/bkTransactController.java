@@ -3,6 +3,7 @@ package stages.staff;
 import Entity.Transact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -169,6 +170,7 @@ public class bkTransactController implements Initializable {
         stage.show();
     }
 
+
     @FXML
     private void goReturnTransact(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/transact/staff_brrowtransReturn.fxml"));
@@ -177,4 +179,11 @@ public class bkTransactController implements Initializable {
         stage.show();
     }
 
+    @FXML
+    private void goTransactHistory(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/transact/staff_transactHistory.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 }

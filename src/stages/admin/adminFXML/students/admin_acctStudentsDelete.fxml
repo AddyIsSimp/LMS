@@ -338,7 +338,7 @@
                                                 <Font size="13.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="titleField" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                                          <TextField fx:id="schoolIDField" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                              <styleClass>
                                                 <String fx:value="bgcolor-white" />
                                                 <String fx:value="outlineAllGray" />
@@ -353,7 +353,7 @@
                                                 <Font size="13.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="titleField2" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                                          <TextField fx:id="sectionIDField" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                              <styleClass>
                                                 <String fx:value="bgcolor-white" />
                                                 <String fx:value="outlineAllGray" />
@@ -381,7 +381,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="titleField1" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                              <TextField fx:id="fNameField" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="bgcolor-white" />
                                     <String fx:value="outlineAllGray" />
@@ -399,7 +399,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="titleField11" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                              <TextField fx:id="lNameField" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="bgcolor-white" />
                                     <String fx:value="outlineAllGray" />
@@ -417,7 +417,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="titleField111" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                              <TextField fx:id="emailField" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="bgcolor-white" />
                                     <String fx:value="outlineAllGray" />
@@ -435,7 +435,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="titleField1111" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                              <TextField fx:id="passwordField" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="bgcolor-white" />
                                     <String fx:value="outlineAllGray" />
@@ -453,7 +453,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="titleField11111" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
+                              <TextField fx:id="confirmPassField" disable="true" prefHeight="30.0" prefWidth="267.0" stylesheets="@../../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="bgcolor-white" />
                                     <String fx:value="outlineAllGray" />

@@ -10,11 +10,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 public class globalVariable {
-
-    Date globalDate = fnc.getDateNow();
-
     //GLOBAL
     public static Function fnc = new Function();
+    public static Date globalDate = fnc.getDateNow();
     public static dbFunction dbFnc = new dbFunction();
     public static ArrayList<Transact> transactList = new ArrayList<Transact>();;
     public static ArrayList<Category> categoryList = new ArrayList<Category>();

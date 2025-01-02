@@ -14,6 +14,7 @@ import Function.*;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.time.LocalDate;
 
 import Function.globalVariable;
 public class index extends Application {
@@ -69,6 +70,11 @@ public class index extends Application {
             System.out.println("Student number: " +globalVariable.sortedStudentListASC.size());
             globalVariable.categoryList = globalVariable.dbFnc.retrieveCategories();
             System.out.println("Category number: " +globalVariable.categoryList.size());
+
+            //Set the current date
+            LocalDate now = LocalDate.now();
+            java.sql.Date date = java.sql.Date.valueOf(now);
+            globalVariable.globalDate = date;
         }catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("Indexing Error");
