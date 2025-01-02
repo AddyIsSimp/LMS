@@ -122,7 +122,6 @@ public class bkManageController implements Initializable {
                 bkQtyField.setText(Integer.toString(quantity)); // Show quantity
             }
 
-            bkQtyField.setText(Integer.toString(book.getQuantity()));
             globalVariable.searchBook = book;
             searchBook = book;
         }

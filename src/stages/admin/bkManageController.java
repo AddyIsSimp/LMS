@@ -99,7 +99,13 @@ public class bkManageController implements Initializable {
             bkAuthorField.setText(searchBook.getAuthor());
             bkISBNField.setText(searchBook.getISBN());
             bkCtgryField.setText(searchBook.getCategory());
-            bkQtyField.setText(Integer.toString(searchBook.getQuantity()));
+
+            int quantity = searchBook.getQuantity();
+            if (quantity == 0) { // If quantity is 0
+                bkQtyField.setText("Book not available");
+            } else { // If quantity is available
+                bkQtyField.setText(Integer.toString(quantity));
+            }
         }
     }
 
@@ -113,7 +119,14 @@ public class bkManageController implements Initializable {
             bkAuthorField.setText(book.getAuthor());
             bkISBNField.setText(book.getISBN());
             bkCtgryField.setText(book.getCategory());
-            bkQtyField.setText(Integer.toString(book.getQuantity()));
+
+            int quantity = book.getQuantity();
+            if (quantity == 0) { // If quantity is 0
+                bkQtyField.setText("Book not available");
+            } else {
+                bkQtyField.setText(Integer.toString(quantity)); // Show quantity
+            }
+            globalVariable.searchBook = book;
             searchBook = book;
         }
     }
