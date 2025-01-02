@@ -257,10 +257,10 @@ public class studentAccountDeleteController implements Initializable {
             }
 
             String schoolID = schoolIDField.getText();
-            String id = fnc.retrieveStudentID(schoolID);
+            System.out.println("School ID: " + schoolID);
 
-            if (id != null) {
-                lblError.setText("Student account with the provided ID not found!");
+            if (schoolID == null || schoolID.trim().isEmpty()) {
+                lblError.setText("Invalid School ID or Student not found");
                 return;
             }
 
@@ -269,23 +269,34 @@ public class studentAccountDeleteController implements Initializable {
             alert.setHeaderText("Do you really want to delete the student account?");
 
             if (alert.showAndWait().get() == ButtonType.YES) {
-                boolean deleteFromList = fnc.deleteStudent(sortedStudentListASC, Integer.parseInt(null));
-                boolean deleteFromDB = dbFunc.deleteStudentDB(Integer.parseInt(null));
+                dbFunc.deleteStudentDB(Integer.parseInt(schoolID));
+                fnc.deleteStudent(sortedStudentListASC, Integer.parseInt(schoolID));
+                refreshTable();
 
-                if (deleteFromList && deleteFromDB) {
-                    alert = new Alert(Alert.AlertType.NONE, "Student account deleted successfully", ButtonType.OK);
-                    alert.setTitle("Student Account Delete");
-                    alert.show();
+                alert = new Alert(Alert.AlertType.NONE, "Delete Student Successfully", ButtonType.OK);
+                alert.setTitle("Student Account Delete");
+                alert.show();
 
-                    resetFields();
-                    lblError.setText(null);
-                    refreshTable();
-                } else {
-                    lblError.setText("Failed to delete student account.");
-                }
-            } else {
-                resetFields();
+                schoolIDField.setText(null);
+                sectionIDField.setText(null);
+                fNameField.setText(null);
+                lNameField.setText(null);
+                emailField.setText(null);
+                passwordField.setText(null);
+                confirmPassField.setText(null);
                 lblError.setText(null);
+                saveBttn.setDisable(true);
+            } else {
+                schoolIDField.setText(null);
+                sectionIDField.setText(null);
+                fNameField.setText(null);
+                lNameField.setText(null);
+                emailField.setText(null);
+                passwordField.setText(null);
+                confirmPassField.setText(null);
+                lblError.setText(null);
+                saveBttn.setDisable(true);
+                alert.close();
             }
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
@@ -294,24 +305,7 @@ public class studentAccountDeleteController implements Initializable {
         }
     }
 
-    private void resetFields() {
-        schoolIDField.setText(null);
-        sectionIDField.setText(null);
-        fNameField.setText(null);
-        lNameField.setText(null);
-        emailField.setText(null);
-        passwordField.setText(null);
-        confirmPassField.setText(null);
 
-        schoolIDField.setDisable(true);
-        sectionIDField.setDisable(true);
-        confirmPassField.setDisable(true);
-        fNameField.setDisable(true);
-        lNameField.setDisable(true);
-        emailField.setDisable(true);
-        passwordField.setDisable(true);
-        saveBttn.setDisable(true);
-    }
 
 
 
