@@ -173,7 +173,7 @@
       </VBox>
    </left>
    <right>
-      <VBox onMouseClicked="#goBorrowTransact" prefHeight="607.0" prefWidth="268.0" styleClass="bgcolor-white" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
+      <VBox prefHeight="607.0" prefWidth="268.0" styleClass="bgcolor-white" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="607.0" prefWidth="268.0" stylesheets="@../../../style_File/Dashboard.css">
                <styleClass>

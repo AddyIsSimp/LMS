@@ -21,6 +21,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Function.*;
@@ -37,7 +38,7 @@ public class bkTransactController implements Initializable {
     @FXML
     private HBox acctBtn, bkManageBtn, borrowTransBtn, dashboardBtn, inventoryBtn, logoutBtn, reportsBtn;
 
-    //TABLE AND COLUMNS
+    // TABLE AND COLUMNS
     @FXML
     private TableView<Transact> brrwTransTblView;
     @FXML
@@ -45,55 +46,82 @@ public class bkTransactController implements Initializable {
     @FXML
     private TableColumn<Transact, String> isbnCol;
     @FXML
-    private TableColumn<Transact, String> studentIDCol;
+    private TableColumn<Transact, Integer> studentIDCol;
     @FXML
     private TableColumn<Transact, String> studentNameCol;
     @FXML
-    private TableColumn<Transact, String> acceptBtnCol;
+    private TableColumn<Transact, Button> acceptBtnCol;
     @FXML
-    private TableColumn<Transact, String> declineBtnCol;
+    private TableColumn<Transact, Button> declineBtnCol;
 
     @FXML
     private ChoiceBox<String> sortBy;
 
-    private String[] sortType = {"A-Z", "Z-A"};
+    private final String[] sortType = {"A-Z", "Z-A"};
+    private ObservableList<Transact> transacts = FXCollections.observableArrayList();
 
-    //INITIALIZE
+    // INITIALIZE
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
+            // Initialize ChoiceBox for sorting
             sortBy.getItems().addAll(sortType);
             sortBy.setValue(sortType[0]);
 
-            //SET BORROW TRANSACTION TABLE
-            titleCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("bookTitle"));
-            isbnCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("bkIsbn"));
-            studentIDCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("borrowerID"));
-            studentNameCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("borrowerName"));
-            acceptBtnCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("acceptBtn"));
-            declineBtnCol.setCellValueFactory(new PropertyValueFactory<Transact, String>("declineBtn"));
+            sortBy.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                sortTransactData(); // Call sorting method when the value changes
+            });
 
-            //Get the data in the database
-            ObservableList<Transact> transacts = FXCollections.observableArrayList();
-//            conn = dbFnc.connectToDB();
-//            stmt = conn.createStatement();
+            // Set up TableView columns
+            titleCol.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
+            isbnCol.setCellValueFactory(new PropertyValueFactory<>("bkIsbn"));
+            studentIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
+            studentNameCol.setCellValueFactory(new PropertyValueFactory<>("borrowerName"));
+            acceptBtnCol.setCellValueFactory(new PropertyValueFactory<>("acceptBtn"));
+            declineBtnCol.setCellValueFactory(new PropertyValueFactory<>("declineBtn"));
 
-            //DBFUNCTION get the transact from db to here
+            if (globalVariable.transactList != null) {
+                transacts = fnc.retrievePendingTransact(globalVariable.transactList);
+            } else {
+                globalVariable.fnc.showAlert("Error", "Transaction list is empty or not initialized.");
+                return;
+            }
 
-            //Sample data
-//            transacts.add(new Transact(1, "Nano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-//            transacts.add(new Transact(1, "Oano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-//            transacts.add(new Transact(1, "Pano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-//            transacts.add(new Transact(1, "Qano", "120383013457", 20230015, "Santos, A", 00215, "PENDING"));
-
+            transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
             brrwTransTblView.setItems(transacts);
-//        }catch(SQLException e) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-//            alert.show();
-        }catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            alert.setResizable(true);
-            alert.show();
+        } catch (Exception e) {
+            showErrorAlert("Initialization Error", e.getMessage());
+        }
+    }
+
+    public void refreshTable() {
+        try {
+            if (globalVariable.transactList != null) {
+                transacts = fnc.retrievePendingTransact(globalVariable.transactList);
+                brrwTransTblView.setItems(transacts);
+            } else {
+                showErrorAlert("Data Error", "Transaction list is empty or not initialized.");
+            }
+        } catch (Exception e) {
+            showErrorAlert("Refresh Error", e.getMessage());
+        }
+    }
+
+    private void showErrorAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private void sortTransactData() {
+        if (transacts != null && !transacts.isEmpty()) {
+            if (sortBy.getValue().equals("A-Z")) {
+                transacts.sort((t1, t2) -> t1.getBookTitle().compareToIgnoreCase(t2.getBookTitle()));
+            } else if (sortBy.getValue().equals("Z-A")) {
+                transacts.sort((t1, t2) -> t2.getBookTitle().compareToIgnoreCase(t1.getBookTitle()));
+            }
+            brrwTransTblView.refresh();
         }
     }
 
@@ -108,22 +136,6 @@ public class bkTransactController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
     }
-
-//    @FXML
-//    private void goAccountStaff(MouseEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffs.fxml"));
-//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
-
-//    @FXML
-//    private void goBorrowTransact(MouseEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_transact.fxml"));
-//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
 
     @FXML
     private void goInventory(MouseEvent event) throws IOException {

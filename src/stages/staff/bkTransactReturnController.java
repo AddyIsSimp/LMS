@@ -100,6 +100,15 @@ public class bkTransactReturnController implements Initializable {
             brrwTransTblView.refresh();
         }
     }
+
+
+    // Helper method for showing error alerts
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 //SWITCHING MENU
 
     @FXML

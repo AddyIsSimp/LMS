@@ -24,6 +24,8 @@ import java.util.ResourceBundle;
 
 import Function.*;
 
+import static Function.globalVariable.fnc;
+
 public class libraryController implements Initializable {
 
     @FXML
@@ -91,7 +93,7 @@ public class libraryController implements Initializable {
                     if (newValue.getName().equals("All")) {
                         initializeLibraryView(books = globalVariable.bookList);
                     }else {
-                        books = globalVariable.fnc.selectCategoryBooks(newValue);
+                        books = fnc.selectCategoryBooks(newValue);
                         initializeLibraryView(books);
                     }
                 }
@@ -243,7 +245,7 @@ public class libraryController implements Initializable {
 
             moveLeftBtn.setDisable(true);
 
-            int bookCount = books.getSize(); // Indicates the number of books
+            int bookCount = fnc.countBookPresent(globalVariable.bookList);// Indicates the number of books
             bookNum.setText(Integer.toString(bookCount));
             cabinetPos.setText(Integer.toString(cabinetIndex + 1));
             cabinetCount = bookCount / 42;

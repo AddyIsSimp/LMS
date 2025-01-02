@@ -99,6 +99,7 @@ public class bkManageController implements Initializable {
 
         }
     }
+
     public void setBookData(Book book) {
         if (book != null) {
             bkImage.setImage(book.getImageSrc());
@@ -180,7 +181,8 @@ public class bkManageController implements Initializable {
         if(bkTitleField==null || bkTitleField.getText()==null) {
             lblError.setText("No book selected");
         }
-        globalVariable.modifyBook = searchBook;
+
+        globalVariable.searchBook = searchBook;
         Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/inventory/staff_inventoryModify.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
