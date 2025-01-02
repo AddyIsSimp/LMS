@@ -79,13 +79,16 @@ public class studentAccountDeleteController implements Initializable {
     private ChoiceBox<String> sortCB;
 
     private String[] sortType = {"A-Z", "Z-A"};
-    private ObservableList<Student> retrieveStudentlist = FXCollections.observableArrayList();
+    private ObservableList<Student> retrieveStudent = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize sort options
         sortCB.getItems().addAll(sortType);
         sortCB.setValue(sortType[0]);
+        sortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            applySorting(fnc.retrieveStudent(sortedStudentListASC));
+        });
 
         // Set up TableView columns
         schoolIDCol.setCellValueFactory(new PropertyValueFactory<>("schoolID"));
@@ -95,18 +98,29 @@ public class studentAccountDeleteController implements Initializable {
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         if (!sortedStudentListASC.isEmpty()) {
-            retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
-            studentTableView.setItems(retrieveStudentlist);
+            retrieveStudent = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
+            studentTableView.setItems(retrieveStudent);
             studentTableView.refresh();
         }
     }
 
-    private void refreshTable() {
-        if (!sortedStudentListASC.isEmpty()) {
-            retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
-            studentTableView.setItems(retrieveStudentlist);
-            studentTableView.refresh();
+    private void applySorting(ObservableList<Student> studentList) {
+        if (sortCB.getValue().equals("A-Z")) {
+            globalVariable.sortedStudentListASC.clear();
+            studentList.sorted((s1, s2) -> s1.getFName().compareToIgnoreCase(s2.getFName()))
+                    .forEach(globalVariable.sortedStudentListASC::add);
+            studentTableView.setItems(FXCollections.observableArrayList(globalVariable.sortedStudentListASC));
+        } else {
+            sortedStudentListASC.clear();
+            studentList.sorted((s1, s2) -> s2.getFName().compareToIgnoreCase(s1.getFName()))
+                    .forEach(sortedStudentListASC::add);
+            studentTableView.setItems(FXCollections.observableArrayList(sortedStudentListASC));
         }
+    }
+
+    private void refreshTable() {
+        retrieveStudent = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
+        applySorting(retrieveStudent);
     }
 
     private void showErrorAlert(String title, String message) {

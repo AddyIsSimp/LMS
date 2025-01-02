@@ -286,7 +286,7 @@ public class inventoryDeleteController implements Initializable {
         alert.setHeaderText("Do you really want to delete the book?");
 
         if(alert.showAndWait().get() == ButtonType.YES) {
-            boolean deletedInDB = dbFnc.removeBookDB(bkTitle, bkISBN);
+            boolean deletedInDB = dbFnc.removeBookDB(searchBook, bkISBN);
             globalVariable.bookList.deleteBook(searchBook.getTitle());
 
             searchField.setText(null);

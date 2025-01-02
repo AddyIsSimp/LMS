@@ -7,7 +7,6 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -149,28 +148,7 @@
                   <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="208.0" />
                   <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="389.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="238.0">
-                           <children>
-                              <TextField fx:id="searchField" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="Search title" stylesheets="@../../../style_File/Dashboard.css">
-                                 <styleClass>
-                                    <String fx:value="bgcolor-white" />
-                                    <String fx:value="outlineAllBlack" />
-                                 </styleClass>
-                              </TextField>
-                              <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="30.0" styleClass="bgcolor-brown" stylesheets="@../../../style_File/Dashboard.css">
-                                 <children>
-                                    <ImageView fitHeight="20.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../icons/searchIcon.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                                 <padding>
-                                    <Insets left="4.0" top="2.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="238.0" />
                         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="122.0">
                            <children>
                               <Label prefHeight="18.0" prefWidth="50.0" text="Sort by:" textFill="WHITE" />

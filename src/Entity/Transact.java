@@ -77,6 +77,7 @@ public class Transact {
                         "\n\nPENALTY: " + numDay + "(day)  x  Php5 = " + (numDay*5) + "Php"
                 ;
 
+
             }else {
                 contentText = "Borrower Info\nBorrower ID:  " + borrowerID +
                         "\nBorrower Name:  " + borrowerName +
@@ -89,6 +90,11 @@ public class Transact {
             if(alert.showAndWait().get() == ButtonType.YES) {
                 this.returnDate = globalVariable.fnc.getDateNow();
                 this.status = "FINISH";
+                Book book = globalVariable.fnc.getBook(globalVariable.bookList, getBkIsbn());
+                book.setBorrowed(book.getBorrowed()-1);
+                book.setQuantity(book.getQuantity()+1);
+                globalVariable.dbFnc.updateTransactStatus(this, "FINISH");
+                globalVariable.dbFnc.addBookOneDB(getBookTitle(), getBkIsbn());
             }else {
                 alert.close();
             }
@@ -114,7 +120,10 @@ public class Transact {
                         brrwBook.setBorrowed(brrwBook.getBorrowed() + 1);
                         this.status = "ONGOING";
                         this.borrowDate = globalVariable.fnc.getDateNow();
-                        setDayLeft();
+                        if(this.borrowDate!=null) {
+                            setDayLeft();
+                        }
+                        globalVariable.dbFnc.removeBookOneDB(brrwBook.getTitle(), brrwBook.getISBN());
                         globalVariable.dbFnc.updateTransactStatus(this, "ONGOING");
                     }else {
                         globalVariable.fnc.showAlert("Borrow Request Fail", "Book is not available");
@@ -134,6 +143,7 @@ public class Transact {
 
             if(alert.showAndWait().get() == ButtonType.YES) {
                 this.status = "DECLINE";
+                globalVariable.dbFnc.updateTransactStatus(this, "DECLINE");
             }else {
                 alert.close();
             }
@@ -221,12 +231,16 @@ public class Transact {
     }
 
     public int getDayLeft() {
-        this.dayLeft = globalVariable.fnc.computeDayLeft(borrowDate);
+        if(this.borrowDate!=null) {
+            this.dayLeft = globalVariable.fnc.computeDayLeft(borrowDate);
+        }
         return dayLeft;
     }
 
     public void setDayLeft() {
-        this.dayLeft = globalVariable.fnc.computeDayLeft(borrowDate);
+        if(this.borrowDate!=null) {
+            this.dayLeft = globalVariable.fnc.computeDayLeft(borrowDate);
+        }
     }
 
     public Button getReturnBtn() {
