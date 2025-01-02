@@ -5,7 +5,9 @@ import javafx.animation.*;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Duration;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +27,7 @@ import Function.*;
 import java.sql.*;
 
 
+import static Function.globalVariable.globalDate;
 import static Function.globalVariable.loginStudent;
 
 public class LoginController {
@@ -52,6 +55,8 @@ public class LoginController {
     private TextField passwordTextVisible, passwordTextVisible2, tf_staffid, tfAdminName, studentIDField;
     @FXML
     private ImageView passwordIcon, passwordIcon2;
+    @FXML
+    private Label dateHere;
     @FXML
     private TextField studentIDFld, fNameFld, lNameFld, sectionFld, emailFld, passwordTextVisible1;
     @FXML
@@ -186,7 +191,7 @@ public class LoginController {
 
             String id = tf_staffid.getText();
             String password = passwordtextfield.getText();
-
+            String passwordVisible = passwordTextVisible.getText();
             if (id.isEmpty()) {
                 errorText.setText("Staff ID is empty");
                 return;
@@ -201,7 +206,11 @@ public class LoginController {
             String sqlFindStaff = "SELECT * FROM staff WHERE staff_UN = ? AND password = ? AND staff_id != 1";
             pstmt = conn.prepareStatement(sqlFindStaff);
             pstmt.setString(1, id);
-            pstmt.setString(2, password);
+            if (isPasswordVisible) {
+                pstmt.setString(2, passwordVisible);
+            }else{
+                pstmt.setString(2, password);
+            }
 
             rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -239,12 +248,18 @@ public class LoginController {
 
             String username = tfAdminName.getText();
             String password = passwordtextfield.getText();
+            String passwordVisible = passwordTextVisible.getText();
+
 
             //Use the fName and password for admin login
             String sqlFindStaff = "SELECT * FROM staff WHERE staff_UN = ? AND password = ? AND staff_id = 1";
             pstmt = conn.prepareStatement(sqlFindStaff);
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
+            if (isPasswordVisible) {
+                pstmt.setString(2, passwordVisible);
+            }else{
+                pstmt.setString(2, password);
+            }
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_dashboard.fxml"));
@@ -281,6 +296,7 @@ public class LoginController {
 
             String studentID = studentIDField.getText();
             String password = passwordtextfield.getText();
+            String passwordVisible = passwordTextVisible.getText();
 
             //Use the fName and password for admin login
             if (studentID.isEmpty()) {
@@ -307,6 +323,11 @@ public class LoginController {
             String sqlFindStaff = "SELECT * FROM student WHERE school_id = ? AND password = ?";
             pstmt = conn.prepareStatement(sqlFindStaff);
             pstmt.setString(1, studentID);
+            if (isPasswordVisible) {
+                pstmt.setString(2, passwordVisible);
+            }else{
+                pstmt.setString(2, password);
+            }
             pstmt.setString(2, password);
             rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -603,4 +624,50 @@ public class LoginController {
         stage.setScene(new Scene(root));
         stage.show();
     }
+
+    @FXML
+    private void setDatePicker(MouseEvent event) {
+        try {
+            DatePicker datePicker = new DatePicker();
+            Popup popup = new Popup();
+            popup.setAutoHide(true);
+            popup.getContent().add(datePicker);
+
+            Window window = ((Node) event.getSource()).getScene().getWindow();
+
+            double popupX = event.getScreenX() - 200;
+            double popupY = event.getScreenY();
+            popup.show(window, popupX, popupY);
+
+            datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    Date selectedDate = Date.valueOf(newValue);
+
+                    if (globalDate != null && selectedDate.before(globalDate)) {
+                        // Show an alert if the selected date is invalid
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Invalid Date Selection");
+                        alert.setHeaderText("Invalid Date");
+                        alert.setContentText("The selected date cannot be earlier than the current date.");
+                        alert.showAndWait();
+                    } else {
+                        // Update the globalDate if the date is valid
+                        globalDate = selectedDate;
+                        System.out.println("Date is set: " + globalDate);
+                        dateHere.setText(String.valueOf(globalDate));
+                        System.out.println(globalDate);
+                        popup.hide();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to open the DatePicker: " + e.getMessage());
+            alert.setTitle("Date Picker Error");
+            alert.showAndWait();
+        }
+    }
+
+
+
 }

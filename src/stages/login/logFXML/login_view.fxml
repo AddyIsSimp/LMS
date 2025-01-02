@@ -95,6 +95,20 @@
                         <DropShadow height="41.52" radius="23.9225" width="56.17" />
                      </effect>
                   </ImageView>
+                  <HBox layoutX="52.0" layoutY="207.0" onMouseClicked="#setDatePicker" prefHeight="32.0" prefWidth="31.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css">
+                     <children>
+                        <ImageView fitHeight="32.0" fitWidth="34.0" onMouseClicked="#setDatePicker" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/calendar.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <Label fx:id="dateHere" layoutX="34.0" layoutY="183.0" prefHeight="20.0" prefWidth="95.0" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
                </children>
                <effect>
                   <BoxBlur height="0.0" width="1.0" />

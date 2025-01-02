@@ -1,4 +1,4 @@
-package stages.admin;
+package stages.staff;
 
 
 import Entity.Book;
@@ -77,7 +77,7 @@ public class reportsBookController implements Initializable {
     private Label bookQty, titleQty, borrowQty;
 
     private String[] sortType = {"A-Z", "Z-A"};
-    private String[] reportOptions = {"Account", "Book", "Transaction"};
+    private String[] reportOptions = {"Book","Transaction"};
     private ObservableList<Book> retrieveBook = FXCollections.observableArrayList();
 
     @FXML
@@ -123,14 +123,11 @@ public class reportsBookController implements Initializable {
             reportbox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
                     switch (newValue) {
-                        case "Account":
-                            loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_acc_reports.fxml");
-                            break;
                         case "Book":
-                            loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_book_reports.fxml");
+                            loadFXMLForChoice("/stages/staff/staffFXML/reports/staff_reports.fxml");
                             break;
                         case "Transaction":
-                            loadFXMLForChoice("/stages/admin/adminFXML/reports/admin_trans_reports.fxml");
+                            loadFXMLForChoice("/stages/staff/staffFXML/reports/staff_Transreports.fxml");
                             break;
                         default:
                             break;
@@ -193,15 +190,7 @@ public class reportsBookController implements Initializable {
 
     @FXML
     private void goDashboard(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_dashboard.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    @FXML
-    private void goAccountStaff(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/staff/admin_acctStaffs.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_dashboard.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -209,7 +198,7 @@ public class reportsBookController implements Initializable {
 
     @FXML
     private void goBorrowTransact(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/transact/admin_transact.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/transact/staff_brrowtrans.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -217,14 +206,14 @@ public class reportsBookController implements Initializable {
 
     @FXML
     private void goInventory(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/inventory/admin_inventory.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/inventory/staff_inventory.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
     @FXML
-    private void goLogout(MouseEvent event) throws IOException {
+    void goLogout(MouseEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
         alert.setHeaderText("You're about to logout!");
@@ -240,15 +229,11 @@ public class reportsBookController implements Initializable {
     }
 
     @FXML
-    private void goManageBooks(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_bkManage.fxml"));
+    void goManageBooks(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/stages/staff/staffFXML/staff_managebooks.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
-    @FXML
-    private void goProfileAdmin(MouseEvent event) {
-
-    }
 }
