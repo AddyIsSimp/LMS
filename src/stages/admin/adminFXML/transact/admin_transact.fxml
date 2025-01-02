@@ -247,9 +247,9 @@
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="580.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="519.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="238.0" />
+                        <HBox alignment="CENTER" prefHeight="44.0" prefWidth="214.0" />
                         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="122.0">
                            <children>
                               <Label prefHeight="18.0" prefWidth="50.0" text="Sort by:" textFill="WHITE" />
@@ -261,10 +261,22 @@
                         <Insets top="6.0" />
                      </padding>
                   </HBox>
-                  <HBox prefHeight="50.0" prefWidth="79.0" />
+                  <HBox alignment="CENTER" maxHeight="-Infinity" onMouseClicked="#refresh" prefHeight="38.0" prefWidth="42.0" stylesheets="@../../../../style_File/Dashboard.css">
+                     <children>
+                        <ImageView fitHeight="29.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../icons/refresh.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <styleClass>
+                        <String fx:value="bgcolor-brown" />
+                        <String fx:value="roundEdge" />
+                     </styleClass>
+                  </HBox>
                </children>
                <padding>
-                  <Insets left="15.0" />
+                  <Insets left="15.0" right="10.0" />
                </padding>
             </HBox>
             <TableView fx:id="brrwTransTblView" layoutX="11.0" layoutY="61.0" prefHeight="502.0" prefWidth="740.0" styleClass="outlineAllBlack" stylesheets="@../../../../style_File/Dashboard.css">
