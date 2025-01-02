@@ -93,24 +93,9 @@ public class inventoryModifyController implements Initializable {
             alert.showAndWait();
         }
 
-        //If search
-        if(modifyBook!=null) {
-            searchBook = modifyBook;
-            Image img = searchBook.getImageSrc();
-            bkImage.setImage(img);
-            titleField.setText(searchBook.getTitle());
-            authorField.setText(searchBook.getAuthor());
-            isbnField.setText(searchBook.getISBN());
-            tfCategory.setValue(categories.getFirst());
-            qtyField.setText(Integer.toString(searchBook.getQuantity()));
-            changeImgBttn.setDisable(false);
-            titleField.setDisable(false);
-            authorField.setDisable(false);
-            isbnField.setDisable(false);
-            tfCategory.setDisable(false);
-            qtyField.setDisable(false);
-            saveBttn.setDisable(false);
-            modifyBook = null;
+        if(globalVariable.searchBook!=null) {
+            searchBook = globalVariable.searchBook;
+            loadSearch();
         }
 
         titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
@@ -181,6 +166,29 @@ public class inventoryModifyController implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             error.setTitle("Refresh Error");
             error.showAndWait();
+        }
+    }
+
+    private void loadSearch() {
+        if(searchBook==null) {
+            lblError.setText("Book not found"); return;
+        }else {
+            searchBook = globalVariable.searchBook;
+            Image img = searchBook.getImageSrc();
+            bkImage.setImage(img);
+            titleField.setText(searchBook.getTitle());
+            authorField.setText(searchBook.getAuthor());
+            isbnField.setText(searchBook.getISBN());
+            tfCategory.setValue(categories.getFirst());
+            qtyField.setText(Integer.toString(searchBook.getQuantity()));
+            changeImgBttn.setDisable(false);
+            titleField.setDisable(false);
+            authorField.setDisable(false);
+            isbnField.setDisable(true);
+            tfCategory.setDisable(false);
+            qtyField.setDisable(false);
+            saveBttn.setDisable(false);
+            globalVariable.searchBook = null;
         }
     }
 

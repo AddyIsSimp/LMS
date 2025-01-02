@@ -21,24 +21,19 @@ public class index extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try {
-            // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("stages/login/logFXML/login_view.fxml"));
             Parent root = loader.load();
 
-            // Set stage title and icon
             stage.setTitle("LMS!");
             Image icon = new Image(getClass().getResource("icons/icon_LMS.png").toExternalForm());
             stage.getIcons().add(icon);
 
-            // Get the controller instance
             LoginController controller = loader.getController();
 
-            // Create and configure the scene
             Scene scene = new Scene(root);
             scene.setOnKeyPressed(event -> {
                 if (event.isControlDown() && event.isShiftDown() && event.getCode() == KeyCode.S) {
                     try {
-                        // Trigger admin login
                         controller.adminLogin(event);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -46,7 +41,6 @@ public class index extends Application {
                 }
             });
 
-            // Configure the stage
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();

@@ -72,8 +72,8 @@ public class rtnBooksController implements Initializable {
 
         titleCol.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
         isbnCol.setCellValueFactory(new PropertyValueFactory<>("bkIsbn"));
-        brrwDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
-        daysLeftCol.setCellValueFactory(new PropertyValueFactory<>("borrowerName"));
+        brrwDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+        daysLeftCol.setCellValueFactory(new PropertyValueFactory<>("dayLeft"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         transacts = globalVariable.fnc.retrieveStudentTransact(globalVariable.transactList, globalVariable.loginStudent.getSchoolID());

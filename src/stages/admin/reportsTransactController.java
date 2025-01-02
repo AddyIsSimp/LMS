@@ -8,6 +8,7 @@ import Function.Function;
 import Function.dbFunction;
 import Function.globalVariable;
 import LinkedList.DoublyLinkList;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,9 +26,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static Function.globalVariable.bookList;
@@ -144,7 +148,7 @@ public class reportsTransactController implements Initializable {
         } catch (Exception e) {
             // Handle errors and show an alert
             Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred: " + e.getMessage());
-            alert.setTitle("Reports - Account Initialization Error");
+            alert.setTitle("Reports - Transact Initialization Error");
             alert.showAndWait();
             e.printStackTrace();
         }

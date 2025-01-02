@@ -61,9 +61,13 @@ public class inventoryController implements Initializable {
     private Label bookBrrwQty;
 
     @FXML
+    private TextField searchField;
+    @FXML
     private Label bookQty;
     @FXML
     private Label bookUniqueQty;
+    @FXML
+    private Label lblError;
 
     @FXML
     private Label sortLabel;
@@ -87,6 +91,7 @@ public class inventoryController implements Initializable {
     private TableColumn<Book, String> titleCol;
 
     Function fnc = new Function();
+    private Book bookSearched;
     private ObservableList<Book> retrieveBook = FXCollections.observableArrayList();
     private final String[] sortType = {"A-Z", "Z-A"};
     private final String[] changeViewType = {"Table View", "Library View"};
@@ -166,6 +171,24 @@ public class inventoryController implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             error.setTitle("Refresh Error");
             error.showAndWait();
+        }
+    }
+
+    @FXML
+    private void doSearch(MouseEvent event) throws IOException {
+        if(searchField.getText().isEmpty()) {  //if searchfield is empty
+            lblError.setText("Search text is blank"); return;
+        }
+        String searchFld = searchField.getText();
+        bookSearched = globalVariable.fnc.findBookISBN(bookList, searchFld);
+        if(bookSearched!=null) {
+            globalVariable.searchBook = bookSearched;
+            Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/inventory/admin_inventoryModify.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }else {
+            lblError.setText("Book not found with the specified ISBN"); return;
         }
     }
 
