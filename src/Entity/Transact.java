@@ -109,13 +109,16 @@ public class Transact {
             if(alert.showAndWait().get() == ButtonType.YES) {
                 Book brrwBook = globalVariable.fnc.getBook(globalVariable.bookList, bkIsbn);
                 if(brrwBook!=null) {
-                    brrwBook.setQuantity(brrwBook.getQuantity()-1);
-                    brrwBook.setBorrowed(brrwBook.getBorrowed()+1);
-                    this.status = "ONGOING";
-                    this.borrowDate = globalVariable.fnc.getDateNow();
-                    setDayLeft();
-
-                    globalVariable.dbFnc.updateTransactStatus(this, "ONGOING");
+                    if(brrwBook.getQuantity()>0) {
+                        brrwBook.setQuantity(brrwBook.getQuantity() - 1);
+                        brrwBook.setBorrowed(brrwBook.getBorrowed() + 1);
+                        this.status = "ONGOING";
+                        this.borrowDate = globalVariable.fnc.getDateNow();
+                        setDayLeft();
+                        globalVariable.dbFnc.updateTransactStatus(this, "ONGOING");
+                    }else {
+                        globalVariable.fnc.showAlert("Borrow Request Fail", "Book is not available");
+                    }
                 }else{
                     globalVariable.fnc.showAlert("Borrow Book Error", "Book not found in the list");
                 }
