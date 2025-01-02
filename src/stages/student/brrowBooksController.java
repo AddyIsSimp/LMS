@@ -3,6 +3,7 @@ package stages.student;
 import Entity.Book;
 import Entity.Student;
 import Entity.Transact;
+import LinkedList.DoublyLinkList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +13,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -58,8 +61,16 @@ public class brrowBooksController implements Initializable {
     @FXML
     private ImageView bkImage;
 
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private Label lblError;
+
     private Student studentLogin;
     private Connection conn;
+    private Book searchBook;
+    private DoublyLinkList bookList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -184,6 +195,31 @@ public class brrowBooksController implements Initializable {
 //        stage.setScene(new Scene(root));
 //        stage.show();
 //    }
+
+    @FXML
+    private void doSearch(MouseEvent event) {
+        String selected = "isbn";
+        String searchFld;
+
+        if(searchField==null || searchField.getText().isEmpty()) {  //if searchfield is empty
+            lblError.setText("Search text is blank"); return;
+        }
+        searchFld = searchField.getText();
+        searchBook = globalVariable.bookList.findTitle(searchFld);
+
+        if(searchBook==null) {
+            lblError.setText("Found no book"); return;
+        }else {
+            Image img = searchBook.getImageSrc();
+            bkImage.setImage(img);
+            bkTitleField.setText(searchBook.getTitle());
+            bkAuthorField.setText(searchBook.getAuthor());
+            bkISBNField.setText(searchBook.getISBN());
+            bkCtgryField.setText(searchBook.getCategory());
+            bkQtyField.setText(Integer.toString(searchBook.getQuantity()));
+
+        }
+    }
 
 
 
