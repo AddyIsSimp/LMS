@@ -92,14 +92,20 @@ public class bkManageController implements Initializable {
 
         if(searchBook==null) {
             lblError.setText("Found no book"); return;
-        }else {
+        } else {
             Image img = searchBook.getImageSrc();
             bkImage.setImage(img);
             bkTitleField.setText(searchBook.getTitle());
             bkAuthorField.setText(searchBook.getAuthor());
             bkISBNField.setText(searchBook.getISBN());
             bkCtgryField.setText(searchBook.getCategory());
-            bkQtyField.setText(Integer.toString(searchBook.getQuantity()));
+
+            int quantity = searchBook.getQuantity();
+            if (quantity == 0) { // If quantity is 0
+                bkQtyField.setText("Book not available");
+            } else { // If quantity is available
+                bkQtyField.setText(Integer.toString(quantity));
+            }
         }
     }
 
@@ -113,8 +119,13 @@ public class bkManageController implements Initializable {
             bkAuthorField.setText(book.getAuthor());
             bkISBNField.setText(book.getISBN());
             bkCtgryField.setText(book.getCategory());
-            bkQtyField.setText(Integer.toString(book.getQuantity()));
-            searchBook = book;
+
+            int quantity = book.getQuantity();
+            if (quantity == 0) { // If quantity is 0
+                bkQtyField.setText("Book not available");
+            } else {
+                bkQtyField.setText(Integer.toString(quantity)); // Show quantity
+            }
         }
     }
 

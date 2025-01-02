@@ -234,6 +234,7 @@
             <Pane prefHeight="54.0" prefWidth="266.0">
                <children>
                   <Label fx:id="lblError" alignment="CENTER" layoutX="1.0" layoutY="6.0" prefHeight="17.0" prefWidth="266.0" textFill="RED" />
+                  <Label fx:id="lblError1" alignment="CENTER" layoutX="11.0" layoutY="16.0" prefHeight="17.0" prefWidth="266.0" textFill="RED" />
                </children></Pane>
             <VBox alignment="TOP_CENTER" prefHeight="418.0" prefWidth="266.0" stylesheets="@../../../style_File/Dashboard.css">
                <children>
@@ -333,7 +334,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="bkQtyField" editable="false" prefHeight="26.0" prefWidth="70.0" stylesheets="@../../../style_File/Dashboard.css">
+                              <TextField fx:id="bkQtyField" editable="false" prefHeight="29.0" prefWidth="146.0" stylesheets="@../../../style_File/Dashboard.css">
                                  <styleClass>
                                     <String fx:value="transparent" />
                                     <String fx:value="outlineDown" />
