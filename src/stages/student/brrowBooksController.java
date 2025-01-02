@@ -121,6 +121,8 @@ public class brrowBooksController implements Initializable {
                 String bookISBN = bkISBNField.getText();
 
                 Book book = globalVariable.fnc.getBook(globalVariable.bookList, bookISBN);
+                book.setQuantity(book.getQuantity()-1);
+                book.setBorrowed(book.getBorrowed()+1);
 
                 Transact newTransact = new Transact(transactID, bktitle, bookISBN, studentLogin.getSchoolID(), studentLogin.getLName(), "PENDING");
                 globalVariable.dbFnc.insertPendingTransact(newTransact);
@@ -173,7 +175,17 @@ public class brrowBooksController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_returnBooks.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        stage.show();
-    }
+        stage.show();    }
+
+//    @FXML
+//    void goReports(MouseEvent event) throws IOException {
+//        Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/admin_reports.fxml"));
+//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        stage.setScene(new Scene(root));
+//        stage.show();
+//    }
+
+
+
 
 }

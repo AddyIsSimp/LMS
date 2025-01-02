@@ -105,6 +105,9 @@ public class bkManageController implements Initializable {
 
     public void setBookData(Book book) {
         if (book != null) {
+            if(bkQtyField == null) {
+                lblError.setText("Book not available");
+            }
             bkImage.setImage(book.getImageSrc());
             bkTitleField.setText(book.getTitle());
             bkAuthorField.setText(book.getAuthor());

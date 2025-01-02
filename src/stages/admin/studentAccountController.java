@@ -62,6 +62,9 @@ public class studentAccountController implements Initializable {
         studentQty.setText(Integer.toString(sortedStudentListASC.size()));
         sortCB.getItems().addAll(sortType);
         sortCB.setValue(sortType[0]);
+        sortCB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            applySorting(fnc.retrieveStudent(sortedStudentListASC));
+        });
 
         // Set up TableView columns
         schoolIDCol.setCellValueFactory(new PropertyValueFactory<>("schoolID"));
@@ -70,21 +73,28 @@ public class studentAccountController implements Initializable {
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("section"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-        if (!sortedStudentListASC.isEmpty()) {
-            retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
+        if (sortedStudentListASC != null) {
+            retrieveStudentlist = fnc.retrieveStudent(sortedStudentListASC);
             studentTableView.setItems(retrieveStudentlist);
-            studentTableView.refresh();
         }
     }
 
-    private void refreshTable() {
-        if (!sortedStudentListASC.isEmpty()) {
-            retrieveStudentlist = fnc.retrieveStudent(globalVariable.sortedStudentListASC);
-            studentTableView.setItems(retrieveStudentlist);
-            studentTableView.refresh();
+    private void applySorting(ObservableList<Student> studentList) {
+        if (sortCB.getValue().equals("A-Z")) {
+            sortedStudentListASC.clear();
+            studentList.sorted((s1, s2) -> s1.getFName().compareToIgnoreCase(s2.getFName()))
+                    .forEach(sortedStudentListASC::add);
+            studentTableView.setItems(FXCollections.observableArrayList(sortedStudentListASC));
+        } else {
+            sortedStudentListASC.clear();
+            studentList.sorted((s1, s2) -> s2.getFName().compareToIgnoreCase(s1.getFName()))
+                    .forEach(sortedStudentListASC::add);
+            studentTableView.setItems(FXCollections.observableArrayList(sortedStudentListASC));
         }
     }
 
+
+    // Helper method for showing error alerts
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

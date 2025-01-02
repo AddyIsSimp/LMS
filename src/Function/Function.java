@@ -105,6 +105,23 @@ public class Function {
         return uniqueBook;
     }
 
+
+    public int countBookPresent(DoublyLinkList list) {
+        int uniqueBook = 0;
+        Link current = list.getFirst();
+        while(current!=null) {
+            Book book = current.getElement();
+            if (book.getQuantity() <= 0) {
+                current = current.getNext(); // Ensure pointer moves forward.
+                continue;
+        }
+            uniqueBook++;
+            current = current.getNext();
+        }
+        return uniqueBook;
+    }
+
+
     public String getDateNowStr() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
@@ -328,6 +345,7 @@ public class Function {
         Book bkFind = list.findISBN(isbn);
         return bkFind;
     }
+
 
     public int computeDayLeft(java.sql.Date dateBorrow) {
         if (dateBorrow == null) {
