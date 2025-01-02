@@ -210,13 +210,13 @@
          <children>
             <HBox alignment="CENTER" prefHeight="24.0" prefWidth="266.0">
                <children>
-                  <TextField focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText="Search" stylesheets="@../../../../style_File/Dashboard.css">
+                  <TextField fx:id="searchField" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText="Search" stylesheets="@../../../../style_File/Dashboard.css">
                      <styleClass>
                         <String fx:value="bgcolor-white" />
                         <String fx:value="outlineAllBlack" />
                      </styleClass>
                   </TextField>
-                  <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" prefWidth="31.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
+                  <VBox maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#doSearch" prefHeight="25.0" prefWidth="31.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../../style_File/Dashboard.css">
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -230,6 +230,7 @@
                   </VBox>
                </children>
             </HBox>
+            <Label fx:id="lblError" alignment="CENTER" prefHeight="18.0" prefWidth="274.0" textFill="RED" />
             <VBox prefHeight="412.0" prefWidth="266.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="116.0" prefWidth="266.0" stylesheets="@../../../../style_File/Dashboard.css">

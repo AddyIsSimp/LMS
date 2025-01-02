@@ -213,6 +213,7 @@ public class studentAccountModifyController implements Initializable {
             emailField.setDisable(false);
             passwordField.setDisable(false);
             saveBttn.setDisable(false);
+            globalVariable.searchStudent = null;
         }
     }
 
