@@ -213,6 +213,7 @@ public class studentAccountModifyController implements Initializable {
             emailField.setDisable(false);
             passwordField.setDisable(false);
             saveBttn.setDisable(false);
+            globalVariable.searchStudent = null;
         }
     }
 
@@ -282,9 +283,6 @@ public class studentAccountModifyController implements Initializable {
                 return;
             } else if (lName == null || lName.trim().isEmpty()) {
                 lblError2.setText("Last name is empty");
-                return;
-            } else if (email == null || email.trim().isEmpty()) {
-                lblError2.setText("Email is empty");
                 return;
             } else if (email == null || email.trim().isEmpty()) {
                 lblError2.setText("Email is empty");

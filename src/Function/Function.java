@@ -51,10 +51,13 @@ public class Function {
         if (!ID.isEmpty()) {
             if (ID.matches("\\d{4}-\\d{5}")) {
                 studentID = ID.replace("-", "");
+
             } else {
+                
                 return null;
             }
         } else {
+            System.out.println("Empty ID provided");
             return null;
         }
         return studentID;
@@ -62,24 +65,18 @@ public class Function {
 
     public byte[] convertImageToByteArray(Image image) {
         try {
-            // Get image width and height
             int width = (int) image.getWidth();
             int height = (int) image.getHeight();
 
-            // Create a pixel reader
             PixelReader pixelReader = image.getPixelReader();
 
-            // Byte array output stream to store pixel data
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-            // Create a buffer to store raw pixel data
             byte[] buffer = new byte[width * height * 4]; // Assuming ARGB format (4 bytes per pixel)
             WritablePixelFormat<ByteBuffer> pixelFormat = WritablePixelFormat.getByteBgraInstance();
 
-            // Read pixels from the image
             pixelReader.getPixels(0, 0, width, height, pixelFormat, buffer, 0, width * 4);
 
-            // Write the buffer to the output stream
             outputStream.write(buffer);
 
             // Return the byte array
@@ -314,9 +311,11 @@ public class Function {
         ObservableList<Transact> ongoingTransact = FXCollections.observableArrayList();
         for (Transact transact : transactsList) {
             transact.setReturnButton();
-            transact.setDayLeft();
             if ("ONGOING".equalsIgnoreCase(transact.getStatus())) {
                 ongoingTransact.add(transact);
+            }
+            if(transact.getBorrowDate()!=null) {
+                transact.setDayLeft();
             }
         }
         return ongoingTransact;
@@ -418,6 +417,14 @@ public class Function {
             if(student.getSchoolID()==studentID) {
                 return student;
             }
+        }
+        return null;
+    }
+
+    public Book findBookISBN(DoublyLinkList bookList, String isbn) {
+        Book book = bookList.findISBN(isbn);
+        if(book!=null) {
+            return book;
         }
         return null;
     }

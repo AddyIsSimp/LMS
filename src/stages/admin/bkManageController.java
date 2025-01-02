@@ -100,9 +100,9 @@ public class bkManageController implements Initializable {
             bkISBNField.setText(searchBook.getISBN());
             bkCtgryField.setText(searchBook.getCategory());
             bkQtyField.setText(Integer.toString(searchBook.getQuantity()));
-
         }
     }
+
     public void setBookData(Book book) {
         if (book != null) {
             if(bkQtyField == null) {

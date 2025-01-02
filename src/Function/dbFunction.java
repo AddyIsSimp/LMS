@@ -259,6 +259,34 @@ public class dbFunction {
         return false;
     }
 
+    public boolean removeBookOneDB(String title, String isbn) {
+        try{
+            conn = connectToDB();
+            if(conn==null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have not yet open the server", ButtonType.OK);
+                alert.setTitle("Server Error");
+                alert.show();
+                return false;
+            }
+
+            String sqlDeleteBook = "DELETE FROM librarydb.book WHERE title = ? AND isbn = ?";
+            pstmt = conn.prepareStatement(sqlDeleteBook);
+            pstmt.setString(1, title);
+            pstmt.setString(2, isbn);
+            pstmt.executeUpdate();
+            return true;
+        }catch(SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("DeleteBookError");
+            alert.show();
+        }catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("DeleteBookError");
+            alert.show();
+        }
+        return false;
+    }
+
     public int getBookID(String bookTitle) {
         int bookID = 0;
         try {
@@ -436,7 +464,6 @@ public class dbFunction {
         }
         return false; // Return false if the update fails
     }
-
 
     public int insertStaffDB(Staff staff) {
         int staffId = 0;

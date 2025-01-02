@@ -173,7 +173,7 @@
       </VBox>
    </left>
    <right>
-      <VBox onMouseClicked="#goBorrowTransact" prefHeight="607.0" prefWidth="268.0" styleClass="bgcolor-white" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
+      <VBox prefHeight="607.0" prefWidth="268.0" styleClass="bgcolor-white" stylesheets="@../../../style_File/Dashboard.css" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="607.0" prefWidth="268.0" stylesheets="@../../../style_File/Dashboard.css">
                <styleClass>
@@ -194,7 +194,7 @@
                         </TextField>
                         <VBox maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#doSearch" prefHeight="25.0" prefWidth="31.0" styleClass="bgcolor-darkbrown" stylesheets="@../../../style_File/Dashboard.css">
                            <children>
-                              <ImageView fitHeight="20.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="20.0" fitWidth="27.0" onMouseClicked="#doSearch" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../icons/searchIcon.png" />
                                  </image>
