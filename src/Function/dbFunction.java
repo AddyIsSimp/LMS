@@ -287,10 +287,6 @@ public class dbFunction {
 
             if (rowsAffected > 0) {
                 return true;
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Book not available or insufficient quantity.", ButtonType.OK);
-                alert.setTitle("Update Error");
-                alert.show();
             }
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
@@ -326,10 +322,6 @@ public class dbFunction {
 
             if (rowsAffected > 0) {
                 return true;
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Book not available or insufficient quantity.", ButtonType.OK);
-                alert.setTitle("Update Error");
-                alert.show();
             }
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);

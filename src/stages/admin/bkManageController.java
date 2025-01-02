@@ -92,20 +92,14 @@ public class bkManageController implements Initializable {
 
         if(searchBook==null) {
             lblError.setText("Found no book"); return;
-        } else {
+        }else {
             Image img = searchBook.getImageSrc();
             bkImage.setImage(img);
             bkTitleField.setText(searchBook.getTitle());
             bkAuthorField.setText(searchBook.getAuthor());
             bkISBNField.setText(searchBook.getISBN());
             bkCtgryField.setText(searchBook.getCategory());
-
-            int quantity = searchBook.getQuantity();
-            if (quantity == 0) { // If quantity is 0
-                bkQtyField.setText("Book not available");
-            } else { // If quantity is available
-                bkQtyField.setText(Integer.toString(quantity));
-            }
+            bkQtyField.setText(Integer.toString(searchBook.getQuantity()));
         }
     }
 
@@ -119,13 +113,8 @@ public class bkManageController implements Initializable {
             bkAuthorField.setText(book.getAuthor());
             bkISBNField.setText(book.getISBN());
             bkCtgryField.setText(book.getCategory());
-
-            int quantity = book.getQuantity();
-            if (quantity == 0) { // If quantity is 0
-                bkQtyField.setText("Book not available");
-            } else {
-                bkQtyField.setText(Integer.toString(quantity)); // Show quantity
-            }
+            bkQtyField.setText(Integer.toString(book.getQuantity()));
+            searchBook = book;
         }
     }
 
@@ -198,7 +187,7 @@ public class bkManageController implements Initializable {
         if(bkTitleField==null || bkTitleField.getText()==null) {
             lblError.setText("No book selected");
         }
-        globalVariable.searchBook = searchBook;
+        globalVariable.modifyBook = searchBook;
         Parent root = FXMLLoader.load(getClass().getResource("/stages/admin/adminFXML/inventory/admin_inventoryModify.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));

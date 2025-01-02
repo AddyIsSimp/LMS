@@ -17,6 +17,9 @@ import java.sql.Connection;
 import java.time.LocalDate;
 
 import Function.globalVariable;
+
+import javax.swing.*;
+
 public class index extends Application {
     @Override
     public void start(Stage stage) throws Exception {
@@ -69,6 +72,7 @@ public class index extends Application {
             LocalDate now = LocalDate.now();
             java.sql.Date date = java.sql.Date.valueOf(now);
             globalVariable.globalDate = date;
+            SwingUtilities.invokeLater(config::new);
         }catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setTitle("Indexing Error");
