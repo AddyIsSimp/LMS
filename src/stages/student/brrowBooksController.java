@@ -3,7 +3,6 @@ package stages.student;
 import Entity.Book;
 import Entity.Student;
 import Entity.Transact;
-import LinkedList.DoublyLinkList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,14 +31,17 @@ import java.util.ResourceBundle;
 import Function.*;
 import Function.globalVariable;
 
+import static Function.globalVariable.bookList;
+
 public class brrowBooksController implements Initializable {
 
     PreparedStatement pstmt;
     ResultSet rs;
-
     Function fnc = new Function();
     dbFunction dbFunc = new dbFunction();
 
+    @FXML
+    private TextField searchField;
     @FXML
     private VBox libraryBox;
 
@@ -61,16 +63,12 @@ public class brrowBooksController implements Initializable {
     @FXML
     private ImageView bkImage;
 
-    @FXML
-    private TextField searchField;
+    private Book searchBook;
+    private Student studentLogin;
+    private Connection conn;
 
     @FXML
     private Label lblError;
-
-    private Student studentLogin;
-    private Connection conn;
-    private Book searchBook;
-    private DoublyLinkList bookList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -131,7 +129,7 @@ public class brrowBooksController implements Initializable {
                 String bktitle = bkTitleField.getText();
                 String bookISBN = bkISBNField.getText();
 
-                Book book = globalVariable.fnc.getBook(globalVariable.bookList, bookISBN);
+                Book book = globalVariable.fnc.getBook(bookList, bookISBN);
                 book.setQuantity(book.getQuantity()-1);
                 book.setBorrowed(book.getBorrowed()+1);
 
@@ -182,6 +180,30 @@ public class brrowBooksController implements Initializable {
     }
 
     @FXML
+    private void doSearch(MouseEvent event) {
+        String selected = "isbn";
+        String searchFld;
+
+        if(searchField==null || searchField.getText().isEmpty()) {  //if searchfield is empty
+            lblError.setText("Search text is blank"); return;
+        }
+        searchFld = searchField.getText();
+        searchBook = bookList.findTitle(searchFld);
+
+        if(searchBook==null) {
+            lblError.setText("Found no book"); return;
+        }else {
+            Image img = searchBook.getImageSrc();
+            bkImage.setImage(img);
+            bkTitleField.setText(searchBook.getTitle());
+            bkAuthorField.setText(searchBook.getAuthor());
+            bkISBNField.setText(searchBook.getISBN());
+            bkCtgryField.setText(searchBook.getCategory());
+            bkQtyField.setText(Integer.toString(searchBook.getQuantity()));
+        }
+    }
+
+    @FXML
     void gortnBooks(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/stages/student/studentFXML/student_returnBooks.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -195,31 +217,6 @@ public class brrowBooksController implements Initializable {
 //        stage.setScene(new Scene(root));
 //        stage.show();
 //    }
-
-    @FXML
-    private void doSearch(MouseEvent event) {
-        String selected = "isbn";
-        String searchFld;
-
-        if(searchField==null || searchField.getText().isEmpty()) {  //if searchfield is empty
-            lblError.setText("Search text is blank"); return;
-        }
-        searchFld = searchField.getText();
-        searchBook = globalVariable.bookList.findTitle(searchFld);
-
-        if(searchBook==null) {
-            lblError.setText("Found no book"); return;
-        }else {
-            Image img = searchBook.getImageSrc();
-            bkImage.setImage(img);
-            bkTitleField.setText(searchBook.getTitle());
-            bkAuthorField.setText(searchBook.getAuthor());
-            bkISBNField.setText(searchBook.getISBN());
-            bkCtgryField.setText(searchBook.getCategory());
-            bkQtyField.setText(Integer.toString(searchBook.getQuantity()));
-
-        }
-    }
 
 
 
