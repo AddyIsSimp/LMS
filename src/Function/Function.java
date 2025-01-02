@@ -51,10 +51,13 @@ public class Function {
         if (!ID.isEmpty()) {
             if (ID.matches("\\d{4}-\\d{5}")) {
                 studentID = ID.replace("-", "");
+
             } else {
+                
                 return null;
             }
         } else {
+            System.out.println("Empty ID provided");
             return null;
         }
         return studentID;
